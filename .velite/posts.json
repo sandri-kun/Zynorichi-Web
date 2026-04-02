@@ -1,5 +1,15 @@
 [
   {
+    "title": "Arsitektur Next.js untuk Developer Backend",
+    "slug": "belajar-nextjs-cepat",
+    "date": "2024-04-02T00:00:00.000Z",
+    "lang": "id",
+    "category": "tech",
+    "author": "gema-expert",
+    "description": "Menerapkan pola desain yang kokoh di ekosistem React modern.",
+    "content": "const{Fragment:n,jsx:a,jsxs:e}=arguments[0];function _createMdxContent(t){const i={h1:\"h1\",p:\"p\",...t.components};return e(n,{children:[a(i.h1,{children:\"Transisi yang Mulus\"}),\"\\n\",a(i.p,{children:\"Dengan menggunakan middleware, tipe data yang ketat, dan SSG, kita bisa membangun aplikasi yang cepat dan aman. Semua logika routing dikendalikan secara dinamis tanpa duplikasi kode.\"}),\"\\n\",a(i.h1,{children:\"Analisis yang mulus\"}),\"\\n\",a(i.p,{children:\"Haha moga berhasil ya\"})]})}return{default:function(n={}){const{wrapper:e}=n.components||{};return e?a(e,{...n,children:a(_createMdxContent,{...n})}):_createMdxContent(n)}};"
+  },
+  {
     "title": "Next.js Architecture for Backend Developers",
     "slug": "quick-nextjs-guide",
     "date": "2024-04-02T00:00:00.000Z",
@@ -8,15 +18,5 @@
     "author": "gema-expert",
     "description": "Applying robust design patterns in the modern React ecosystem.",
     "content": "const{Fragment:n,jsx:t,jsxs:e}=arguments[0];function _createMdxContent(i){const c={h1:\"h1\",p:\"p\",...i.components};return e(n,{children:[t(c.h1,{children:\"Seamless Transition\"}),\"\\n\",t(c.p,{children:\"By utilizing middleware, strict typings, and SSG, we can build blazing fast and secure applications. Routing logic is handled dynamically without code duplication.\"})]})}return{default:function(n={}){const{wrapper:e}=n.components||{};return e?t(e,{...n,children:t(_createMdxContent,{...n})}):_createMdxContent(n)}};"
-  },
-  {
-    "title": "Arsitektur Next.js untuk Developer Backend",
-    "slug": "belajar-nextjs-cepat",
-    "date": "2024-04-02T00:00:00.000Z",
-    "lang": "id",
-    "category": "tech",
-    "author": "gema-expert",
-    "description": "Menerapkan pola desain yang kokoh di ekosistem React modern.",
-    "content": "const{Fragment:n,jsx:a,jsxs:e}=arguments[0];function _createMdxContent(t){const i={h1:\"h1\",p:\"p\",...t.components};return e(n,{children:[a(i.h1,{children:\"Transisi yang Mulus\"}),\"\\n\",a(i.p,{children:\"Dengan menggunakan middleware, tipe data yang ketat, dan SSG, kita bisa membangun aplikasi yang cepat dan aman. Semua logika routing dikendalikan secara dinamis tanpa duplikasi kode.\"})]})}return{default:function(n={}){const{wrapper:e}=n.components||{};return e?a(e,{...n,children:a(_createMdxContent,{...n})}):_createMdxContent(n)}};"
   }
 ]
