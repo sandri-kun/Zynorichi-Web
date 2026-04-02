@@ -1,15 +1,10 @@
+// next.config.mjs
+import createMDX from '@next/mdx'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
-};
-
-const isDev = process.argv.indexOf('dev') !== -1;
-const isBuild = process.argv.indexOf('build') !== -1;
-
-if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
-  process.env.VELITE_STARTED = '1';
-  const { build } = await import('velite');
-  await build({ watch: isDev, clean: !isDev });
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'], // Tambahkan mdx di sini
 }
 
-export default nextConfig;
+const withMDX = createMDX()
+export default withMDX(nextConfig)
