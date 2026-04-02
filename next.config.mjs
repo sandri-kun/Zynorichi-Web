@@ -1,4 +1,7 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  /* config options here */
+};
 
 const isDev = process.argv.indexOf('dev') !== -1;
 const isBuild = process.argv.indexOf('build') !== -1;
@@ -8,9 +11,5 @@ if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
   const { build } = await import('velite');
   await build({ watch: isDev, clean: !isDev });
 }
-
-const nextConfig: NextConfig = {
-  /* config options here */
-};
 
 export default nextConfig;
