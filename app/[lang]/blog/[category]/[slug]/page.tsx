@@ -2,10 +2,13 @@ import { posts, authors } from 'content'
 import { notFound } from 'next/navigation'
 import { AuthorProfile } from '@/components/blog/AuthorProfile'
 import { MDXContent } from '@/components/mdx/MDXContent'
+import { unstable_noStore as noStore } from 'next/cache'
 
 export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function PostPage(props: { params: Promise<{ lang: string, category: string, slug: string }> }) {
+  noStore();
   const params = await props.params;
   const { lang, category, slug } = params;
   
