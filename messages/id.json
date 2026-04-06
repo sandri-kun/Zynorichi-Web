@@ -27,5 +27,17 @@
     "notFound": "Halaman Tidak Ditemukan",
     "backToHome": "Kembali ke Beranda",
     "search": "Cari"
+  },
+  "Themes": {
+    "title": "Tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Sistem",
+    "zinc": "Default",
+    "rose": "Mawar",
+    "orange": "Jingga",
+    "emerald": "Zamrud",
+    "blue": "Biru",
+    "violet": "Lembayung"
   }
 }

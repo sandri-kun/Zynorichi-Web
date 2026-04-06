@@ -27,5 +27,17 @@
     "notFound": "Page Not Found",
     "backToHome": "Return to Home",
     "search": "Search"
+  },
+  "Themes": {
+    "title": "Themes",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "zinc": "Default",
+    "rose": "Rose",
+    "orange": "Orange",
+    "emerald": "Emerald",
+    "blue": "Blue",
+    "violet": "Violet"
   }
 }
