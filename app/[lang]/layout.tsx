@@ -1,9 +1,13 @@
 import '@/app/globals.css'
 import { ReactNode } from 'react'
 
-export const metadata = {
-  title: 'Enterprise Multi-Language Blog',
-  description: 'Built with Next.js, Velite, and TypeScript',
+import { constructMetadata } from '@/lib/seo/metadata';
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  return constructMetadata({
+    title: lang === 'id' ? 'Beranda Blog' : 'Blog Home',
+  });
 }
 
 export default async function RootLayout(
