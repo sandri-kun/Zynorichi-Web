@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Post } from '@/types/post';
 import { formatDate } from '@/utils/date';
 
@@ -10,7 +10,7 @@ interface ArticleCardProps {
 export function ArticleCard({ post, lang }: ArticleCardProps) {
   return (
     <article className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-      <Link href={`/${lang}/blog/${post.category}/${post.slug}`} className="flex-1 p-6 flex flex-col">
+      <Link href={`/blog/${post.category}/${post.slug}`} className="flex-1 p-6 flex flex-col">
         <div className="flex items-center gap-3 mb-4">
           <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-full">
             {post.category}

@@ -17,6 +17,7 @@
     "js-yaml": "^4.1.1",
     "lucide-react": "^1.7.0",
     "next": "16.2.2",
+    "next-intl": "^4.9.0",
     "next-mdx-remote": "^6.0.0",
     "next-remote-refresh": "^0.10.1",
     "react": "19.2.4",

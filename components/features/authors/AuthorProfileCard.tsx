@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Author } from '@/types/author';
 
 interface AuthorProfileCardProps {
@@ -40,7 +40,7 @@ export function AuthorProfileCard({ author, lang = 'id', showLink = true }: Auth
 
   if (showLink) {
     return (
-      <Link href={`/${lang}/authors/${author.id}`}>
+      <Link href={`/authors/${author.id}`}>
         {CardContent}
       </Link>
     );

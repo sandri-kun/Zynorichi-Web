@@ -1,0 +1,30 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "HomePage": {
+    "title": "Latest Articles",
+    "description": "Discover our latest insights.",
+    "readMore": "View All Articles",
+    "emptyState": "No articles yet for this language."
+  },
+  "Blog": {
+    "title": "Blog",
+    "description": "Complete collection of blog articles.",
+    "readMore": "Read more",
+    "backToBlog": "Back to Blog",
+    "publishedOn": "Published on",
+    "relatedArticles": "Related Articles",
+    "tableOfContents": "Table of Contents",
+    "minRead": "min read"
+  },
+  "Common": {
+    "loading": "Loading...",
+    "notFound": "Page Not Found",
+    "backToHome": "Return to Home",
+    "search": "Search"
+  }
+}

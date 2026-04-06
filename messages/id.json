@@ -1,0 +1,30 @@
+{
+  "Navigation": {
+    "home": "Beranda",
+    "blog": "Blog",
+    "about": "Tentang",
+    "contact": "Kontak"
+  },
+  "HomePage": {
+    "title": "Artikel Terbaru",
+    "description": "Temukan wawasan terbaru kami.",
+    "readMore": "Lihat Semua Artikel",
+    "emptyState": "Belum ada artikel untuk bahasa ini."
+  },
+  "Blog": {
+    "title": "Blog",
+    "description": "Kumpulan artikel blog lengkap.",
+    "readMore": "Baca selengkapnya",
+    "backToBlog": "Kembali ke Blog",
+    "publishedOn": "Diterbitkan pada",
+    "relatedArticles": "Artikel Terkait",
+    "tableOfContents": "Daftar Isi",
+    "minRead": "menit baca"
+  },
+  "Common": {
+    "loading": "Memuat...",
+    "notFound": "Halaman Tidak Ditemukan",
+    "backToHome": "Kembali ke Beranda",
+    "search": "Cari"
+  }
+}

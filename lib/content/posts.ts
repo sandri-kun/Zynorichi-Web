@@ -45,10 +45,22 @@ export class PostManager {
       const fileContent = fs.readFileSync(file, 'utf8');
       const { data, content } = matter(fileContent);
       
+      const relativePath = path.relative(blogDir, file);
+      // Normalized path parts
+      const pathParts = relativePath.split(/[\\\/]/);
+      
+      // Auto-detect language from path if not in frontmatter
+      // Supporting patterns like: /content/blog/en/... or /content/blog/tech/en/...
+      let lang = data.lang;
+      if (!lang) {
+        if (pathParts.includes('en')) lang = 'en';
+        else if (pathParts.includes('id')) lang = 'id';
+        else lang = 'en'; // default
+      }
+
       let slug = data.slug;
       if (!slug) {
-          const relativePath = path.relative(blogDir, file);
-          slug = relativePath.replace(/\\/g, '/').replace(/\.mdx?$/, '');
+          slug = pathParts[pathParts.length - 1].replace(/\.mdx?$/, '');
       }
       
       const readingTime = getReadingTime(content);
@@ -58,8 +70,8 @@ export class PostManager {
         title: data.title || '',
         slug,
         date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-        lang: data.lang || 'id',
-        category: data.category || 'tech',
+        lang,
+        category: data.category || pathParts[0] || 'tech',
         author: data.author || '',
         description: data.description || '',
         content: content,
@@ -80,27 +92,28 @@ export class PostManager {
     return this.posts;
   }
 
-  public getPostsByLang(lang: string): Post[] {
-    return this.getAllPosts().filter(p => p.lang === lang);
+  public getPostsByLocale(locale: string): Post[] {
+    return this.getAllPosts().filter(p => p.lang === locale);
   }
 
-  public getPostBySlug(slug: string, lang?: string, category?: string): Post | undefined {
+  public getPostBySlug(slug: string, locale?: string, category?: string): Post | undefined {
     let posts = this.getAllPosts();
-    if (lang) posts = posts.filter(p => p.lang === lang);
+    if (locale) posts = posts.filter(p => p.lang === locale);
     if (category) posts = posts.filter(p => p.category === category);
     
-    // Exact match vs endsWith to handle directory nesting if slug includes paths
-    return posts.find(p => p.slug === slug || p.slug.endsWith(slug));
+    return posts.find(p => p.slug === slug);
   }
 
-  public getPostsByAuthor(authorId: string): Post[] {
-    return this.getAllPosts().filter(p => p.author === authorId);
+  public getPostsByAuthor(authorId: string, locale?: string): Post[] {
+    let posts = this.getAllPosts().filter(p => p.author === authorId);
+    if (locale) posts = posts.filter(p => p.lang === locale);
+    return posts;
   }
 
-  public getPostsByCategory(category: string, lang?: string): Post[] {
+  public getPostsByCategory(category: string, locale?: string): Post[] {
     let posts = this.getAllPosts().filter(p => p.category === category);
-    if (lang) {
-      posts = posts.filter(p => p.lang === lang);
+    if (locale) {
+      posts = posts.filter(p => p.lang === locale);
     }
     return posts;
   }
