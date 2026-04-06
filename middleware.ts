@@ -47,6 +47,6 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  // Matcher untuk bypass static files & API rute
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|static).*)']
+  // Matcher untuk bypass static files & API rute & metadata files
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|static|robots.txt|sitemap.xml|manifest.json).*)']
 };
