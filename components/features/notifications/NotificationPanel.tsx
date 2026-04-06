@@ -1,0 +1,81 @@
+'use client';
+
+import React from 'react';
+import { useZyno } from '@/context/ZynoContext';
+import { Bell, Trash2, X, Clock } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+
+interface NotificationPanelProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
+  const { notifications, clearNotifications } = useZyno();
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Backdrop for mobile to close when clicking outside */}
+      <div className="fixed inset-0 z-[60] sm:hidden" onClick={onClose} />
+      
+      <div 
+      className={cn(
+        "fixed top-16 right-3 sm:right-4 w-72 sm:w-80 max-w-[calc(100%-1.5rem)] glass-popup z-50",
+        "animate-in fade-in slide-in-from-top-2 duration-300",
+        "flex flex-col shadow-2xl"
+      )}
+      style={{ transform: 'translateZ(0)' }}
+    >
+      <div className="overflow-hidden rounded-lg flex flex-col h-full w-full">
+        <div className="p-3.5 border-b border-white/10 flex items-center justify-between bg-transparent">
+          <h3 className="font-semibold text-sm flex items-center gap-2">
+            <Bell className="w-4 h-4 text-primary" />
+            Notifications
+          </h3>
+          <div className="flex items-center gap-2">
+            {notifications.length > 0 && (
+              <button 
+                className="text-xs opacity-50 hover:opacity-100 transition font-medium"
+                onClick={clearNotifications}
+              >
+                Clear
+              </button>
+            )}
+            <button className="sm:hidden opacity-60 hover:opacity-100 transition" onClick={onClose}>
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        <div className="max-h-80 overflow-y-auto no-scrollbar">
+          {notifications.length === 0 ? (
+            <div className="p-6 text-center flex flex-col items-center gap-2 opacity-30">
+              <p className="text-xs font-medium">No new notifications</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-white/5">
+              {notifications.map((n) => (
+                <div key={n.id} className="p-3.5 hover:bg-white/[0.02] transition-colors group">
+                  <p className="text-xs leading-relaxed mb-1">{n.message}</p>
+                  <div className="text-[10px] opacity-30 mt-0.5 font-medium">{n.timestamp}</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {notifications.length > 0 && (
+          <div className="p-2.5 bg-white/[0.01] border-t border-white/5 text-center">
+            <p className="text-[9px] text-muted-foreground/30 font-bold uppercase tracking-[0.15em]">
+              Recent Activity
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+    </>
+  );
+}

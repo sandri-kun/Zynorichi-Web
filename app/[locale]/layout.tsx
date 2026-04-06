@@ -7,13 +7,17 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/seo/metadata';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { MainLayout } from '@/components/features/layout/MainLayout';
 import { cn } from '@/lib/utils';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const plusJakartaSans = Plus_Jakarta_Sans({ 
+  subsets: ['latin'], 
+  variable: '--font-sans',
+  weight: ['300', '400', '500', '600', '700', '800']
+});
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -42,7 +46,7 @@ export default async function RootLayout(
   
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={cn(inter.variable, "font-sans antialiased text-precision")}>
+      <body className={cn(plusJakartaSans.variable, "font-sans antialiased text-foreground")}>
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
             <MainLayout>
