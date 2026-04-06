@@ -47,13 +47,13 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
             <div className="flex items-center gap-2">
               {notifications.length > 0 && (
                 <button 
-                  className="text-xs opacity-50 hover:opacity-100 transition font-medium px-2 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10"
+                  className="text-xs opacity-90 hover:opacity-100 transition font-medium px-2 py-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10"
                   onClick={clearNotifications}
                 >
                   Clear
                 </button>
               )}
-              <button className="sm:hidden opacity-60 hover:opacity-100 transition p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10" onClick={onClose}>
+              <button className="sm:hidden opacity-90 hover:opacity-100 transition p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10" onClick={onClose}>
                 <X className="w-4 h-4" />
               </button>
             </div>
@@ -62,16 +62,16 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
           {/* Content List */}
           <div className="max-h-80 overflow-y-auto no-scrollbar">
             {notifications.length === 0 ? (
-              <div className="p-8 text-center flex flex-col items-center gap-2 opacity-40">
-                <Bell className="w-8 h-8 mb-2 opacity-50" />
+              <div className="p-8 text-center flex flex-col items-center gap-2 opacity-90">
+                <Bell className="w-8 h-8 mb-2 opacity-90" />
                 <p className="text-xs font-medium">No new notifications</p>
               </div>
             ) : (
               <div className="divide-y divide-foreground/10">
                 {notifications.map((n) => (
                   <div key={n.id} className="p-3.5 hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors group cursor-default">
-                    <p className="text-xs leading-relaxed mb-1 text-foreground/90">{n.message}</p>
-                    <div className="text-[10px] opacity-40 mt-0.5 font-medium flex items-center gap-1">
+                    <p className="text-xs leading-relaxed mb-1 text-foreground">{n.message}</p>
+                    <div className="text-[10px] opacity-90 mt-0.5 font-medium flex items-center gap-1">
                        {n.timestamp}
                     </div>
                   </div>
@@ -83,7 +83,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
           {/* Footer Indicator */}
           {notifications.length > 0 && (
             <div className="p-2 bg-black/[0.02] dark:bg-white/[0.02] border-t border-foreground/10 text-center">
-              <p className="text-[9px] text-muted-foreground/50 font-bold uppercase tracking-[0.15em]">
+              <p className="text-[9px] text-muted-foreground/95 font-bold uppercase tracking-[0.15em]">
                 Recent Activity
               </p>
             </div>

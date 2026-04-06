@@ -61,7 +61,7 @@ export function LanguagePanel({ isOpen, onClose }: LanguagePanelProps) {
               <Languages className="w-4 h-4 text-primary" />
               Language Settings
             </h3>
-            <button className="sm:hidden opacity-60 hover:opacity-100 transition p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10" onClick={onClose}>
+            <button className="sm:hidden opacity-95 hover:opacity-100 transition p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10" onClick={onClose}>
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -77,7 +77,7 @@ export function LanguagePanel({ isOpen, onClose }: LanguagePanelProps) {
                   "flex items-center justify-between p-2.5 rounded-md transition-all text-sm",
                   locale === lang.code 
                     ? "bg-primary/10 text-primary font-medium" 
-                    : "hover:bg-foreground/5 text-foreground/70 ring-1 ring-transparent hover:ring-foreground/5",
+                    : "hover:bg-foreground/5 text-foreground ring-1 ring-transparent hover:ring-foreground/5",
                   isPending && "opacity-50 cursor-wait"
                 )}
               >
@@ -94,7 +94,7 @@ export function LanguagePanel({ isOpen, onClose }: LanguagePanelProps) {
 
           {/* Footer Indicator */}
           <div className="p-2 bg-black/[0.02] dark:bg-white/[0.02] border-t border-foreground/10 text-center">
-            <p className="text-[9px] text-muted-foreground/50 font-bold uppercase tracking-[0.15em]">
+            <p className="text-[9px] text-muted-foreground/95 font-bold uppercase tracking-[0.15em]">
               {isPending ? 'Switching Language...' : 'Select Language'}
             </p>
           </div>

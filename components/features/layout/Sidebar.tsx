@@ -18,7 +18,6 @@ export function Sidebar({ className }: SidebarProps) {
 
   const mainNav = [
     { label: t('home'), href: '/', icon: Home, id: 'home' },
-    { label: 'Explore', href: '/#explore', icon: Compass, id: 'explore' },
   ];
 
   const categories = ['tech', 'anime', 'crypto'];
@@ -40,7 +39,7 @@ export function Sidebar({ className }: SidebarProps) {
           </div>
           <button 
             onClick={toggleDrawer}
-            className="p-2 rounded-xl bg-foreground/5 text-foreground/60 hover:text-foreground transition-colors"
+            className="p-2 rounded-xl bg-foreground/5 text-foreground hover:text-foreground transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -57,7 +56,7 @@ export function Sidebar({ className }: SidebarProps) {
               }}
               className={cn(
                 "flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 group hover:bg-foreground/5",
-                pathname === item.href && !isOnlyBookmarks ? "bg-primary/10 text-primary font-bold" : "text-foreground/60 hover:text-foreground",
+                pathname === item.href && !isOnlyBookmarks ? "bg-primary/10 text-primary font-bold" : "text-foreground hover:text-foreground",
                 !isDrawerExpanded && "lg:justify-center lg:px-0"
               )}
               title={!isDrawerExpanded ? item.label : ""}
@@ -74,7 +73,7 @@ export function Sidebar({ className }: SidebarProps) {
             }}
             className={cn(
               "flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 group hover:bg-foreground/5 w-full text-left",
-              isOnlyBookmarks ? "bg-primary/10 text-primary font-bold" : "text-foreground/60 hover:text-foreground",
+              isOnlyBookmarks ? "bg-primary/10 text-primary font-bold" : "text-foreground hover:text-foreground",
               !isDrawerExpanded && "lg:justify-center lg:px-0"
             )}
             title={!isDrawerExpanded ? "Bookmarks" : ""}
@@ -99,8 +98,8 @@ export function Sidebar({ className }: SidebarProps) {
         <div className={cn("mt-6 pt-6 border-t border-border/40", !isDrawerExpanded && "items-center")}>
           {isDrawerExpanded && (
             <div className="px-3 mb-2 flex items-center justify-between">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">Discover</span>
-              <Sparkles className="w-3 h-3 text-primary/40" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/90">Discover</span>
+              <Sparkles className="w-3 h-3 text-primary/90" />
             </div>
           )}
           <div className="space-y-0.5">
@@ -114,12 +113,12 @@ export function Sidebar({ className }: SidebarProps) {
                 }}
                 className={cn(
                   "flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm transition-all duration-300 group w-full text-left",
-                  activeCategory === cat && !isOnlyBookmarks ? "bg-primary/5 text-primary font-bold" : "text-foreground/50 hover:text-foreground hover:bg-foreground/5",
+                  activeCategory === cat && !isOnlyBookmarks ? "bg-primary/5 text-primary font-bold" : "text-foreground hover:text-foreground hover:bg-foreground/5",
                   !isDrawerExpanded && "lg:justify-center lg:px-0"
                 )}
                 title={!isDrawerExpanded ? cat.toUpperCase() : ""}
               >
-                <Hash className={cn("w-4 h-4 shrink-0 transition-all", activeCategory === cat && !isOnlyBookmarks ? "text-primary opacity-100" : "opacity-30 group-hover:opacity-100 group-hover:text-primary")} />
+                <Hash className={cn("w-4 h-4 shrink-0 transition-all", activeCategory === cat && !isOnlyBookmarks ? "text-primary opacity-100" : "opacity-90 group-hover:opacity-100 group-hover:text-primary")} />
                 {isDrawerExpanded && <span className="capitalize font-medium text-precision">{cat}</span>}
               </button>
             ))}
@@ -129,7 +128,7 @@ export function Sidebar({ className }: SidebarProps) {
         {/* Shortcuts / Footer */}
         <div className="mt-auto pt-6 border-t border-border/40 space-y-1">
           <button className={cn(
-            "flex items-center gap-4 px-3 py-3 rounded-xl text-foreground/50 hover:text-foreground hover:bg-foreground/5 transition-all w-full",
+            "flex items-center gap-4 px-3 py-3 rounded-xl text-foreground hover:text-foreground hover:bg-foreground/5 transition-all w-full",
             !isDrawerExpanded && "justify-center px-0"
           )} title="Settings">
             <Settings className="w-5 h-5 shrink-0" />
@@ -139,12 +138,12 @@ export function Sidebar({ className }: SidebarProps) {
           {isDrawerExpanded && (
             <div className="px-3 py-4 mt-2">
               <div className="flex items-center justify-between p-3 rounded-2xl bg-foreground/5 border border-border/30">
-                <span className="text-[10px] text-muted-foreground/60 font-bold flex items-center gap-2">
+                <span className="text-[10px] text-muted-foreground/90 font-bold flex items-center gap-2">
                   <Keyboard className="w-3 h-3" /> Shortcuts
                 </span>
-                <span className="text-[10px] font-black opacity-30 tracking-widest uppercase">? K B</span>
+                <span className="text-[10px] font-black opacity-90 tracking-widest uppercase">? K B</span>
               </div>
-              <p className="mt-4 text-[10px] text-muted-foreground/30 leading-relaxed font-medium px-1">
+              <p className="mt-4 text-[10px] text-muted-foreground/90 leading-relaxed font-medium px-1">
                 © {new Date().getFullYear()} ZYNORICHI<br/>Precision Minimalist Blog
               </p>
             </div>

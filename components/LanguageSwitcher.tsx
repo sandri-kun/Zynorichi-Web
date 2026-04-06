@@ -24,11 +24,11 @@ export function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         disabled={isPending}
       >
-        <Globe className={cn("w-5 h-5 text-muted-foreground/60 transition-colors", isPending && "animate-spin")} />
+        <Globe className={cn("w-5 h-5 text-muted-foreground/95 transition-colors", isPending && "animate-spin")} />
         <span className="text-xs font-bold uppercase tracking-wider hidden sm:inline-block">
           {locale}
         </span>
-        <ChevronDown className={cn("w-3.5 h-3.5 opacity-50 transition-transform duration-300", isOpen && "rotate-180")} />
+        <ChevronDown className={cn("w-3.5 h-3.5 opacity-90 transition-transform duration-300", isOpen && "rotate-180")} />
       </Button>
 
       <LanguagePanel 

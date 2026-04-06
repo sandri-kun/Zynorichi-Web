@@ -48,7 +48,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="rounded-full w-10 h-10 border border-border/40 bg-foreground/5 hover:bg-primary/10 text-foreground/70 hover:text-primary transition-all"
+          className="rounded-full w-10 h-10 border border-border/40 bg-foreground/5 hover:bg-primary/10 text-foreground hover:text-primary transition-all"
           onClick={toggleDrawer}
           title="Toggle drawer (D)"
         >
@@ -67,7 +67,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
 
       {/* Center Section: Search */}
       <div className="flex-1 max-w-2xl mx-auto relative group hidden sm:block">
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40 z-10 group-focus-within:text-primary transition-colors">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/90 z-10 group-focus-within:text-primary transition-colors">
           <Search className="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
         <Input
@@ -79,7 +79,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
             setSearchQuery(e.target.value);
           }}
         />
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-background/50 border border-border/40 text-[9px] font-black text-muted-foreground/50 tracking-widest uppercase">
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-1 px-2 py-1 rounded-md bg-background/50 border border-border/40 text-[9px] font-black text-muted-foreground/90 tracking-widest uppercase">
           <Command className="w-2.5 h-2.5" /> K
         </div>
       </div>
@@ -93,7 +93,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
 
         {/* Mobile Search/Theme Toggle */}
         <Button variant="ghost" size="icon" className="sm:hidden rounded-xl">
-          <Search className="w-5 h-5 text-muted-foreground/60" />
+          <Search className="w-5 h-5 text-muted-foreground/90" />
         </Button>
 
         <div className="relative">
@@ -106,7 +106,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
             )}
             onClick={() => setIsNotifOpen(!isNotifOpen)}
           >
-            <Bell className="w-6 h-6 text-muted-foreground/60 transition-colors" />
+            <Bell className="w-6 h-6 text-muted-foreground/90 transition-colors" />
             {notifications.length > 0 && (
               <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-primary text-[8px] font-black text-white flex items-center justify-center rounded-full border-2 border-background animate-in zoom-in duration-300">
                 {notifications.length > 9 ? '9+' : notifications.length}
@@ -122,7 +122,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
 
         <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-br from-primary/80 to-primary p-[1px] group cursor-pointer hover:shadow-lg hover:shadow-primary/20 transition-all shadow-md">
           <div className="w-full h-full rounded-[15px] bg-background flex items-center justify-center overflow-hidden">
-            <User className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground/60" />
+            <User className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground/90" />
           </div>
         </div>
       </div>

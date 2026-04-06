@@ -10,7 +10,7 @@ interface AuthorProfileCardProps {
 
 export function AuthorProfileCard({ author, lang = 'id', showLink = true }: AuthorProfileCardProps) {
   const CardContent = (
-    <div className="bg-slate-50 border border-gray-200 rounded-2xl p-6 md:p-8 shadow-sm my-10 transition-shadow hover:shadow-md">
+    <div className="glass-panel p-6 md:p-8 my-10 transition-shadow hover:shadow-md">
       <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
         <img 
           src={author.avatar || '/static/default-avatar.png'} 

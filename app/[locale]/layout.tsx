@@ -51,7 +51,7 @@ export default async function RootLayout(
           <NextIntlClientProvider messages={messages}>
             <MainLayout>
               {props.children}
-              <footer className="py-12 mt-20 border-t border-border/40 text-center text-sm text-muted-foreground/50 glass-panel rounded-3xl mx-auto max-w-5xl mb-12">
+              <footer className="py-12 mt-20 border-t border-border/40 text-center text-sm text-muted-foreground glass-panel rounded-3xl mx-auto max-w-5xl mb-12">
                 <p>&copy; {new Date().getFullYear()} NEBULA. Precision Minimalist Blog.</p>
               </footer>
             </MainLayout>

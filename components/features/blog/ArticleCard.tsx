@@ -40,7 +40,7 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
   };
 
   return (
-    <article className="glass-panel p-4 article-card flex flex-col h-full rounded-xl cursor-pointer group hover:bg-white/[0.02] transition-all duration-300">
+    <article className="glass-panel p-4 article-card flex flex-col h-full rounded-xl cursor-pointer group hover:bg-primary/5 transition-all duration-300">
       <Link href={`/blog/${post.category}/${post.slug}`} className="flex flex-col h-full">
         {/* Image Zoom Container */}
         {post.image && (
@@ -60,7 +60,7 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
           <Badge className="chip-modern bg-primary/10 text-primary border-none text-[9px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded-lg active-category">
             {post.category}
           </Badge>
-          <span className="opacity-40 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+          <span className="text-muted-foreground/95 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5">
             <Clock className="w-3 h-3" />
             {post.readingTime} min
           </span>
@@ -70,19 +70,19 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
         <h3 className="text-base sm:text-lg font-extrabold mb-1.5 leading-tight group-hover:text-primary transition-colors line-clamp-2 tracking-tight">
           {post.title}
         </h3>
-        <p className="opacity-45 text-[11px] sm:text-xs mb-4 flex-grow line-clamp-2 leading-relaxed font-medium">
+        <p className="text-muted-foreground/95 text-[11px] sm:text-xs mb-4 flex-grow line-clamp-2 leading-relaxed font-medium">
           {post.description}
         </p>
 
         {/* Footer: Author & Actions (Separator Line Matching Reference) */}
-        <div className="flex items-center justify-between mt-auto border-t border-border/40 pt-4">
+        <div className="flex items-center justify-between mt-auto border-t border-border/80 pt-4">
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center shrink-0 border border-border/30">
-               <User className="w-4 h-4 text-muted-foreground/40" />
+               <User className="w-4 h-4 text-muted-foreground/95" />
             </div>
             <div className="min-w-0">
               <p className="text-[10px] font-extrabold uppercase tracking-tight truncate">Zynorichi</p>
-              <p className="text-[9px] opacity-30 font-bold">{formatDate(post.date, lang)}</p>
+              <p className="text-[9px] text-muted-foreground/90 font-bold">{formatDate(post.date, lang)}</p>
             </div>
           </div>
 
@@ -90,7 +90,7 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
             <Button 
               size="icon" 
               variant="ghost" 
-              className="w-8 h-8 rounded-lg hover:bg-primary/10 hover:text-primary text-muted-foreground/40 transition-all share-card-btn"
+              className="w-8 h-8 rounded-lg hover:bg-primary/10 hover:text-primary text-muted-foreground/95 transition-all share-card-btn"
               onClick={handleShare}
               title="Share"
             >
@@ -101,7 +101,7 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
               variant="ghost" 
               className={cn(
                 "w-8 h-8 rounded-lg transition-all bookmark-card-btn",
-                isBookmarked ? "text-primary bg-primary/10" : "text-muted-foreground/40 hover:bg-primary/10 hover:text-primary"
+                isBookmarked ? "text-primary bg-primary/10" : "text-muted-foreground/95 hover:bg-primary/10 hover:text-primary"
               )}
               onClick={handleBookmark}
               title={isBookmarked ? "Remove bookmark" : "Save"}
@@ -111,7 +111,7 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
             <Button 
               size="icon" 
               variant="ghost" 
-              className="w-8 h-8 rounded-lg hover:bg-primary/10 hover:text-primary text-muted-foreground/40 transition-all read-more-card-btn"
+              className="w-8 h-8 rounded-lg hover:bg-primary/10 hover:text-primary text-muted-foreground/95 transition-all read-more-card-btn"
               title="Read more"
             >
               <ArrowRight className="w-3.5 h-3.5" />

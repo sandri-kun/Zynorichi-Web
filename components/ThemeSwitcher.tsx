@@ -60,7 +60,7 @@ export function ThemeSwitcher() {
       <Button
         variant="ghost"
         size="icon"
-        className="rounded-full w-10 h-10 border border-border/40 bg-foreground/5 hover:bg-primary/10 transition-all"
+        className="rounded-full w-10 h-10 border border-border/40 bg-foreground/10 hover:bg-primary/20 transition-all"
         onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
       >
         {mode === 'dark' ? (

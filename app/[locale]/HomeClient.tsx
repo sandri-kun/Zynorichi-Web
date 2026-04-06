@@ -45,19 +45,19 @@ export function HomeClient({ initialPosts, locale }: HomePageProps) {
   }, [initialPosts, searchQuery, activeCategory, bookmarks, isOnlyBookmarks]);
 
   return (
-    <div className="space-y-8 sm:space-y-12 animate-in fade-in duration-1000">
+    <div className="space-y-6 sm:space-y-8 animate-in fade-in duration-1000">
       {/* Page Header (Matching main.html 333-336) */}
-      <div className="mb-6 mt-1">
+      <div className="mb-4 mt-1">
         <h1 id="pageTitle" className="text-xl sm:text-2xl lg:text-4xl font-black tracking-tighter text-foreground">
           {isOnlyBookmarks ? "Saved Articles" : "Discover"}
         </h1>
-        <p id="pageSub" className="opacity-40 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-1.5">
+        <p id="pageSub" className="text-primary/70 text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] mt-1.5">
           precision · search & save
         </p>
       </div>
 
       {/* Category Chips - Scrolling Filter */}
-      <div className="mb-8 overflow-hidden">
+      <div className="mb-4 overflow-hidden">
         <div id="categoryContainer" className="flex items-center gap-1.5 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
           {['all', 'tech', 'anime', 'crypto'].map((cat) => (
             <button
@@ -68,7 +68,7 @@ export function HomeClient({ initialPosts, locale }: HomePageProps) {
               }}
               className={cn(
                  "chip-modern transition-all duration-300",
-                 activeCategory === cat && !isOnlyBookmarks ? "active-category opacity-100" : "opacity-60 hover:opacity-100"
+                 activeCategory === cat && !isOnlyBookmarks ? "chip-modern-active active-category opacity-100" : "opacity-60 hover:opacity-100"
               )}
             >
               {cat}
