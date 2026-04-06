@@ -1,26 +1,45 @@
 import { Metadata } from 'next';
-import { siteConfig } from '@/config/site';
 import { seoConfig } from '@/config/seo';
-import { SEOMetadata } from '@/types/seo';
+import { getAbsoluteUrl } from '@/utils/seo-helpers';
+import { routing } from '@/i18n/routing';
 
-export function constructMetadata(
-  options: Partial<SEOMetadata> & {
-    path?: string;
-    image?: string;
-    type?: 'website' | 'article' | 'profile';
-  } = {}
-): Metadata {
+interface MetadataOptions {
+  title?: string;
+  description?: string;
+  path?: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  keywords?: string[];
+  robots?: string;
+  locale?: string;
+}
+
+export function constructMetadata(options: MetadataOptions = {}): Metadata {
   const {
     title = seoConfig.defaultTitle,
-    description = seoConfig.description,
+    description = seoConfig.defaultDescription,
     path = '',
     image = seoConfig.defaultOgImage,
     type = 'website',
-    keywords,
-    robots
+    keywords = [],
+    robots = 'index, follow',
+    locale = 'en'
   } = options;
 
-  const url = `${siteConfig.url}${path}`;
+  const url = getAbsoluteUrl(path, seoConfig.siteUrl);
+  
+  // Dynamic hreflang (alternates)
+  const languages: Record<string, string> = {};
+  routing.locales.forEach((loc) => {
+    // If localePrefix is 'as-needed', defaultLocale usually doesn't have prefix.
+    const prefix = (loc === routing.defaultLocale && routing.localePrefix === 'as-needed') 
+      ? '' 
+      : `/${loc}`;
+    
+    // Construct the path for this specific locale
+    // We assume path provided is relative and locale-agnostic (e.g. '/blog/post-1')
+    languages[loc] = getAbsoluteUrl(`${prefix}${path}`, seoConfig.siteUrl);
+  });
 
   return {
     title: {
@@ -28,25 +47,26 @@ export function constructMetadata(
       template: seoConfig.titleTemplate,
     },
     description,
-    keywords: keywords || ['blog', 'tech', 'programming', ...siteConfig.name.split(' ')],
-    authors: [{ name: siteConfig.author.name }],
-    creator: siteConfig.author.name,
+    keywords: keywords.length > 0 ? keywords : [seoConfig.siteName, 'blog', 'tech', 'programming'],
+    authors: [{ name: seoConfig.author.name }],
+    creator: seoConfig.author.name,
     alternates: {
       canonical: url,
+      languages,
     },
-    robots: robots || "index, follow",
+    robots,
     openGraph: {
       type,
-      locale: seoConfig.locale,
+      locale: locale === 'en' ? seoConfig.locale.en : seoConfig.locale.id,
       url,
       title,
       description,
-      siteName: siteConfig.name,
+      siteName: seoConfig.siteName,
       images: [
         {
-          url: image,
-          width: 1200,
-          height: 630,
+          url: getAbsoluteUrl(image, seoConfig.siteUrl),
+          width: seoConfig.defaultOgImageWidth,
+          height: seoConfig.defaultOgImageHeight,
           alt: title,
         },
       ],
@@ -55,8 +75,9 @@ export function constructMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: [image],
-      creator: siteConfig.social.twitter,
+      images: [getAbsoluteUrl(image, seoConfig.siteUrl)],
+      creator: seoConfig.twitterHandle,
     },
+    metadataBase: new URL(seoConfig.siteUrl),
   };
 }

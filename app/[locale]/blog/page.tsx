@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { postContent } from '@/lib/content/posts';
 import { ArticleCard } from '@/components/features/blog/ArticleCard';
-import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { Pagination } from '@/components/features/blog/Pagination';
 import { constructMetadata } from '@/lib/seo/metadata';
 import { POSTS_PER_PAGE } from '@/constants';
@@ -13,7 +13,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return constructMetadata({
     title: t('title'),
     description: t('description'),
-    path: `/${locale === 'en' ? '' : locale}/blog`
+    path: `/${locale === 'en' ? '' : locale}/blog`,
+    locale
   });
 }
 
@@ -39,8 +40,8 @@ export default async function BlogIndexPage({ params, searchParams }: { params: 
   const currentPosts = allPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
   const breadcrumbs = [
-    { label: navT('home'), path: `/` },
-    { label: navT('blog'), path: `/blog` },
+    { label: navT('home'), href: `/` },
+    { label: navT('blog'), href: `/blog`, active: true },
   ];
 
   return (

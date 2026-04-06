@@ -3,14 +3,13 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { postContent } from '@/lib/content/posts';
 import { authorContent } from '@/lib/content/authors';
 import { RenderMDX } from '@/lib/content/mdx';
-import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { TableOfContents } from '@/components/features/blog/TableOfContents';
 import { RelatedPosts } from '@/components/features/blog/RelatedPosts';
 import { AuthorProfileCard } from '@/components/features/authors/AuthorProfileCard';
-import { JsonLd } from '@/components/seo/JsonLd';
-import { generateBlogPostingJsonLd } from '@/lib/seo/schemas';
+import JsonLd from '@/components/seo/JsonLd';
+import { getBlogPostingSchema } from '@/lib/seo/schemas';
 import { constructMetadata } from '@/lib/seo/metadata';
-import { generateOGImage } from '@/lib/seo/opengraph';
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
@@ -25,7 +24,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: post.title,
     description: post.description,
     path: `/${locale === 'en' ? '' : locale}/blog/${category}/${slug}`,
-    image: generateOGImage(post.title, post.category),
+    image: `/blog/${category}/${slug}/opengraph-image`,
+    locale,
   });
 }
 
@@ -41,13 +41,21 @@ export default async function PostPage(props: { params: Promise<{ locale: string
   const navT = await getTranslations('Navigation');
   const authorData = authorContent.getAuthorById(post.author);
   
-  const jsonLdData = generateBlogPostingJsonLd(post, authorData);
+  const jsonLdData = getBlogPostingSchema({
+    title: post.title,
+    description: post.description,
+    date: post.date,
+    authorName: authorData?.name || 'Admin',
+    authorUrl: `/authors/${post.author}`,
+    url: `/blog/${category}/${slug}`,
+    image: `/blog/${category}/${slug}/opengraph-image`
+  });
 
   const breadcrumbs = [
-    { label: navT('home'), path: `/` },
-    { label: navT('blog'), path: `/blog` },
-    { label: post.category, path: `/blog?category=${post.category}` },
-    { label: post.title, path: `/blog/${category}/${slug}` },
+    { label: navT('home'), href: `/` },
+    { label: navT('blog'), href: `/blog` },
+    { label: post.category, href: `/blog?category=${post.category}` },
+    { label: post.title, href: `/blog/${category}/${slug}`, active: true },
   ];
 
   // Fetch related posts (same category, exclude current)
@@ -58,7 +66,7 @@ export default async function PostPage(props: { params: Promise<{ locale: string
 
   return (
     <article className="max-w-5xl mx-auto py-16 px-6 font-sans">
-      <JsonLd data={jsonLdData} />
+      <JsonLd schema={jsonLdData} />
       <Breadcrumbs items={breadcrumbs} />
 
       <header className="mb-10 mt-6 lg:text-center">

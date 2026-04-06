@@ -12,6 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   return constructMetadata({
     title: locale === 'id' ? 'Beranda Blog' : 'Blog Home',
+    locale,
   });
 }
 

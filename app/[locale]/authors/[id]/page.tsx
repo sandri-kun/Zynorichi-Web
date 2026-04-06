@@ -2,11 +2,11 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { authorContent } from '@/lib/content/authors';
 import { postContent } from '@/lib/content/posts';
-import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
 import { AuthorProfileCard } from '@/components/features/authors/AuthorProfileCard';
 import { ArticleCard } from '@/components/features/blog/ArticleCard';
-import { JsonLd } from '@/components/seo/JsonLd';
-import { generatePersonJsonLd } from '@/lib/seo/schemas';
+import JsonLd from '@/components/seo/JsonLd';
+import { getPersonSchema } from '@/lib/seo/schemas';
 import { constructMetadata } from '@/lib/seo/metadata';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string, id: string }> }) {
@@ -20,7 +20,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: author.bio,
     path: `/${locale === 'en' ? '' : locale}/authors/${id}`,
     image: author.avatar,
-    type: 'profile'
+    type: 'profile',
+    locale,
   });
 }
 
@@ -35,17 +36,23 @@ export default async function AuthorPage({ params }: { params: Promise<{ locale:
   const t = await getTranslations('Blog');
 
   const authorPosts = postContent.getPostsByAuthor(id, locale);
-  const jsonLdData = generatePersonJsonLd(author, locale);
+  const jsonLdData = getPersonSchema({
+    name: author.name,
+    description: author.bio,
+    image: author.avatar,
+    url: `/authors/${id}`,
+    sameAs: author.social ? Object.values(author.social) : []
+  });
 
   const breadcrumbs = [
-    { label: navT('home'), path: `/` },
-    { label: navT('blog'), path: `/blog` }, // Asumsikan authors bagian dr blog
-    { label: author.name, path: `/authors/${id}` },
+    { label: navT('home'), href: `/` },
+    { label: navT('blog'), href: `/blog` },
+    { label: author.name, href: `/authors/${id}`, active: true },
   ];
 
   return (
     <main className="p-10 max-w-5xl mx-auto">
-      <JsonLd data={jsonLdData} />
+      <JsonLd schema={jsonLdData} />
       <Breadcrumbs items={breadcrumbs} />
       
       <AuthorProfileCard author={author} lang={locale} showLink={false} />

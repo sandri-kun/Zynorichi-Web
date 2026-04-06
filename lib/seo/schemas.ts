@@ -1,79 +1,103 @@
-import { siteConfig } from '@/config/site';
-import { Post } from '@/types/post';
-import { Author } from '@/types/author';
+import { seoConfig } from "@/config/seo";
+import { siteConfig } from "@/config/site";
+import { formatDateForSchema, getAbsoluteUrl } from "@/utils/seo-helpers";
 
-export function generateWebsiteJsonLd() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: siteConfig.name,
-    url: siteConfig.url,
-    description: siteConfig.description,
-  };
+export interface BreadcrumbItem {
+  name: string;
+  item: string;
 }
 
-export function generateBlogPostingJsonLd(post: Post, author?: Author) {
+/**
+ * Generates JSON-LD for a BlogPosting.
+ */
+export function getBlogPostingSchema(post: {
+  title: string;
+  description: string;
+  date: string;
+  lastModified?: string;
+  image?: string;
+  authorName: string;
+  authorUrl: string;
+  url: string;
+}) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${siteConfig.url}/${post.lang}/blog/${post.category}/${post.slug}`,
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.description,
+    "datePublished": formatDateForSchema(post.date),
+    "dateModified": formatDateForSchema(post.lastModified || post.date),
+    "image": post.image ? getAbsoluteUrl(post.image, seoConfig.siteUrl) : getAbsoluteUrl(seoConfig.defaultOgImage, seoConfig.siteUrl),
+    "author": {
+      "@type": "Person",
+      "name": post.authorName,
+      "url": getAbsoluteUrl(post.authorUrl, seoConfig.siteUrl),
     },
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    dateModified: post.date,
-    author: author ? {
-      '@type': 'Person',
-      name: author.name,
-      url: author.website || `${siteConfig.url}/${post.lang}/authors/${author.id}`,
-    } : {
-      '@type': 'Organization',
-      name: siteConfig.name,
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: siteConfig.name,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${siteConfig.url}/logo.png`,
+    "publisher": {
+      "@type": "Organization",
+      "name": seoConfig.siteName,
+      "logo": {
+        "@type": "ImageObject",
+        "url": getAbsoluteUrl("/logo.png", seoConfig.siteUrl), // Ensure logo exists
       },
     },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": post.url,
+    },
   };
 }
 
-export function generatePersonJsonLd(author: Author, lang: string) {
+/**
+ * Generates JSON-LD for a Person (Author).
+ */
+export function getPersonSchema(author: {
+  name: string;
+  description: string;
+  image: string;
+  url: string;
+  sameAs?: string[];
+}) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: author.name,
-    url: `${siteConfig.url}/${lang}/authors/${author.id}`,
-    image: author.avatar,
-    sameAs: [
-      author.website,
-      author.social?.twitter,
-      author.social?.linkedin,
-      author.social?.github,
-    ].filter(Boolean),
-    jobTitle: author.credentials?.title,
-    worksFor: author.credentials?.company ? {
-      '@type': 'Organization',
-      name: author.credentials.company,
-    } : undefined,
-    description: author.bio,
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": author.name,
+    "description": author.description,
+    "image": author.image,
+    "url": getAbsoluteUrl(author.url, seoConfig.siteUrl),
+    "sameAs": author.sameAs || [],
   };
 }
 
-export function generateBreadcrumbJsonLd(items: Array<{ name: string; url: string }>) {
+/**
+ * Generates JSON-LD for BreadcrumbList.
+ */
+export function getBreadcrumbSchema(items: BreadcrumbItem[]) {
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, index) => ({
-      '@type': 'ListItem',
-      position: index + 1,
-      name: item.name,
-      item: item.url,
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.name,
+      "item": getAbsoluteUrl(item.item, seoConfig.siteUrl),
     })),
+  };
+}
+
+/**
+ * Generates JSON-LD for WebSite.
+ */
+export function getWebSiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": seoConfig.siteName,
+    "url": seoConfig.siteUrl,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${seoConfig.siteUrl}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
   };
 }

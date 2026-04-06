@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { postContent } from '@/lib/content/posts';
 import { ArticleCard } from '@/components/features/blog/ArticleCard';
-import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
+import Breadcrumbs from '@/components/seo/Breadcrumbs';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -14,7 +14,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const filteredPosts = postContent.getPostsByLocale(locale).slice(0, 6);
 
   const breadcrumbs = [
-    { label: navT('home'), path: `/` }
+    { label: navT('home'), href: `/`, active: true }
   ];
 
   return (

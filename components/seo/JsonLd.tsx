@@ -1,14 +1,17 @@
 import React from 'react';
 
 interface JsonLdProps {
-  data: Record<string, any>;
+  schema: Record<string, any>;
 }
 
-export function JsonLd({ data }: JsonLdProps) {
+/**
+ * Component to inject JSON-LD structured data into the page.
+ */
+export default function JsonLd({ schema }: JsonLdProps) {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
 }
