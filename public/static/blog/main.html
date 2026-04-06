@@ -3,454 +3,887 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Zynorichi | Modern Sidebar + Night/Day + Custom Palette</title>
-    <meta name="description" content="Zynorichi: precision minimalist blog with sidebar, bookmarks, notifications, day/night mode, and custom color palette.">
-    <!-- TailwindCSS + Inter + Font Awesome -->
+    <title>Zynorichi | YouTube-Style Drawer + Horizontal Actions + Shortcuts</title>
+    <meta name="description" content="Zynorichi: precision blog with expandable mini drawer (YouTube style), horizontal share/bookmark, reading progress, shortcuts.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --accent-color: #007AFF; }
+        
         body {
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             transition: background 0.3s ease, color 0.2s ease;
+            min-height: 100vh;
         }
-        /* Light theme variables */
-        body.light {
-            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f8 100%);
-            color: #1a1f2e;
-        }
-        body.light .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            border: 0.5px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1);
-        }
-        body.light .glass-nav {
-            background: rgba(255, 255, 255, 0.75);
-            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
-        }
-        body.light .sidebar-item {
-            color: #2c3e50;
-        }
-        body.light .sidebar-item:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-        body.light .sidebar-item.active {
-            background: rgba(0, 122, 255, 0.15);
-            color: #007AFF;
-        }
-        body.light .article-card {
-            background: rgba(255, 255, 255, 0.75);
-            border-color: rgba(0, 0, 0, 0.06);
-        }
-        body.light .article-card:hover {
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
-        }
-        body.light .text-white\/70, body.light .text-white\/80, body.light .text-white\/90 {
-            color: #1e293b !important;
-        }
-        body.light .text-white\/40, body.light .text-white\/50, body.light .text-white\/30 {
-            color: #5b6e8c !important;
-        }
-        body.light .search-input {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: rgba(0, 0, 0, 0.12);
-            color: #1e293b;
-        }
-        body.light .chip-modern {
-            background: rgba(0, 0, 0, 0.04);
-            border-color: rgba(0, 0, 0, 0.08);
-            color: #2c3e50;
-        }
-        body.light .active-category {
-            background: rgba(0, 122, 255, 0.2);
-            border-color: #007AFF;
-            color: #007AFF;
-        }
-        /* Dark theme (default) */
+
+        /* ===== DARK THEME ===== */
         body.dark {
             background: radial-gradient(circle at 15% 30%, #0A0A0C, #000000);
             color: #F5F5F7;
         }
         body.dark .glass-panel {
-            background: rgba(18, 18, 24, 0.44);
+            background: rgba(18, 18, 24, 0.55);
             backdrop-filter: blur(16px);
-            border: 0.5px solid rgba(255, 255, 255, 0.1);
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
         }
         body.dark .glass-nav {
-            background: rgba(6, 6, 10, 0.7);
+            background: rgba(6, 6, 10, 0.85);
+            backdrop-filter: blur(20px);
             border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
         }
+        body.dark .search-input {
+            background: rgba(25, 25, 32, 0.8);
+            border: 0.5px solid rgba(255, 255, 255, 0.12);
+            color: #F5F5F7;
+        }
         body.dark .article-card {
-            background: rgba(18, 18, 24, 0.44);
-            border-color: rgba(255, 255, 255, 0.05);
+            background: rgba(18, 18, 24, 0.55);
+            border-color: rgba(255, 255, 255, 0.06);
         }
-        body.dark .article-card:hover {
-            background: rgba(28, 28, 34, 0.7);
+
+        /* ===== LIGHT THEME ===== */
+        body.light {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #0f172a;
         }
-        /* Core UI */
-        .glass-panel {
-            border-radius: 1.5rem;
-            transition: background 0.2s, box-shadow 0.2s;
+        body.light .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            border: 0.5px solid rgba(0, 0, 0, 0.06);
         }
-        .glass-nav {
-            backdrop-filter: blur(20px);
-            transition: background 0.2s;
+        body.light .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
         }
-        .sidebar-item {
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border-radius: 0.75rem;
+        body.light .search-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 0.5px solid rgba(0, 0, 0, 0.1);
+            color: #0f172a;
         }
-        .article-card {
-            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
-            will-change: transform;
+        body.light .article-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.05);
         }
-        .article-card:hover {
-            transform: translateY(-5px);
-        }
-        .img-zoom {
-            overflow: hidden;
-            border-radius: 1rem;
-        }
-        .img-zoom img {
-            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .article-card:hover .img-zoom img {
-            transform: scale(1.04);
-        }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #0c0c10; }
+        body.light .text-white\/70, body.light .text-white\/80, body.light .text-white\/90,
+        body.light .text-white\/85, body.light .text-white { color: #1e293b !important; }
+        body.light .text-white\/40, body.light .text-white\/50 { color: #64748b !important; }
+
+        /* ===== CORE COMPONENTS ===== */
+        .glass-panel { border-radius: 1.5rem; transition: all 0.2s ease; }
+        .article-card { transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1); will-change: transform; }
+        .article-card:hover { transform: translateY(-4px); box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2); }
+        .img-zoom { overflow: hidden; border-radius: 1rem; }
+        .img-zoom img { transition: transform 0.5s ease; }
+        .article-card:hover .img-zoom img { transform: scale(1.03); }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #1a1a1e; }
         ::-webkit-scrollbar-thumb { background: #3a3a48; border-radius: 12px; }
         body.light ::-webkit-scrollbar-track { background: #e2e8f0; }
         body.light ::-webkit-scrollbar-thumb { background: #94a3b8; }
-        
+
+        /* ===== BOOKMARK & BADGE ===== */
         .bookmarked-star { color: #FFD966; text-shadow: 0 0 4px rgba(255,217,102,0.5); }
         .search-input {
             backdrop-filter: blur(12px);
-            transition: all 0.2s;
-        }
-        .search-input:focus { border-color: #007AFF; }
-        .settings-modal {
-            backdrop-filter: blur(24px);
-            border: 0.5px solid rgba(255,255,255,0.15);
-        }
-        .action-buttons { display: flex; align-items: center; gap: 0.75rem; }
-        .bookmark-btn, .read-more-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            cursor: pointer;
-            width: 2rem;
-            height: 2rem;
             border-radius: 9999px;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            font-size: 0.875rem;
+            width: 100%;
+            outline: none;
+            transition: all 0.2s;
         }
-        .bookmark-btn { background: rgba(255,255,255,0.02); font-size: 1rem; }
-        .bookmark-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.02); }
-        .read-more-btn { font-size: 0.9rem; background: rgba(255,255,255,0.02); }
-        .read-more-btn:hover { background: rgba(0,122,255,0.2); color: #007AFF; transform: translateX(2px); }
-        .notification-toast { animation: slideInRight 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(100%); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+        .search-input:focus { border-color: var(--accent-color, #007AFF); box-shadow: 0 0 0 2px var(--accent-color, #007AFF)20; }
+
+        /* ===== CATEGORY CHIPS ===== */
         .chip-modern {
             backdrop-filter: blur(6px);
             border-radius: 40px;
             cursor: pointer;
             transition: all 0.2s;
+            padding: 0.375rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(128,128,128,0.1);
+            border: 1px solid transparent;
         }
-        .chip-modern:hover { transform: translateY(-1px); }
+        .chip-modern:hover { background: rgba(128,128,128,0.15); }
         .active-category {
-            background: rgba(0, 122, 255, 0.3);
-            border-color: #007AFF;
-            color: white;
+            background: var(--accent-color, #007AFF)25 !important;
+            border-color: var(--accent-color, #007AFF) !important;
+            color: var(--accent-color, #007AFF) !important;
+            font-weight: 600;
         }
-        body.light .active-category { background: rgba(0, 122, 255, 0.2); color: #007AFF; }
-        /* Modern language select */
-        .modern-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23888' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.2rem;
-            padding-right: 2.2rem;
+
+        /* ===== READING PROGRESS BAR ===== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent-color, #007AFF);
+            z-index: 1000;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 6px var(--accent-color, #007AFF);
         }
+
+        /* ===== YOUTUBE-STYLE DRAWER ===== */
+        .drawer-expanded { width: 260px; }
+        .drawer-collapsed { width: 72px; }
+        .drawer-expanded, .drawer-collapsed {
+            transition: width 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .drawer-collapsed .sidebar-text,
+        .drawer-collapsed .drawer-badge,
+        .drawer-collapsed .drawer-cat-text,
+        .drawer-collapsed .drawer-expand-text,
+        .drawer-collapsed .menu-header,
+        .drawer-collapsed .discover-label { display: none; }
+        .drawer-collapsed .sidebar-item { justify-content: center; padding: 0.75rem 0; }
+        .drawer-collapsed .sidebar-item i { margin: 0; font-size: 1.35rem; }
+        .drawer-collapsed .drawer-cat-item { justify-content: center; padding: 0.5rem 0; }
+        .drawer-collapsed .drawer-cat-item i { margin: 0; font-size: 1.1rem; }
+
+        /* ===== HORIZONTAL ACTION BUTTONS ===== */
+        .action-buttons-row { display: flex; align-items: center; gap: 0.35rem; }
+        .icon-btn-sm {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background: rgba(128,128,128,0.08);
+            cursor: pointer;
+            font-size: 0.7rem;
+        }
+        .icon-btn-sm:hover {
+            background: var(--accent-color, #007AFF)20;
+            transform: scale(1.08);
+            color: var(--accent-color, #007AFF);
+        }
+
+        /* ===== KEYBOARD HINT ===== */
+        .keyboard-hint {
+            font-size: 10px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-weight: 500;
+        }
+        body.light .keyboard-hint { background: rgba(255,255,255,0.8); color: #1e293b; }
+
+        /* ===== COLOR PALETTE BUTTONS ===== */
         .color-palette-btn {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             border-radius: 9999px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             border: 2px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         .color-palette-btn.active-palette {
             border-color: white;
             transform: scale(1.1);
-            box-shadow: 0 0 8px rgba(255,255,255,0.3);
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.2);
         }
-        body.light .color-palette-btn.active-palette {
-            border-color: #1e293b;
+        body.light .color-palette-btn.active-palette { border-color: #1e293b; }
+
+        /* ===== MODERN SELECT ===== */
+        .modern-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23888' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1rem;
+            padding-right: 1.8rem;
         }
+
+        /* ===== ANIMATIONS ===== */
+        .notification-toast { animation: slideInRight 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===== SIDEBAR ACTIVE STATE ===== */
+        .sidebar-item.active {
+            background: var(--accent-color, #007AFF)15;
+            color: var(--accent-color, #007AFF);
+        }
+        .sidebar-item.active i { color: var(--accent-color, #007AFF); }
     </style>
 </head>
 <body class="dark">
 
-    <!-- Top Navbar - precision spacing -->
-    <header class="glass-nav fixed top-0 left-0 w-full z-50">
-        <div class="max-w-7xl mx-auto px-5 lg:px-8 py-3 flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3 shrink-0">
-                <button id="mobileSidebarToggle" class="lg:hidden text-white/80 hover:text-white text-xl"><i class="fas fa-bars"></i></button>
-                <a href="#" class="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">ZYNORICHI</a>
-            </div>
-            <!-- Search Bar Desktop - flex-1 with margin -->
-            <div class="hidden md:block flex-1 max-w-md">
-                <div class="relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
-                    <input type="text" id="globalSearch" placeholder="Search articles..." class="search-input w-full py-2.5 pl-10 pr-4 rounded-full text-sm focus:outline-none transition-all">
-                    <button id="clearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 hidden"><i class="fas fa-times-circle"></i></button>
-                </div>
-            </div>
-            <!-- Right side: modern language select + theme toggle + notif -->
-            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-                <!-- Modern Language Select -->
-                <div class="relative">
-                    <select id="langSelect" class="modern-select glass-panel px-3 py-1.5 pr-8 rounded-full text-xs sm:text-sm font-medium bg-transparent text-white/85 cursor-pointer border-none focus:ring-0">
-                        <option value="en">EN</option><option value="es">ES</option><option value="fr">FR</option><option value="ja">JA</option>
-                    </select>
-                </div>
-                <!-- Day/Night Toggle Button -->
-                <button id="themeToggleBtn" class="glass-panel w-9 h-9 rounded-full flex items-center justify-center text-white/80 hover:text-white transition-all">
-                    <i id="themeIcon" class="fas fa-moon"></i>
-                </button>
-                <!-- Notification Bell -->
-                <button id="notificationBell" class="relative text-white/80 hover:text-white transition-all text-xl">
-                    <i class="fas fa-bell"></i>
-                    <span id="notifBadge" class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile search bar -->
-        <div class="px-5 pb-3 md:hidden">
-            <div class="relative">
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
-                <input type="text" id="mobileGlobalSearch" placeholder="Search articles..." class="search-input w-full py-2.5 pl-10 pr-4 rounded-full text-sm">
-            </div>
-        </div>
-    </header>
+    <!-- 📊 Reading Progress Indicator -->
+    <div id="readingProgress" class="progress-bar"></div>
 
-    <!-- Layout -->
-    <div class="flex pt-20 lg:pt-24">
+    <!-- 🔝 Top Navbar with Drawer Toggle - FIXED POSITIONING -->
+<header class="glass-nav fixed top-0 left-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3">
+        <!-- Left Section: Logo -->
+        <div class="flex items-center gap-2 shrink-0">
+            <!-- Mobile Toggle Only (inside flex) -->
+            <button id="mobileSidebarToggle" class="lg:hidden text-current opacity-80 hover:opacity-100 text-lg w-9 h-9 rounded-lg flex items-center justify-center transition">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Logo Title -->
+            <a href="#" class="text-xl lg:text-2xl font-bold tracking-tight bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">ZYNORICHI</a>
+        </div>
+
+        <!-- Center: Search (Desktop) -->
+        <div class="hidden md:block flex-1 max-w-lg mx-4">
+            <div class="relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-current opacity-40 text-sm"></i>
+                <input type="text" id="globalSearch" placeholder="Search articles... (Ctrl+K)" class="search-input w-full">
+                <button id="clearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-current opacity-40 hover:opacity-80 hidden text-sm">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <!-- Language Select -->
+            <select id="langSelect" class="modern-select glass-panel px-2.5 py-1.5 pr-6 rounded-full text-xs sm:text-sm font-medium bg-transparent text-current cursor-pointer border-0">
+                <option value="en">EN</option>
+                <option value="es">ES</option>
+                <option value="fr">FR</option>
+                <option value="ja">JA</option>
+            </select>
+
+            <!-- Theme Toggle -->
+            <button id="themeToggleBtn" class="glass-panel w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-current opacity-80 hover:opacity-100 transition" title="Toggle theme">
+                <i id="themeIcon" class="fas fa-moon text-sm"></i>
+            </button>
+
+            <!-- Notifications -->
+            <button id="notificationBell" class="relative text-current opacity-80 hover:opacity-100 text-lg w-9 h-9 rounded-full flex items-center justify-center transition" title="Notifications">
+                <i class="fas fa-bell"></i>
+                <span id="notifBadge" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Desktop Drawer Toggle - FIXED: Positioned at absolute left edge -->
+    <button id="drawerToggleBtn" class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 text-current opacity-80 hover:opacity-100 text-lg w-9 h-9 rounded-lg items-center justify-center transition z-50" title="Toggle drawer (D)">
+        <i id="drawerToggleIcon" class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Search -->
+    <div class="px-4 pb-2.5 md:hidden">
+        <div class="relative">
+            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-current opacity-40 text-sm"></i>
+            <input type="text" id="mobileGlobalSearch" placeholder="Search articles..." class="search-input w-full">
+        </div>
+    </div>
+</header>
+
+    <!-- 🗂️ Layout: Expandable Drawer + Main Content -->
+    <div class="flex pt-16 lg:pt-20">
         <!-- Sidebar -->
-        <aside id="mainSidebar" class="fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-black/60 backdrop-blur-2xl border-r border-white/10 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
-            <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
-                <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="home">
-                    <i class="fas fa-home text-xl w-6"></i><span class="font-medium">Beranda</span>
+        <aside id="mainSidebar" class="fixed lg:sticky top-16 lg:top-20 left-0 h-[calc(100vh-4rem)] lg:h-[calc(100vh-5rem)] bg-black/60 backdrop-blur-2xl border-r border-white/10 z-40 transition-all duration-300 flex flex-col drawer-expanded">
+            <div id="drawerInner" class="flex-1 overflow-y-auto py-3 px-2 space-y-1">
+                <!-- Nav Items -->
+                <div class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl transition cursor-pointer" data-sidebar="home">
+                    <i class="fas fa-home text-lg w-6 text-center"></i>
+                    <span class="sidebar-text font-medium text-sm">Beranda</span>
                 </div>
-                <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="bookmarks">
-                    <i class="fas fa-bookmark text-xl w-6"></i><span class="font-medium">Bookmark</span>
-                    <span id="sidebarBookmarkBadge" class="ml-auto bg-[#007AFF] text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[20px] text-center">0</span>
+                <div class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl transition cursor-pointer" data-sidebar="bookmarks">
+                    <i class="fas fa-bookmark text-lg w-6 text-center"></i>
+                    <span class="sidebar-text font-medium text-sm">Bookmark</span>
+                    <span id="sidebarBookmarkBadge" class="drawer-badge ml-auto bg-[#007AFF] text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[20px] text-center">0</span>
                 </div>
-                <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="settings">
-                    <i class="fas fa-cog text-xl w-6"></i><span class="font-medium">Settings</span>
+                <div class="sidebar-item flex items-center gap-4 px-3 py-2.5 rounded-xl transition cursor-pointer" data-sidebar="settings">
+                    <i class="fas fa-cog text-lg w-6 text-center"></i>
+                    <span class="sidebar-text font-medium text-sm">Settings</span>
                 </div>
-                <div class="pt-6 mt-6 border-t border-white/10">
-                    <div class="px-4 py-2 text-xs text-white/30">Discover</div>
-                    <div id="sidebarCategories" class="space-y-1 mt-2"></div>
+
+                <!-- Categories -->
+                <div class="pt-5 mt-4 border-t border-white/10">
+                    <div class="discover-label px-3 py-1.5 text-xs opacity-40 font-semibold uppercase tracking-wider">Discover</div>
+                    <div id="sidebarCategories" class="space-y-0.5 mt-1"></div>
+                </div>
+
+                <!-- Shortcuts Hint -->
+                <div class="pt-4 mt-4 border-t border-white/10">
+                    <div class="px-3 text-xs opacity-40 flex justify-between items-center">
+                        <span class="sidebar-text flex items-center gap-1.5"><i class="fas fa-keyboard"></i> Shortcuts</span>
+                        <span class="keyboard-hint sidebar-text">? K S B</span>
+                    </div>
                 </div>
             </div>
         </aside>
 
+        <!-- Mobile Overlay -->
         <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden lg:hidden"></div>
 
-        <main class="flex-1 max-w-7xl mx-auto px-5 lg:px-8 pb-20">
-            <div class="mb-6 mt-2">
-                <h1 id="pageTitle" class="text-2xl sm:text-3xl font-bold tracking-tight">Discover</h1>
-                <p id="pageSub" class="text-white/40 text-xs sm:text-sm mt-1">precision · search & save</p>
+        <!-- Main Content -->
+        <main class="flex-1 max-w-7xl mx-auto px-4 lg:px-6 pb-16 w-full">
+            <!-- Page Header -->
+            <div class="mb-5 mt-1">
+                <h1 id="pageTitle" class="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">Discover</h1>
+                <p id="pageSub" class="opacity-40 text-xs sm:text-sm mt-0.5">precision · search & save</p>
             </div>
-            <div class="mb-8"><div id="categoryContainer" class="flex flex-wrap gap-2"></div></div>
-            <div id="dynamicGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
-            <div id="emptyState" class="hidden text-center text-white/40 py-20 glass-panel p-12 rounded-2xl mt-6"></div>
+
+            <!-- Category Chips -->
+            <div class="mb-6">
+                <div id="categoryContainer" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <!-- Article Grid -->
+            <div id="dynamicGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center opacity-50 py-16 glass-panel p-10 rounded-2xl mt-4"></div>
         </main>
     </div>
 
-    <!-- Settings Modal with Custom Palette -->
-    <div id="settingsModal" class="fixed inset-0 flex items-center justify-center z-50 hidden bg-black/70 backdrop-blur-md transition-all">
-        <div class="settings-modal rounded-2xl w-96 max-w-[90%] p-6 shadow-2xl border border-white/20" style="background: rgba(12,12,18,0.98);">
-            <div class="flex justify-between items-center mb-5">
-                <h3 class="text-xl font-semibold flex gap-2"><i class="fas fa-cog text-[#007AFF]"></i>Preferences</h3>
-                <button id="closeSettings" class="text-white/60 hover:text-white"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="space-y-5">
-                <div>
-                    <label class="text-sm font-medium text-white/70 block mb-2">Language</label>
-                    <select id="settingsLang" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-2 text-white">
-                        <option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="ja">日本語</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="text-sm font-medium text-white/70 block mb-2">Theme Mode</label>
-                    <div class="flex gap-3">
-                        <button id="themeDarkBtn" class="flex-1 py-2 rounded-xl bg-white/10 border border-white/20 text-sm">Dark</button>
-                        <button id="themeLightBtn" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-sm">Light</button>
-                    </div>
-                </div>
-                <div>
-                    <label class="text-sm font-medium text-white/70 block mb-2">Custom Palette</label>
-                    <div class="flex gap-3 flex-wrap">
-                        <div class="color-palette-btn" data-palette="default" style="background: #007AFF;"></div>
-                        <div class="color-palette-btn" data-palette="purple" style="background: #A855F7;"></div>
-                        <div class="color-palette-btn" data-palette="emerald" style="background: #10B981;"></div>
-                        <div class="color-palette-btn" data-palette="rose" style="background: #F43F5E;"></div>
-                        <div class="color-palette-btn" data-palette="amber" style="background: #F59E0B;"></div>
-                    </div>
-                </div>
-                <button id="resetBookmarksBtn" class="w-full mt-4 bg-red-500/20 hover:bg-red-500/30 text-red-300 py-2 rounded-xl text-sm transition">Reset All Bookmarks</button>
+    <!-- 📄 Article Detail Modal -->
+    <div id="articleModal" class="fixed inset-0 z-[60] hidden bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="glass-panel max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-2xl p-5 relative">
+            <button id="closeModalBtn" class="absolute top-3.5 right-3.5 text-current opacity-60 hover:opacity-100 w-8 h-8 rounded-full flex items-center justify-center transition">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+            <div id="modalContent"></div>
+            <div class="mt-5 flex gap-2 justify-end border-t border-white/10 pt-4">
+                <button id="shareArticleBtn" class="px-4 py-2 rounded-full bg-[#007AFF]/20 hover:bg-[#007AFF]/30 text-xs sm:text-sm flex items-center gap-1.5 transition">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+                <button id="modalBookmarkBtn" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 text-xs sm:text-sm flex items-center gap-1.5 transition">
+                    <i class="fas fa-bookmark"></i> Save
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Notification Panel -->
-    <div id="notificationPanel" class="fixed top-20 right-4 w-80 max-w-[calc(100%-2rem)] bg-black/80 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl z-50 hidden">
-        <div class="p-4 border-b border-white/10"><h3 class="font-semibold flex gap-2"><i class="fas fa-bell text-[#007AFF]"></i> Notifications</h3></div>
-        <div id="notificationList" class="max-h-96 overflow-y-auto"><div class="p-4 text-center text-white/40 text-sm">No new notifications</div></div>
-        <button id="clearNotifications" class="w-full p-3 text-center text-xs text-white/40 hover:text-white/80 border-t border-white/10">Clear all</button>
+    <!-- 🔔 Notification Panel -->
+    <div id="notificationPanel" class="fixed top-16 right-3 sm:right-4 w-72 sm:w-80 max-w-[calc(100%-1.5rem)] glass-panel shadow-2xl z-50 hidden rounded-xl overflow-hidden">
+        <div class="p-3.5 border-b border-white/10 flex items-center justify-between">
+            <h3 class="font-semibold text-sm flex items-center gap-2">
+                <i class="fas fa-bell text-[#007AFF]"></i> Notifications
+            </h3>
+            <button id="clearNotifications" class="text-xs opacity-50 hover:opacity-100 transition">Clear</button>
+        </div>
+        <div id="notificationList" class="max-h-80 overflow-y-auto"></div>
+    </div>
+
+    <!-- ⚙️ Settings Modal (Hidden by default) -->
+    <div id="settingsModal" class="fixed inset-0 z-[60] hidden bg-black/80 backdrop-blur-md items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-2xl p-5 relative">
+            <button id="closeSettings" class="absolute top-3.5 right-3.5 text-current opacity-60 hover:opacity-100 w-8 h-8 rounded-full flex items-center justify-center transition">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+            <h3 class="text-lg font-bold mb-4">Settings</h3>
+            
+            <!-- Theme -->
+            <div class="mb-4">
+                <label class="text-xs opacity-60 block mb-2">Theme</label>
+                <div class="flex gap-2">
+                    <button id="themeDarkBtn" class="flex-1 py-2 rounded-lg bg-black/40 hover:bg-black/60 text-sm transition">🌙 Dark</button>
+                    <button id="themeLightBtn" class="flex-1 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-sm transition">☀️ Light</button>
+                </div>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="mb-4">
+                <label class="text-xs opacity-60 block mb-2">Accent Color</label>
+                <div class="flex gap-2">
+                    <button class="color-palette-btn active-palette" data-palette="default" style="background: #007AFF"></button>
+                    <button class="color-palette-btn" data-palette="purple" style="background: #A855F7"></button>
+                    <button class="color-palette-btn" data-palette="emerald" style="background: #10B981"></button>
+                    <button class="color-palette-btn" data-palette="rose" style="background: #F43F5E"></button>
+                    <button class="color-palette-btn" data-palette="amber" style="background: #F59E0B"></button>
+                </div>
+            </div>
+
+            <!-- Language -->
+            <div class="mb-4">
+                <label class="text-xs opacity-60 block mb-2">Language</label>
+                <select id="settingsLang" class="modern-select glass-panel w-full px-3 py-2 rounded-lg text-sm bg-transparent">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="ja">日本語</option>
+                </select>
+            </div>
+
+            <!-- Reset Bookmarks -->
+            <button id="resetBookmarksBtn" class="w-full py-2 rounded-lg bg-red-500/20 hover:bg-red-500/30 text-red-400 text-sm transition">
+                🗑️ Reset All Bookmarks
+            </button>
+        </div>
     </div>
 
     <script>
-        // ---------- DATA ----------
+        // ========== 📦 DATA ==========
         const categoriesData = [
-            { id: "all", name: "All" }, { id: "tech", name: "Technology" }, { id: "design", name: "Design" },
-            { id: "lifestyle", name: "Lifestyle" }, { id: "mindfulness", name: "Mindfulness" }
-        ];
-        let articlesLibrary = [
-            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", image: "https://picsum.photos/id/20/600/400" },
-            { id: 2, title: "Minimalist architecture for code", excerpt: "Writing clean, scalable frontends with precision-first mindset.", category: "tech", author: "Marcus Lei", date: "Mar 28, 2025", readTime: "6 min", image: "https://picsum.photos/id/26/600/400" },
-            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", image: "https://picsum.photos/id/75/600/400" },
-            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", image: "https://picsum.photos/id/29/600/400" },
-            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time apps.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", image: "https://picsum.photos/id/0/600/400" },
-            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", image: "https://picsum.photos/id/42/600/400" },
-            { id: 7, title: "AI & creative workflows", excerpt: "Generative tools redefining design.", category: "tech", author: "Zara Khan", date: "Apr 1, 2025", readTime: "5 min", image: "https://picsum.photos/id/36/600/400" },
-            { id: 8, title: "Mindful UI patterns", excerpt: "Calm interfaces for better focus.", category: "mindfulness", author: "Tom Harrison", date: "Mar 30, 2025", readTime: "6 min", image: "https://picsum.photos/id/69/600/400" },
+            { id: "all", name: "All" },
+            { id: "tech", name: "Technology" },
+            { id: "design", name: "Design" },
+            { id: "lifestyle", name: "Lifestyle" },
+            { id: "mindfulness", name: "Mindfulness" }
         ];
 
+        const articlesLibrary = [
+            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", content: "Glassmorphism brings depth and lightness to UI design through layered translucent surfaces, subtle borders, and background blur effects. This design trend emphasizes hierarchy through light and shadow rather than solid colors.", image: "https://picsum.photos/id/20/600/400" },
+            { id: 2, title: "Minimalist architecture for code", excerpt: "Writing clean, scalable frontends with precision-first mindset.", category: "tech", author: "Marcus Lei", date: "Mar 28, 2025", readTime: "6 min", content: "Clean code principles combined with atomic design patterns create scalable applications that are easy to maintain. Focus on single responsibility, clear naming, and modular composition.", image: "https://picsum.photos/id/26/600/400" },
+            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", content: "Mindful tech habits include scheduled breaks, notification management, and conscious content consumption. Small changes lead to significant improvements in focus and mental clarity.", image: "https://picsum.photos/id/75/600/400" },
+            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", content: "Modern design systems balance technical scalability with emotional connection. Design tokens, multi-platform harmony, and accessibility-first approaches define the next generation.", image: "https://picsum.photos/id/29/600/400" },
+            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time apps.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", content: "Edge-native applications process data closer to users, reducing latency and enabling real-time experiences. Serverless architectures complement this distributed approach.", image: "https://picsum.photos/id/0/600/400" },
+            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", content: "Slow design philosophy extends beyond aesthetics to intentional spaces, mindful consumption, and rituals that promote calm living in a fast-paced world.", image: "https://picsum.photos/id/42/600/400" },
+            { id: 7, title: "AI & creative workflows", excerpt: "Generative tools redefining design.", category: "tech", author: "Zara Khan", date: "Apr 1, 2025", readTime: "5 min", content: "AI-assisted creativity accelerates ideation while raising important questions about authorship, ethics, and the role of human judgment in creative processes.", image: "https://picsum.photos/id/36/600/400" },
+            { id: 8, title: "Mindful UI patterns", excerpt: "Calm interfaces for better focus.", category: "mindfulness", author: "Tom Harrison", date: "Mar 30, 2025", readTime: "6 min", content: "Calm technology principles guide interfaces that respect attention: progressive disclosure, gentle notifications, and designs that support rather than demand focus.", image: "https://picsum.photos/id/69/600/400" }
+        ];
+
+        // ========== 🗃️ STATE ==========
+        let lastReadArticle = JSON.parse(localStorage.getItem('zynorichi_last_read') || 'null');
         let bookmarkedIds = new Set(JSON.parse(localStorage.getItem('zynorichi_bookmarks') || '[]'));
         let notifications = JSON.parse(localStorage.getItem('zynorichi_notifications') || '[]');
-        let activeLanguage = "en", activeCategory = "all", searchQuery = "", currentView = "home";
+        let activeLanguage = "en";
+        let activeCategory = "all";
+        let searchQuery = "";
+        let currentView = "home";
         let currentTheme = localStorage.getItem('zynorichi_theme') || 'dark';
         let currentPalette = localStorage.getItem('zynorichi_palette') || 'default';
+        let currentArticleId = null;
+        let isDrawerExpanded = true;
 
-        // Apply palette (accent color)
-        function applyPalette(palette) {
-            const accentMap = { default: '#007AFF', purple: '#A855F7', emerald: '#10B981', rose: '#F43F5E', amber: '#F59E0B' };
-            const color = accentMap[palette] || '#007AFF';
-            document.documentElement.style.setProperty('--accent-color', color);
-            const style = document.createElement('style');
-            style.id = 'dynamic-accent';
-            const existing = document.getElementById('dynamic-accent');
-            if(existing) existing.remove();
-            style.id = 'dynamic-accent';
-            style.textContent = `
-                .active-category { background: ${color}30 !important; border-color: ${color} !important; color: ${color} !important; }
-                .read-more-btn:hover { background: ${color}20 !important; color: ${color} !important; }
-                #sidebarBookmarkBadge, .sidebar-item.active i, .sidebar-item.active span { color: ${color}; }
-                .sidebar-item.active { background: ${color}15; }
-                .bookmark-btn:hover { color: #FFD966; }
-            `;
-            document.head.appendChild(style);
-            localStorage.setItem('zynorichi_palette', palette);
-            document.querySelectorAll('.color-palette-btn').forEach(btn => {
-                if(btn.dataset.palette === palette) btn.classList.add('active-palette');
-                else btn.classList.remove('active-palette');
-            });
+        // ========== 📊 Reading Progress ==========
+        function updateReadingProgress() {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById("readingProgress").style.width = scrolled + "%";
+        }
+        window.addEventListener("scroll", updateReadingProgress, { passive: true });
+
+        // ========== 🗂️ Drawer Toggle ==========
+        function toggleDrawer() {
+            const sidebar = document.getElementById("mainSidebar");
+            const icon = document.getElementById("drawerToggleIcon");
+            
+            if (isDrawerExpanded) {
+                sidebar.classList.replace("drawer-expanded", "drawer-collapsed");
+                icon.className = "fas fa-bars";
+                isDrawerExpanded = false;
+            } else {
+                sidebar.classList.replace("drawer-collapsed", "drawer-expanded");
+                icon.className = "fas fa-bars";
+                isDrawerExpanded = true;
+            }
+            addNotification(isDrawerExpanded ? "🗂️ Drawer expanded" : "🗂️ Drawer collapsed");
         }
 
-        // Theme toggling
+        // ========== 🎨 Palette & Theme ==========
+        function applyPalette(palette) {
+            const accentMap = {
+                default: '#007AFF',
+                purple: '#A855F7',
+                emerald: '#10B981',
+                rose: '#F43F5E',
+                amber: '#F59E0B'
+            };
+            const color = accentMap[palette] || '#007AFF';
+            document.documentElement.style.setProperty('--accent-color', color);
+            
+            document.querySelectorAll('.color-palette-btn').forEach(btn => {
+                btn.classList.toggle('active-palette', btn.dataset.palette === palette);
+            });
+            
+            localStorage.setItem('zynorichi_palette', palette);
+            renderCategories();
+            renderSidebarCategories();
+        }
+
         function setTheme(theme) {
             currentTheme = theme;
             document.body.classList.remove('dark', 'light');
             document.body.classList.add(theme);
             localStorage.setItem('zynorichi_theme', theme);
-            const icon = document.getElementById('themeIcon');
-            if(theme === 'dark') icon.className = 'fas fa-moon';
-            else icon.className = 'fas fa-sun';
+            document.getElementById('themeIcon').className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
         }
-        function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
 
-        // Localization
-        const translations = {
-            en: { pageTitle: "Discover", pageSub: "precision · search & save", bookmarksLabel: "Bookmark", noResults: "✨ No articles found.", noBookmarks: "📭 No saved articles." },
-            es: { pageTitle: "Descubrir", pageSub: "precisión · busca y guarda", bookmarksLabel: "Marcadores", noResults: "✨ No se encontraron artículos.", noBookmarks: "📭 No hay artículos guardados." },
-            fr: { pageTitle: "Découvrir", pageSub: "précision · rechercher", bookmarksLabel: "Signets", noResults: "✨ Aucun article trouvé.", noBookmarks: "📭 Aucun favori." },
-            ja: { pageTitle: "発見", pageSub: "精密・検索と保存", bookmarksLabel: "ブックマーク", noResults: "✨ 記事が見つかりません。", noBookmarks: "📭 保存された記事はありません。" }
-        };
-        function t(key) { return translations[activeLanguage]?.[key] || translations.en[key]; }
+        function toggleTheme() {
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        }
 
+        // ========== 🔗 Share Function ==========
+        function shareArticle(article) {
+            const shareData = {
+                title: article.title,
+                text: article.excerpt,
+                url: window.location.href
+            };
+            
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(`${article.title} - ${article.excerpt} | Zynorichi`);
+                addNotification("📋 Link copied to clipboard!");
+            }
+        }
+
+        function updateLastRead(article) {
+            lastReadArticle = {
+                id: article.id,
+                title: article.title,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('zynorichi_last_read', JSON.stringify(lastReadArticle));
+        }
+
+        // ========== 🔔 Notifications ==========
         function addNotification(msg) {
-            const notif = { id: Date.now(), message: msg, timestamp: new Date().toLocaleTimeString() };
+            const notif = {
+                id: Date.now(),
+                message: msg,
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
             notifications.unshift(notif);
-            if(notifications.length > 15) notifications.pop();
+            if (notifications.length > 15) notifications.pop();
             localStorage.setItem('zynorichi_notifications', JSON.stringify(notifications));
             updateNotificationUI();
+
             const toast = document.createElement('div');
-            toast.className = `fixed bottom-5 right-5 glass-panel px-5 py-3 rounded-xl text-sm z-50 notification-toast flex items-center gap-3`;
+            toast.className = 'fixed bottom-4 right-4 glass-panel px-4 py-2.5 rounded-xl text-xs z-50 notification-toast flex items-center gap-2';
             toast.innerHTML = `<i class="fas fa-bell" style="color:var(--accent-color,#007AFF)"></i><span>${msg}</span>`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2800);
         }
+
         function updateNotificationUI() {
             const panel = document.getElementById("notificationList");
             const badge = document.getElementById("notifBadge");
-            if(notifications.length === 0) { panel.innerHTML = '<div class="p-4 text-center text-white/40 text-sm">No new notifications</div>'; badge?.classList.add("hidden"); }
-            else { panel.innerHTML = notifications.map(n => `<div class="p-3 border-b border-white/10"><div class="text-sm">${n.message}</div><div class="text-xs text-white/30 mt-1">${n.timestamp}</div></div>`).join(''); badge?.classList.remove("hidden"); badge.innerText = notifications.length > 9 ? '9+' : notifications.length; }
+            
+            if (notifications.length === 0) {
+                panel.innerHTML = '<div class="p-4 text-center opacity-40 text-xs">No new notifications</div>';
+                badge?.classList.add("hidden");
+            } else {
+                panel.innerHTML = notifications.map(n => 
+                    `<div class="p-3 border-b border-white/10 last:border-0">
+                        <div class="text-xs">${n.message}</div>
+                        <div class="text-[10px] opacity-30 mt-0.5">${n.timestamp}</div>
+                    </div>`
+                ).join('');
+                badge?.classList.remove("hidden");
+                badge.innerText = notifications.length > 9 ? '9+' : notifications.length;
+            }
         }
-        function clearAllNotifications() { notifications = []; localStorage.setItem('zynorichi_notifications', '[]'); updateNotificationUI(); addNotification("Cleared all notifications"); }
 
-        function saveBookmarks() { localStorage.setItem('zynorichi_bookmarks', JSON.stringify([...bookmarkedIds])); document.getElementById("sidebarBookmarkBadge").innerText = bookmarkedIds.size; }
-        function toggleBookmark(id) { const art = articlesLibrary.find(a=>a.id===id); if(bookmarkedIds.has(id)) { bookmarkedIds.delete(id); addNotification(`Removed "${art?.title}"`); } else { bookmarkedIds.add(id); addNotification(`📌 Saved "${art?.title}"`); } saveBookmarks(); renderCurrentView(); }
+        function clearAllNotifications() {
+            notifications = [];
+            localStorage.setItem('zynorichi_notifications', '[]');
+            updateNotificationUI();
+            addNotification("✨ All notifications cleared");
+        }
 
+        // ========== 🔖 Bookmarks ==========
+        function saveBookmarks() {
+            localStorage.setItem('zynorichi_bookmarks', JSON.stringify([...bookmarkedIds]));
+            const count = bookmarkedIds.size;
+            document.getElementById("sidebarBookmarkBadge").innerText = count;
+            document.getElementById("sidebarBookmarkBadge").classList.toggle('hidden', count === 0);
+        }
+
+        function toggleBookmark(id) {
+            const article = articlesLibrary.find(a => a.id === id);
+            if (!article) return;
+            
+            if (bookmarkedIds.has(id)) {
+                bookmarkedIds.delete(id);
+                addNotification(`❌ Removed "${article.title}"`);
+            } else {
+                bookmarkedIds.add(id);
+                addNotification(`📌 Saved "${article.title}"`);
+            }
+            saveBookmarks();
+            renderCurrentView();
+            if (currentArticleId === id) {
+                const isSaved = bookmarkedIds.has(id);
+                document.getElementById("modalBookmarkBtn").innerHTML = 
+                    `<i class="fas fa-bookmark"></i> ${isSaved ? 'Saved' : 'Save'}`;
+            }
+        }
+
+        // ========== 📄 Article Modal ==========
+        function openArticleModal(article) {
+            currentArticleId = article.id;
+            const isBookmarked = bookmarkedIds.has(article.id);
+            const modal = document.getElementById("articleModal");
+            const content = document.getElementById("modalContent");
+            
+            content.innerHTML = `
+                <h2 class="text-xl lg:text-2xl font-bold mb-2 leading-tight">${article.title}</h2>
+                <div class="flex flex-wrap gap-3 text-xs opacity-50 mb-4">
+                    <span><i class="far fa-user"></i> ${article.author}</span>
+                    <span><i class="far fa-clock"></i> ${article.readTime}</span>
+                    <span><i class="far fa-calendar"></i> ${article.date}</span>
+                </div>
+                <img src="${article.image}?w=600&h=300&fit=crop" class="w-full rounded-xl mb-4 object-cover h-48" loading="lazy">
+                <p class="leading-relaxed text-sm">${article.content}</p>
+                <div class="mt-4 text-xs opacity-40 border-t border-white/10 pt-3">
+                    Last read: ${lastReadArticle?.id === article.id ? new Date(lastReadArticle.timestamp).toLocaleString() : 'Never'}
+                </div>
+            `;
+            
+            document.getElementById("modalBookmarkBtn").innerHTML = 
+                `<i class="fas fa-bookmark"></i> ${isBookmarked ? 'Saved' : 'Save'}`;
+            
+            modal.classList.remove("hidden");
+            modal.style.display = "flex";
+            updateLastRead(article);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("articleModal");
+            modal.classList.add("hidden");
+            modal.style.display = "none";
+            currentArticleId = null;
+        }
+
+        // ========== 🃏 Render Article Card ==========
         function renderArticleCard(article) {
             const isBookmarked = bookmarkedIds.has(article.id);
-            const cat = categoriesData.find(c=>c.id===article.category)||categoriesData[0];
-            return `<div class="glass-panel p-4 article-card flex flex-col h-full rounded-xl">
-                <div class="img-zoom rounded-lg mb-3 h-40 overflow-hidden"><img src="${article.image}?w=400&h=280&fit=crop" class="w-full h-full object-cover" loading="lazy"></div>
-                <div class="flex justify-between items-start mb-2"><span class="chip-modern px-2.5 py-0.5 text-xs font-medium">${cat.name}</span><span class="text-white/30 text-xs"><i class="far fa-clock"></i> ${article.readTime}</span></div>
-                <h3 class="text-base sm:text-lg font-semibold mb-1">${article.title}</h3>
-                <p class="text-white/45 text-xs mb-3 flex-grow">${article.excerpt.substring(0,85)}…</p>
-                <div class="flex items-center justify-between mt-2 border-t border-white/10 pt-2">
-                    <div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center"><i class="fas fa-user-astronaut text-[9px]"></i></div><div><p class="text-[11px] font-medium">${article.author}</p><p class="text-[9px] text-white/35">${article.date}</p></div></div>
-                    <div class="action-buttons"><button class="bookmark-btn flex items-center justify-center ${isBookmarked ? 'bookmarked-star' : 'text-white/50'}" data-id="${article.id}"><i class="fas fa-bookmark"></i></button><button class="read-more-btn flex items-center justify-center text-white/50" data-id="${article.id}"><i class="fas fa-arrow-right"></i></button></div>
+            const category = categoriesData.find(c => c.id === article.category) || categoriesData[0];
+            
+            return `
+            <article class="glass-panel p-4 article-card flex flex-col h-full rounded-xl cursor-pointer group" data-article-id="${article.id}">
+                <div class="img-zoom rounded-lg mb-3 h-40 overflow-hidden">
+                    <img src="${article.image}?w=400&h=280&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                 </div>
-            </div>`;
+                <div class="flex justify-between items-start mb-2">
+                    <span class="chip-modern ${activeCategory === article.category ? 'active-category' : ''}">${category.name}</span>
+                    <span class="opacity-40 text-xs"><i class="far fa-clock"></i> ${article.readTime}</span>
+                </div>
+                <h3 class="text-base sm:text-lg font-semibold mb-1 leading-tight group-hover:text-[var(--accent-color,#007AFF)] transition-colors">${article.title}</h3>
+                <p class="opacity-45 text-xs mb-3 flex-grow line-clamp-2">${article.excerpt}</p>
+                <div class="flex items-center justify-between mt-auto border-t border-white/10 pt-2.5">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                            <i class="fas fa-user-astronaut text-[8px]"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-[10px] font-medium truncate">${article.author}</p>
+                            <p class="text-[9px] opacity-35">${article.date}</p>
+                        </div>
+                    </div>
+                    <div class="action-buttons-row shrink-0">
+                        <button class="icon-btn-sm share-card-btn" data-id="${article.id}" title="Share" aria-label="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="icon-btn-sm bookmark-card-btn ${isBookmarked ? 'bookmarked-star' : 'opacity-60 hover:opacity-100'}" data-id="${article.id}" title="${isBookmarked ? 'Remove bookmark' : 'Save'}" aria-label="Bookmark">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                        <button class="icon-btn-sm read-more-card-btn" data-id="${article.id}" title="Read more" aria-label="Read">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </article>`;
         }
 
-        function getFiltered() { let f = [...articlesLibrary]; if(activeCategory!=="all") f=f.filter(a=>a.category===activeCategory); if(searchQuery.trim()){const q=searchQuery.toLowerCase(); f=f.filter(a=>a.title.toLowerCase().includes(q)||a.excerpt.toLowerCase().includes(q)||a.author.toLowerCase().includes(q));} if(currentView==="bookmarks") f=f.filter(a=>bookmarkedIds.has(a.id)); return f; }
-        function renderCurrentView() { const grid=document.getElementById("dynamicGrid"), empty=document.getElementById("emptyState"); let arts=getFiltered(); document.getElementById("pageTitle").innerText = currentView==="bookmarks"? t("bookmarksLabel"): t("pageTitle"); if(arts.length===0){ grid.innerHTML=""; empty.classList.remove("hidden"); empty.innerHTML=currentView==="bookmarks"?`<i class="fas fa-bookmark text-3xl mb-3 block"></i> ${t("noBookmarks")}`:`<i class="fas fa-search text-3xl mb-3 block"></i> ${t("noResults")}`; } else { empty.classList.add("hidden"); grid.innerHTML=arts.map(renderArticleCard).join(""); document.querySelectorAll('.bookmark-btn').forEach(btn=>btn.addEventListener('click',(e)=>{e.stopPropagation(); toggleBookmark(parseInt(btn.dataset.id));})); document.querySelectorAll('.read-more-btn').forEach(btn=>btn.addEventListener('click',()=>addNotification("📖 Reading demo mode"))); } updateSidebarActive(); }
-        function renderCategories() { const container=document.getElementById("categoryContainer"); container.innerHTML=categoriesData.map(cat=>`<button data-cat="${cat.id}" class="chip-modern px-4 py-1.5 text-xs font-medium transition-all ${activeCategory===cat.id?'active-category':'text-white/70'}">${cat.name}</button>`).join(""); document.querySelectorAll("[data-cat]").forEach(btn=>btn.addEventListener("click",()=>{ activeCategory=btn.getAttribute("data-cat"); if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); })); }
-        function renderSidebarCategories(){ const cont=document.getElementById("sidebarCategories"); if(cont){ cont.innerHTML=categoriesData.filter(c=>c.id!=="all").map(c=>`<div class="sidebar-cat-item flex items-center gap-3 px-4 py-2 text-sm text-white/60 hover:bg-white/5 rounded-lg cursor-pointer" data-cat="${c.id}"><i class="fas fa-hashtag text-xs"></i> ${c.name}</div>`).join(""); document.querySelectorAll(".sidebar-cat-item").forEach(el=>el.addEventListener("click",()=>{ activeCategory=el.dataset.cat; if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); if(window.innerWidth<1024) closeMobileSidebar(); })); } }
-        function updateSidebarActive(){ document.querySelectorAll(".sidebar-item").forEach(i=>i.classList.remove("active")); if(currentView==="home") document.querySelector("[data-sidebar='home']")?.classList.add("active"); else if(currentView==="bookmarks") document.querySelector("[data-sidebar='bookmarks']")?.classList.add("active"); }
-        function closeMobileSidebar(){ document.getElementById("mainSidebar")?.classList.add("-translate-x-full"); document.getElementById("sidebarOverlay")?.classList.add("hidden"); }
-        function openMobileSidebar(){ document.getElementById("mainSidebar")?.classList.remove("-translate-x-full"); document.getElementById("sidebarOverlay")?.classList.remove("hidden"); }
-        
-        function bindEvents(){
-            document.querySelectorAll("[data-sidebar]").forEach(el=>el.addEventListener("click",()=>{ const view=el.getAttribute("data-sidebar"); if(view==="home"){ currentView="home"; searchQuery=""; document.getElementById("globalSearch").value=""; document.getElementById("mobileGlobalSearch")&&(document.getElementById("mobileGlobalSearch").value=""); document.getElementById("clearSearch")?.classList.add("hidden"); renderCurrentView(); renderCategories(); } else if(view==="bookmarks"){ currentView="bookmarks"; renderCurrentView(); renderCategories(); } else if(view==="settings") document.getElementById("settingsModal").classList.remove("hidden"); if(window.innerWidth<1024) closeMobileSidebar(); }));
-            document.getElementById("mobileSidebarToggle")?.addEventListener("click",openMobileSidebar); document.getElementById("sidebarOverlay")?.addEventListener("click",closeMobileSidebar);
-            const searchs=[document.getElementById("globalSearch"),document.getElementById("mobileGlobalSearch")]; searchs.forEach(inp=>inp?.addEventListener("input",(e)=>{ searchQuery=e.target.value; if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); const clear=document.getElementById("clearSearch"); if(searchQuery) clear?.classList.remove("hidden"); else clear?.classList.add("hidden"); }));
-            document.getElementById("clearSearch")?.addEventListener("click",()=>{ searchQuery=""; document.getElementById("globalSearch").value=""; if(document.getElementById("mobileGlobalSearch")) document.getElementById("mobileGlobalSearch").value=""; document.getElementById("clearSearch")?.classList.add("hidden"); if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); });
-            document.getElementById("closeSettings")?.addEventListener("click",()=>document.getElementById("settingsModal").classList.add("hidden")); document.getElementById("settingsModal")?.addEventListener("click",(e)=>{if(e.target===document.getElementById("settingsModal")) document.getElementById("settingsModal").classList.add("hidden");});
-            document.getElementById("resetBookmarksBtn")?.addEventListener("click",()=>{bookmarkedIds.clear(); saveBookmarks(); renderCurrentView(); addNotification("All bookmarks reset");});
-            const langSel=document.getElementById("langSelect"), setLangSel=document.getElementById("settingsLang"); function setLang(l){ activeLanguage=l; langSel.value=l; setLangSel.value=l; document.getElementById("pageSub").innerText=t("pageSub"); renderCurrentView(); renderCategories(); addNotification(`Language: ${l.toUpperCase()}`); }
-            langSel?.addEventListener("change",e=>setLang(e.target.value)); setLangSel?.addEventListener("change",e=>setLang(e.target.value));
-            document.getElementById("themeToggleBtn")?.addEventListener("click",toggleTheme); document.getElementById("themeDarkBtn")?.addEventListener("click",()=>setTheme("dark")); document.getElementById("themeLightBtn")?.addEventListener("click",()=>setTheme("light"));
-            document.querySelectorAll(".color-palette-btn").forEach(btn=>btn.addEventListener("click",()=>applyPalette(btn.dataset.palette)));
-            const bell=document.getElementById("notificationBell"), panel=document.getElementById("notificationPanel"); bell?.addEventListener("click",(e)=>{e.stopPropagation(); panel.classList.toggle("hidden");}); document.addEventListener("click",(e)=>{if(!panel?.contains(e.target)&&!bell?.contains(e.target)) panel?.classList.add("hidden");});
-            document.getElementById("clearNotifications")?.addEventListener("click",clearAllNotifications);
+        // ========== 🔍 Filter & Render ==========
+        function getFilteredArticles() {
+            let filtered = [...articlesLibrary];
+            if (activeCategory !== "all") filtered = filtered.filter(a => a.category === activeCategory);
+            if (searchQuery.trim()) {
+                const q = searchQuery.toLowerCase();
+                filtered = filtered.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.author.toLowerCase().includes(q));
+            }
+            if (currentView === "bookmarks") filtered = filtered.filter(a => bookmarkedIds.has(a.id));
+            return filtered;
         }
-        function init(){ setTheme(currentTheme); applyPalette(currentPalette); renderCategories(); renderSidebarCategories(); bindEvents(); renderCurrentView(); saveBookmarks(); updateNotificationUI(); addNotification("Welcome to Zynorichi ✨"); if(localStorage.getItem('zynorichi_lang')) activeLanguage=localStorage.getItem('zynorichi_lang'); document.getElementById("langSelect").value=activeLanguage; document.getElementById("settingsLang").value=activeLanguage; document.getElementById("pageSub").innerText=t("pageSub"); }
-        init();
+
+        function renderCurrentView() {
+            const grid = document.getElementById("dynamicGrid");
+            const empty = document.getElementById("emptyState");
+            const articles = getFilteredArticles();
+            
+            document.getElementById("pageTitle").innerText = currentView === "bookmarks" ? "📑 Bookmarks" : "✨ Discover";
+            
+            if (articles.length === 0) {
+                grid.innerHTML = "";
+                empty.classList.remove("hidden");
+                empty.innerHTML = currentView === "bookmarks" 
+                    ? `<i class="fas fa-bookmark text-2xl mb-2 block"></i><p class="text-sm">No saved articles yet.</p>`
+                    : `<i class="fas fa-search text-2xl mb-2 block"></i><p class="text-sm">No articles found.</p>`;
+            } else {
+                empty.classList.add("hidden");
+                grid.innerHTML = articles.map(renderArticleCard).join("");
+                attachCardEvents();
+            }
+            updateSidebarActive();
+        }
+
+        function attachCardEvents() {
+            document.querySelectorAll('.bookmark-card-btn').forEach(btn => {
+                btn.onclick = (e) => { e.stopPropagation(); toggleBookmark(parseInt(btn.dataset.id)); };
+            });
+            document.querySelectorAll('.read-more-card-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    const art = articlesLibrary.find(a => a.id === parseInt(btn.dataset.id));
+                    if (art) openArticleModal(art);
+                };
+            });
+            document.querySelectorAll('.share-card-btn').forEach(btn => {
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    const art = articlesLibrary.find(a => a.id === parseInt(btn.dataset.id));
+                    if (art) shareArticle(art);
+                };
+            });
+            document.querySelectorAll('.article-card').forEach(card => {
+                card.onclick = (e) => {
+                    if (!e.target.closest('.icon-btn-sm')) {
+                        const art = articlesLibrary.find(a => a.id === parseInt(card.dataset.articleId));
+                        if (art) openArticleModal(art);
+                    }
+                };
+            });
+        }
+
+        // ========== 🏷️ Categories ==========
+        function renderCategories() {
+            const container = document.getElementById("categoryContainer");
+            container.innerHTML = categoriesData.map(cat => {
+                const isActive = activeCategory === cat.id;
+                return `<button data-cat="${cat.id}" class="chip-modern transition-all ${isActive ? 'active-category' : 'opacity-70 hover:opacity-100'}">${cat.name}</button>`;
+            }).join("");
+            container.querySelectorAll("[data-cat]").forEach(btn => {
+                btn.onclick = () => {
+                    activeCategory = btn.dataset.cat;
+                    if (currentView === "bookmarks") currentView = "home";
+                    renderCurrentView();
+                    renderCategories();
+                };
+            });
+        }
+
+        function renderSidebarCategories() {
+            const container = document.getElementById("sidebarCategories");
+            if (!container) return;
+            container.innerHTML = categoriesData.filter(c => c.id !== "all").map(c => {
+                const category = categoriesData.find(cat => cat.id === c.id) || c;
+                return `<div class="sidebar-cat-item drawer-cat-item flex items-center gap-4 px-3 py-2 text-sm opacity-70 hover:bg-white/5 rounded-lg cursor-pointer transition" data-cat="${c.id}"><i class="fas fa-hashtag text-xs w-6 text-center"></i><span class="drawer-cat-text">${category.name}</span></div>`;
+            }).join("");
+            container.querySelectorAll(".sidebar-cat-item").forEach(el => {
+                el.onclick = () => {
+                    activeCategory = el.dataset.cat;
+                    if (currentView === "bookmarks") currentView = "home";
+                    renderCurrentView();
+                    renderCategories();
+                    if (window.innerWidth < 1024) closeMobileSidebar();
+                };
+            });
+        }
+
+        function updateSidebarActive() {
+            document.querySelectorAll(".sidebar-item").forEach(item => item.classList.remove("active"));
+            const selector = currentView === "home" ? "[data-sidebar='home']" : "[data-sidebar='bookmarks']";
+            document.querySelector(selector)?.classList.add("active");
+        }
+
+        // ========== 📱 Mobile Sidebar ==========
+        function closeMobileSidebar() {
+            document.getElementById("mainSidebar")?.classList.add("-translate-x-full");
+            document.getElementById("sidebarOverlay")?.classList.add("hidden");
+        }
+        function openMobileSidebar() {
+            document.getElementById("mainSidebar")?.classList.remove("-translate-x-full");
+            document.getElementById("sidebarOverlay")?.classList.remove("hidden");
+        }
+
+        // ========== ⌨️ Keyboard Shortcuts ==========
+        function handleKeyboard(e) {
+            const tag = e.target.tagName;
+            if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+            if (e.ctrlKey && e.key.toLowerCase() === 'k') { e.preventDefault(); document.getElementById("globalSearch")?.focus(); addNotification("🔍 Search focused (Ctrl+K)"); }
+            if (e.key === '?') { addNotification("⌨️ Shortcuts: K=Search, S=Settings, B=Bookmarks, D=Drawer, ?=Help"); }
+            if (e.key.toLowerCase() === 's') { document.getElementById("settingsModal")?.classList.remove("hidden"); addNotification("⚙️ Settings opened"); }
+            if (e.key.toLowerCase() === 'b') { currentView = "bookmarks"; renderCurrentView(); renderCategories(); addNotification("📑 Switched to Bookmarks"); }
+            if (e.key.toLowerCase() === 'd') { toggleDrawer(); }
+            if (e.key === 'Escape') { closeModal(); document.getElementById("settingsModal")?.classList.add("hidden"); document.getElementById("notificationPanel")?.classList.add("hidden"); }
+        }
+        document.addEventListener('keydown', handleKeyboard);
+
+        // ========== 🔗 Event Bindings ==========
+        function bindEvents() {
+            document.querySelectorAll("[data-sidebar]").forEach(el => {
+                el.onclick = () => {
+                    const view = el.dataset.sidebar;
+                    if (view === "home") { currentView = "home"; searchQuery = ""; document.getElementById("globalSearch").value = ""; document.getElementById("mobileGlobalSearch") && (document.getElementById("mobileGlobalSearch").value = ""); document.getElementById("clearSearch")?.classList.add("hidden"); }
+                    else if (view === "bookmarks") { currentView = "bookmarks"; }
+                    else if (view === "settings") { document.getElementById("settingsModal").classList.remove("hidden"); }
+                    renderCurrentView(); renderCategories();
+                    if (window.innerWidth < 1024) closeMobileSidebar();
+                };
+            });
+            document.getElementById("mobileSidebarToggle")?.addEventListener("click", openMobileSidebar);
+            document.getElementById("sidebarOverlay")?.addEventListener("click", closeMobileSidebar);
+            document.getElementById("drawerToggleBtn")?.addEventListener("click", toggleDrawer);
+            
+            const handleSearch = (e) => {
+                searchQuery = e.target.value;
+                if (currentView === "bookmarks") currentView = "home";
+                renderCurrentView(); renderCategories();
+                const clearBtn = document.getElementById("clearSearch");
+                if (searchQuery) clearBtn?.classList.remove("hidden"); else clearBtn?.classList.add("hidden");
+            };
+            document.getElementById("globalSearch")?.addEventListener("input", handleSearch);
+            document.getElementById("mobileGlobalSearch")?.addEventListener("input", handleSearch);
+            document.getElementById("clearSearch")?.addEventListener("click", () => {
+                searchQuery = ""; document.getElementById("globalSearch").value = "";
+                if (document.getElementById("mobileGlobalSearch")) document.getElementById("mobileGlobalSearch").value = "";
+                document.getElementById("clearSearch")?.classList.add("hidden");
+                if (currentView === "bookmarks") currentView = "home";
+                renderCurrentView(); renderCategories();
+            });
+
+            document.getElementById("closeSettings")?.addEventListener("click", () => document.getElementById("settingsModal").classList.add("hidden"));
+            document.getElementById("resetBookmarksBtn")?.addEventListener("click", () => { bookmarkedIds.clear(); saveBookmarks(); renderCurrentView(); addNotification("🗑️ All bookmarks reset"); });
+
+            const setLang = (lang) => { activeLanguage = lang; document.getElementById("langSelect").value = lang; document.getElementById("settingsLang").value = lang; renderCurrentView(); addNotification(`🌐 Language: ${lang.toUpperCase()}`); };
+            document.getElementById("langSelect")?.addEventListener("change", e => setLang(e.target.value));
+            document.getElementById("settingsLang")?.addEventListener("change", e => setLang(e.target.value));
+
+            document.getElementById("themeToggleBtn")?.addEventListener("click", toggleTheme);
+            document.getElementById("themeDarkBtn")?.addEventListener("click", () => setTheme("dark"));
+            document.getElementById("themeLightBtn")?.addEventListener("click", () => setTheme("light"));
+            document.querySelectorAll(".color-palette-btn").forEach(btn => btn.addEventListener("click", () => applyPalette(btn.dataset.palette)));
+
+            const bell = document.getElementById("notificationBell"), panel = document.getElementById("notificationPanel");
+            bell?.addEventListener("click", (e) => { e.stopPropagation(); panel.classList.toggle("hidden"); });
+            document.addEventListener("click", (e) => { if (!panel?.contains(e.target) && !bell?.contains(e.target)) panel?.classList.add("hidden"); });
+            document.getElementById("clearNotifications")?.addEventListener("click", clearAllNotifications);
+
+            document.getElementById("closeModalBtn")?.addEventListener("click", closeModal);
+            document.getElementById("shareArticleBtn")?.addEventListener("click", () => { if (currentArticleId) { const art = articlesLibrary.find(a => a.id === currentArticleId); if (art) shareArticle(art); } });
+            document.getElementById("modalBookmarkBtn")?.addEventListener("click", () => { if (currentArticleId) toggleBookmark(currentArticleId); });
+            document.getElementById("settingsModal")?.addEventListener("click", (e) => { if (e.target.id === "settingsModal") document.getElementById("settingsModal").classList.add("hidden"); });
+        }
+
+        // ========== 🚀 Initialize ==========
+        function init() {
+            setTheme(currentTheme); applyPalette(currentPalette);
+            renderCategories(); renderSidebarCategories(); bindEvents(); renderCurrentView(); saveBookmarks(); updateNotificationUI();
+            isDrawerExpanded = true;
+            const sidebar = document.getElementById("mainSidebar");
+            sidebar.classList.add("drawer-expanded"); sidebar.classList.remove("drawer-collapsed");
+            addNotification("✨ Zynorichi loaded | Shortcuts: ? K S B D");
+            if (lastReadArticle) addNotification(`📚 Continue: ${lastReadArticle.title}`);
+        }
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
