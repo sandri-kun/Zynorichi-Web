@@ -1,6 +1,9 @@
 import { Link } from '@/i18n/navigation';
 import { Post } from '@/types/post';
 import { formatDate } from '@/utils/date';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Calendar, Clock, ArrowRight } from 'lucide-react';
 
 interface ArticleCardProps {
   post: Post;
@@ -9,37 +12,43 @@ interface ArticleCardProps {
 
 export function ArticleCard({ post, lang }: ArticleCardProps) {
   return (
-    <article className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full">
-      <Link href={`/blog/${post.category}/${post.slug}`} className="flex-1 p-6 flex flex-col">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider rounded-full">
-            {post.category}
-          </span>
-          <time className="text-gray-500 text-sm font-medium">
-            {formatDate(post.date, lang)}
-          </time>
-        </div>
-        
-        <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-          {post.title}
-        </h2>
-        
-        <p className="text-gray-600 line-clamp-3 mb-6 flex-1">
-          {post.description}
-        </p>
+    <article className="group h-full">
+      <Link href={`/blog/${post.category}/${post.slug}`} className="block h-full">
+        <Card className="glass-card h-full flex flex-col p-0 overflow-hidden border-none shadow-none bg-transparent">
+          <CardHeader className="p-6 pb-2">
+            <div className="flex items-center justify-between mb-4">
+              <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors uppercase text-[10px] tracking-widest font-bold">
+                {post.category}
+              </Badge>
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+                <Calendar className="w-3.5 h-3.5" />
+                <time>{formatDate(post.date, lang)}</time>
+              </div>
+            </div>
+            <h2 className="text-xl font-bold text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-2">
+              {post.title}
+            </h2>
+          </CardHeader>
+          
+          <CardContent className="px-6 py-2 flex-1">
+            <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed">
+              {post.description}
+            </p>
+          </CardContent>
 
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-          <div className="flex items-center gap-2 text-sm text-gray-600 font-medium">
-            <span className="flex items-center gap-1">
-              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              {post.readingTime || 5} min read
-            </span>
-          </div>
-          <span className="text-blue-600 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-            Read more
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          </span>
-        </div>
+          <CardFooter className="px-6 py-5 mt-auto border-t border-border/40 flex items-center justify-between">
+            <div className="flex items-center gap-3 text-xs text-muted-foreground font-medium">
+              <span className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 opacity-70" />
+                {post.readingTime || 5} min read
+              </span>
+            </div>
+            <div className="text-primary text-sm font-bold flex items-center gap-1 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+              Read More
+              <ArrowRight className="w-4 h-4" />
+            </div>
+          </CardFooter>
+        </Card>
       </Link>
     </article>
   );

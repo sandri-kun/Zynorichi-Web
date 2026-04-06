@@ -7,6 +7,9 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { constructMetadata } from '@/lib/seo/metadata';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -34,16 +37,23 @@ export default async function RootLayout(
   const messages = await getMessages();
   
   return (
-    <html lang={locale}>
-      <body className="bg-slate-50 text-slate-900 font-sans">
+    <html lang={locale} className="dark">
+      <body className={`${inter.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <nav className="p-4 bg-white shadow-sm flex gap-4 font-bold border-b max-w-4xl mx-auto items-center">
-            <Link href="/">Zynorichi</Link>
+          <header className="glass-nav flex gap-4 font-bold items-center">
+            <Link href="/" className="text-xl tracking-tight hover:opacity-80 transition-opacity">
+              Zyno<span className="text-primary italic">richi</span>
+            </Link>
             <div className="ml-auto flex gap-4 items-center">
               <LanguageSwitcher />
             </div>
-          </nav>
-          {props.children}
+          </header>
+          <main className="relative min-h-[calc(100vh-8rem)]">
+            {props.children}
+          </main>
+          <footer className="py-12 mt-20 border-t border-border/40 text-center text-sm text-muted-foreground glass rounded-t-[3rem]">
+            <p>&copy; {new Date().getFullYear()} Zynorichi. Built with Modern Elegance.</p>
+          </footer>
         </NextIntlClientProvider>
       </body>
     </html>

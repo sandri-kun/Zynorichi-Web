@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og';
 import { postContent } from '@/lib/content/posts';
 import { generateDynamicOgImage } from '@/lib/seo/opengraph';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export const alt = 'Blog Post';
 export const size = {
