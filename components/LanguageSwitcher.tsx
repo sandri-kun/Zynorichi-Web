@@ -3,6 +3,7 @@
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { useTransition } from 'react';
+import { cn } from '@/lib/utils';
 import {
   Select,
   SelectContent,
@@ -30,8 +31,13 @@ export function LanguageSwitcher() {
       onValueChange={onSelectChange}
       disabled={isPending}
     >
-      <SelectTrigger className="w-[110px] bg-transparent border-none hover:bg-accent/50 transition-colors h-9 px-3 focus-visible:ring-0">
-        <Globe className="h-4 w-4 text-muted-foreground mr-1" />
+      <SelectTrigger 
+        className={cn(
+          "w-[130px] bg-transparent border-none hover:bg-accent/50 transition-all h-9 px-3 focus-visible:ring-0",
+          isPending && "opacity-50 grayscale cursor-wait"
+        )}
+      >
+        <Globe className={cn("h-4 w-4 text-muted-foreground mr-2", isPending && "animate-spin")} />
         <SelectValue placeholder="Select Language" />
       </SelectTrigger>
       <SelectContent align="end" className="glass min-w-[8rem]">
