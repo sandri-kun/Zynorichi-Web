@@ -10,6 +10,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { MainLayout } from '@/components/features/layout/MainLayout';
 import { cn } from '@/lib/utils';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -41,25 +42,15 @@ export default async function RootLayout(
   
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={cn(inter.variable, "font-sans antialiased")}>
+      <body className={cn(inter.variable, "font-sans antialiased text-precision")}>
         <ThemeProvider>
           <NextIntlClientProvider messages={messages}>
-            <header className="glass-nav flex gap-4 font-bold items-center transition-all duration-300">
-              <Link href="/" className="text-xl tracking-tight hover:opacity-80 transition-opacity">
-                Zyno<span className="text-primary italic">richi</span>
-              </Link>
-              <div className="ml-auto flex gap-6 items-center">
-                <ThemeSwitcher />
-                <div className="h-4 w-[1px] bg-border/40 mx-2" />
-                <LanguageSwitcher />
-              </div>
-            </header>
-            <main className="relative min-h-[calc(100vh-8rem)]">
+            <MainLayout>
               {props.children}
-            </main>
-            <footer className="py-12 mt-20 border-t border-border/40 text-center text-sm text-muted-foreground glass rounded-t-[3rem]">
-              <p>&copy; {new Date().getFullYear()} Zynorichi. Built with Modern Elegance.</p>
-            </footer>
+              <footer className="py-12 mt-20 border-t border-border/40 text-center text-sm text-muted-foreground/50 glass-panel rounded-3xl mx-auto max-w-5xl mb-12">
+                <p>&copy; {new Date().getFullYear()} NEBULA. Precision Minimalist Blog.</p>
+              </footer>
+            </MainLayout>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

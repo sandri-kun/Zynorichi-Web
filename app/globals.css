@@ -47,11 +47,13 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* Glassmorphism Utilities */
-  --glass-background: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --dark-glass-background: rgba(15, 23, 42, 0.4);
-  --dark-glass-border: rgba(255, 255, 255, 0.1);
+  /* NEBULA Precision Glass System */
+  --glass-background: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --dark-glass-background: rgba(8, 8, 12, 0.65);
+  --dark-glass-border: rgba(255, 255, 255, 0.08);
+  --glass-panel-bg: rgba(20, 20, 28, 0.48);
+  --glass-panel-border: rgba(255, 255, 255, 0.12);
 }
 
 :root {
@@ -171,21 +173,76 @@
 
 @utility glass {
   background: var(--glass-background);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 0.5px solid var(--glass-border);
+  box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.3);
 }
 
 .dark .glass {
   background: var(--dark-glass-background);
-  border: 1px solid var(--dark-glass-border);
+  border: 0.5px solid var(--dark-glass-border);
+}
+
+@utility glass-panel {
+  background: var(--glass-panel-bg);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 0.5px solid var(--glass-panel-border);
+  border-radius: 2rem;
+  box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.3);
 }
 
 @utility glass-card {
-  @apply glass rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1;
+  @apply glass rounded-2xl p-6 transition-all duration-300;
+  will-change: transform;
 }
 
 @utility glass-nav {
-  @apply glass sticky top-4 z-50 mx-auto max-w-5xl rounded-2xl px-6 py-3 mt-4;
+  @apply glass sticky top-0 z-50 w-full px-6 py-4;
+  backdrop-filter: blur(20px) saturate(200%);
+}
+
+@utility chip-modern {
+  @apply px-4 py-1.5 text-xs font-medium transition-all duration-200 cursor-pointer;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  border-radius: 40px;
+}
+
+@utility chip-modern-active {
+  @apply chip-modern text-white;
+  background: rgba(0, 122, 255, 0.3);
+  border-color: var(--primary);
+}
+
+.chip-modern:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+@utility article-tile {
+  @apply transition-all duration-300;
+  will-change: transform;
+}
+
+.article-tile:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 40px -15px rgba(0, 0, 0, 0.5);
+  background: rgba(28, 28, 34, 0.65);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+@utility img-hover-zoom {
+  @apply overflow-hidden rounded-2xl;
+}
+
+.img-hover-zoom img {
+  @apply transition-transform duration-500;
+}
+
+.article-tile:hover .img-hover-zoom img {
+  transform: scale(1.04);
 }

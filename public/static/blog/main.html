@@ -3,218 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEBULA | Modern Minimalist Blog</title>
-    <meta name="description" content="A precision-crafted, minimalist blog with modern glass aesthetics, fluid interactions, and multi-language support.">
-    <!-- Tailwind + Fonts + Icons -->
+    <title>NEBULA | Sidebar + Bookmark + Precision UI</title>
+    <meta name="description" content="Minimalist blog with YouTube-style sidebar: Home, Bookmarks, Settings. Glass aesthetics, precise bookmark spacing.">
+    <!-- TailwindCSS + Inter + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at 10% 20%, #0A0A0C, #000000);
+            background: radial-gradient(circle at 15% 30%, #0A0A0C, #000000);
             background-attachment: fixed;
             color: #F5F5F7;
             scroll-behavior: smooth;
         }
-        /* ultra-precise glass system */
         .glass-panel {
-            background: rgba(20, 20, 28, 0.48);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border: 0.5px solid rgba(255, 255, 255, 0.12);
-            border-radius: 2rem;
-            box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.3);
+            background: rgba(18, 18, 24, 0.44);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px);
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 28px -12px rgba(0, 0, 0, 0.4);
         }
         .glass-nav {
-            background: rgba(8, 8, 12, 0.65);
+            background: rgba(6, 6, 10, 0.7);
             backdrop-filter: blur(20px) saturate(200%);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
         }
-        .chip-modern {
+        .sidebar-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-radius: 0.75rem;
+        }
+        .sidebar-item:hover {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            border: 0.5px solid rgba(255, 255, 255, 0.12);
-            border-radius: 40px;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        .chip-modern:hover {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.28);
-            transform: translateY(-1px);
+        .sidebar-item.active {
+            background: rgba(0, 122, 255, 0.2);
+            color: #007AFF;
         }
-        .article-tile {
-            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        .article-card {
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
             will-change: transform;
         }
-        .article-tile:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 22px 40px -15px rgba(0, 0, 0, 0.5);
-            background: rgba(28, 28, 34, 0.65);
-            border-color: rgba(255, 255, 255, 0.22);
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 24px 44px -18px rgba(0, 0, 0, 0.55);
+            background: rgba(28, 28, 34, 0.7);
+            border-color: rgba(255, 255, 255, 0.18);
         }
-        .img-hover-zoom {
+        .img-zoom {
             overflow: hidden;
-            border-radius: 1.25rem;
+            border-radius: 1rem;
         }
-        .img-hover-zoom img {
-            transition: transform 0.5s ease-out;
+        .img-zoom img {
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
-        .article-tile:hover .img-hover-zoom img {
+        .article-card:hover .img-zoom img {
             transform: scale(1.04);
         }
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0c0c10; }
+        ::-webkit-scrollbar-thumb { background: #3a3a48; border-radius: 12px; }
+        .bookmarked-star {
+            color: #FFD966;
+            text-shadow: 0 0 4px rgba(255,217,102,0.5);
         }
-        ::-webkit-scrollbar-track {
-            background: #111;
+        .search-input {
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(12px);
+            border: 0.5px solid rgba(255,255,255,0.15);
+            transition: all 0.2s;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #3a3a44;
-            border-radius: 10px;
-        }
-        select, button, input {
-            outline: none;
-        }
-        .active-category {
-            background: rgba(0, 122, 255, 0.3);
+        .search-input:focus {
             border-color: #007AFF;
-            color: white;
+            background: rgba(10, 10, 15, 0.9);
         }
-        .text-precision {
-            letter-spacing: -0.01em;
+        .settings-modal {
+            background: rgba(12, 12, 18, 0.98);
+            backdrop-filter: blur(24px);
+            border: 0.5px solid rgba(255,255,255,0.15);
         }
+        /* precision spacing for bookmark & read button */
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+        .bookmark-btn, .read-more-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .bookmark-btn {
+            font-size: 1.1rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s;
+        }
+        .bookmark-btn:hover {
+            background: rgba(255,255,255,0.12);
+            transform: scale(1.02);
+        }
+        .read-more-btn {
+            font-size: 1rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.03);
+        }
+        .read-more-btn:hover {
+            background: rgba(0,122,255,0.2);
+            color: #007AFF;
+            transform: translateX(2px);
+        }
+        input, select, button { outline: none; }
     </style>
 </head>
-<body class="antialiased">
+<body>
 
-    <!-- Navigation: glass, minimal, sharp -->
-    <header class="glass-nav fixed top-0 left-0 w-full z-50 transition-all duration-200">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
-            <a href="#" class="text-2xl font-semibold tracking-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">NEBULA</a>
-            
-            <div class="hidden md:flex items-center space-x-7">
-                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="home">Home</a>
-                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="articles">Articles</a>
-                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="explore">Explore</a>
-                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="about">About</a>
+    <!-- Top Navbar (minimal, without hero banner) -->
+    <header class="glass-nav fixed top-0 left-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <button id="mobileSidebarToggle" class="lg:hidden text-white/80 hover:text-white text-xl"><i class="fas fa-bars"></i></button>
+                <a href="#" class="text-2xl font-semibold tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">NEBULA</a>
             </div>
-            
-            <div class="flex items-center gap-4">
-                <div class="glass-panel px-4 py-1.5 rounded-full flex items-center gap-2">
-                    <i class="fas fa-globe text-xs text-white/60"></i>
-                    <select id="langSelect" class="bg-transparent text-white/90 text-sm font-medium cursor-pointer focus:outline-none">
-                        <option value="en" class="bg-black/90">EN</option>
-                        <option value="es" class="bg-black/90">ES</option>
-                        <option value="fr" class="bg-black/90">FR</option>
-                        <option value="ja" class="bg-black/90">JA</option>
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-md mx-4 hidden md:block">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                    <input type="text" id="globalSearch" placeholder="Search articles..." class="search-input w-full py-2 pl-10 pr-4 rounded-full text-sm text-white/90 focus:outline-none transition-all">
+                    <button id="clearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 hidden"><i class="fas fa-times-circle"></i></button>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="glass-panel px-3 py-1.5 rounded-full flex items-center gap-2">
+                    <i class="fas fa-globe text-xs text-white/50"></i>
+                    <select id="langSelect" class="bg-transparent text-white/85 text-xs sm:text-sm font-medium cursor-pointer">
+                        <option value="en">EN</option><option value="es">ES</option><option value="fr">FR</option><option value="ja">JA</option>
                     </select>
                 </div>
-                <button id="mobileToggle" class="md:hidden text-white text-xl"><i class="fas fa-bars"></i></button>
             </div>
         </div>
-        <!-- Mobile drawer -->
-        <div id="mobileDrawer" class="md:hidden hidden bg-black/80 backdrop-blur-xl border-t border-white/10 py-5 px-6 flex flex-col gap-4">
-            <a href="#" class="text-white/80 text-base" data-nav="home">Home</a>
-            <a href="#" class="text-white/80 text-base" data-nav="articles">Articles</a>
-            <a href="#" class="text-white/80 text-base" data-nav="explore">Explore</a>
-            <a href="#" class="text-white/80 text-base" data-nav="about">About</a>
+        <!-- Mobile search bar -->
+        <div class="px-4 pb-3 md:hidden">
+            <div class="relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
+                <input type="text" id="mobileGlobalSearch" placeholder="Search articles..." class="search-input w-full py-2 pl-10 pr-4 rounded-full text-sm text-white/90">
+            </div>
         </div>
     </header>
 
-    <main class="pt-28 pb-20 max-w-7xl mx-auto px-6 lg:px-8">
-        <!-- Hero: minimal impact + glass precision -->
-        <section class="mb-20">
-            <div class="glass-panel p-8 lg:p-12 rounded-3xl overflow-hidden relative">
-                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-0"></div>
-                <div class="relative z-2">
-                    <h1 id="heroTitle" class="text-4xl lg:text-6xl font-bold tracking-tight leading-tight">Modern clarity,<br><span class="text-[#007AFF]">minimal precision</span></h1>
-                    <p id="heroSub" class="text-white/55 text-lg max-w-2xl mt-5 leading-relaxed">A curated space where design meets depth. Explore ideas across tech, lifestyle, and creativity.</p>
-                    <div class="flex flex-wrap gap-5 mt-8">
-                        <button id="startReadBtn" class="bg-[#007AFF] hover:bg-[#005FC5] text-white px-7 py-3 rounded-full text-sm font-medium transition-all shadow-lg shadow-blue-500/20">Start exploring <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
-                        <button class="glass-panel px-7 py-3 rounded-full text-sm font-medium text-white/90 hover:bg-white/10 transition-all"><i class="far fa-bookmark mr-2"></i> <span id="bookmarkLabel">Save</span></button>
+    <!-- Layout: Sidebar + Main Content (YouTube-like) -->
+    <div class="flex pt-20 lg:pt-24">
+        <!-- Sidebar (desktop + mobile drawer) -->
+        <aside id="mainSidebar" class="fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-black/60 backdrop-blur-2xl border-r border-white/10 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out flex flex-col">
+            <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+                <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="home">
+                    <i class="fas fa-home text-xl w-6"></i>
+                    <span class="font-medium">Beranda</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="bookmarks">
+                    <i class="fas fa-bookmark text-xl w-6"></i>
+                    <span class="font-medium">Bookmark</span>
+                    <span id="sidebarBookmarkBadge" class="ml-auto bg-[#007AFF] text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[20px] text-center">0</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="settings">
+                    <i class="fas fa-cog text-xl w-6"></i>
+                    <span class="font-medium">Settings</span>
+                </div>
+                <div class="pt-6 mt-6 border-t border-white/10">
+                    <div class="px-4 py-2 text-xs text-white/30">Discover</div>
+                    <div id="sidebarCategories" class="space-y-1 mt-2"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile sidebar -->
+        <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden lg:hidden"></div>
+
+        <!-- Main content area -->
+        <main class="flex-1 max-w-7xl mx-auto px-5 lg:px-8 pb-20 transition-all">
+            <div class="mb-8 mt-2">
+                <h1 id="pageTitle" class="text-3xl font-bold tracking-tight">Discover</h1>
+                <p id="pageSub" class="text-white/40 text-sm mt-1">minimalist precision · search & save</p>
+            </div>
+
+            <!-- Filter chips (compact) -->
+            <div class="mb-8">
+                <div id="categoryContainer" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Dynamic article grid -->
+            <div id="dynamicGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="emptyState" class="hidden text-center text-white/40 py-20 glass-panel p-12 rounded-2xl mt-6">✨ No articles found. Try different filters or search.</div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 flex items-center justify-center z-50 hidden bg-black/70 backdrop-blur-md transition-all">
+        <div class="settings-modal rounded-2xl w-96 max-w-[90%] p-6 shadow-2xl border border-white/20">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-xl font-semibold flex gap-2"><i class="fas fa-cog text-[#007AFF]"></i>Preferences</h3>
+                <button id="closeSettings" class="text-white/60 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="space-y-5">
+                <div>
+                    <label class="text-sm font-medium text-white/70 block mb-2">Language</label>
+                    <select id="settingsLang" class="w-full bg-black/50 border border-white/20 rounded-xl px-4 py-2 text-white">
+                        <option value="en">English</option><option value="es">Español</option><option value="fr">Français</option><option value="ja">日本語</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-white/70 block mb-2">Theme</label>
+                    <div class="flex gap-3">
+                        <button id="themeDark" class="flex-1 py-2 rounded-xl bg-white/10 border border-white/20 text-sm">Dark (Default)</button>
+                        <button id="themeLight" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-sm">Light (soon)</button>
                     </div>
                 </div>
+                <button id="resetBookmarksBtn" class="w-full mt-4 bg-red-500/20 hover:bg-red-500/30 text-red-300 py-2 rounded-xl text-sm transition">Reset All Bookmarks</button>
             </div>
-        </section>
-
-        <!-- Category filters: modern chips, high precision -->
-        <section class="mb-14">
-            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <h2 id="browseCatLabel" class="text-xl font-semibold tracking-tight">Filter by focus</h2>
-                <span id="activeFilterHint" class="text-xs text-white/40">click any chip</span>
-            </div>
-            <div id="categoryContainer" class="flex flex-wrap gap-3"></div>
-        </section>
-
-        <!-- Featured articles: 3-column minimal grid -->
-        <section class="mb-20">
-            <div class="flex justify-between items-center mb-8">
-                <h2 id="featuredLabel" class="text-2xl font-semibold tracking-tight">Editor's picks</h2>
-                <div class="flex gap-2">
-                    <button class="w-8 h-8 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white"><i class="fas fa-grid-2 text-sm"></i></button>
-                </div>
-            </div>
-            <div id="featuredGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
-        </section>
-
-        <!-- Recent articles: horizontal flow modern & clean -->
-        <section>
-            <div class="flex justify-between items-center mb-8">
-                <h2 id="recentLabel" class="text-2xl font-semibold tracking-tight">Latest drops</h2>
-                <span class="text-xs text-white/40 hidden md:block">minimalist reading flow</span>
-            </div>
-            <div id="recentList" class="grid grid-cols-1 lg:grid-cols-2 gap-7"></div>
-        </section>
-    </main>
-
-    <!-- Footer: refined micro glass -->
-    <footer class="glass-nav mt-16 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-                <div>
-                    <h3 class="text-xl font-semibold mb-4">NEBULA</h3>
-                    <p class="text-white/45 text-sm leading-relaxed">Precision-driven minimalism. Designed for deep reading and modern aesthetics.</p>
-                    <div class="flex gap-4 mt-6">
-                        <a href="#" class="text-white/40 hover:text-white/80 text-lg"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white/40 hover:text-white/80 text-lg"><i class="fab fa-github"></i></a>
-                        <a href="#" class="text-white/40 hover:text-white/80 text-lg"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-4 text-white/80">Categories</h4>
-                    <ul id="footerCatList" class="space-y-2 text-sm text-white/45"></ul>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-4 text-white/80">Resources</h4>
-                    <ul class="space-y-2 text-sm text-white/45">
-                        <li><a href="#" class="hover:text-white transition">Style Guide</a></li>
-                        <li><a href="#" class="hover:text-white transition">Privacy</a></li>
-                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-medium mb-4 text-white/80">Subscribe</h4>
-                    <p class="text-white/45 text-sm mb-3">Receive modern insights.</p>
-                    <div class="flex">
-                        <input type="email" id="subEmail" placeholder="your@email.com" class="bg-black/40 border border-white/10 rounded-l-xl px-4 py-2.5 text-sm w-full text-white focus:border-blue-500/50">
-                        <button id="subBtn" class="bg-white/10 hover:bg-white/20 px-5 rounded-r-xl text-white transition-all"><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-white/10 mt-12 pt-8 text-center text-white/30 text-xs">© 2025 NEBULA — minimalist blog with high precision glass core.</div>
         </div>
-    </footer>
+    </div>
 
     <script>
-        // ----- DATA (modern, minimal, precise) -----
+        // ---------- DATA ----------
         const categoriesData = [
             { id: "all", name: "All", color: "bg-white/10", textColor: "text-white/90" },
             { id: "tech", name: "Technology", color: "bg-blue-500/20", textColor: "text-blue-300" },
@@ -223,158 +242,260 @@
             { id: "mindfulness", name: "Mindfulness", color: "bg-amber-500/20", textColor: "text-amber-300" }
         ];
 
-        const articlesLibrary = [
-            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", image: "https://picsum.photos/id/20/600/400", featured: true },
-            { id: 2, title: "Minimalist architecture for code", excerpt: "Writing clean, scalable frontends with precision-first mindset.", category: "tech", author: "Marcus Lei", date: "Mar 28, 2025", readTime: "6 min", image: "https://picsum.photos/id/26/600/400", featured: true },
-            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", image: "https://picsum.photos/id/75/600/400", featured: true },
-            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", image: "https://picsum.photos/id/29/600/400", featured: false },
-            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time apps.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", image: "https://picsum.photos/id/0/600/400", featured: false },
-            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", image: "https://picsum.photos/id/42/600/400", featured: false }
+        let articlesLibrary = [
+            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems with ultra-light depth.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", image: "https://picsum.photos/id/20/600/400" },
+            { id: 2, title: "Minimalist architecture for code", excerpt: "Writing clean, scalable frontends with precision-first mindset.", category: "tech", author: "Marcus Lei", date: "Mar 28, 2025", readTime: "6 min", image: "https://picsum.photos/id/26/600/400" },
+            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world — mindful tech habits.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", image: "https://picsum.photos/id/75/600/400" },
+            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI and design tokens.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", image: "https://picsum.photos/id/29/600/400" },
+            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time edge-native applications.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", image: "https://picsum.photos/id/0/600/400" },
+            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals and spatial harmony.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", image: "https://picsum.photos/id/42/600/400" },
+            { id: 7, title: "AI & creative workflows", excerpt: "Generative tools redefining design and productivity.", category: "tech", author: "Zara Khan", date: "Apr 1, 2025", readTime: "5 min", image: "https://picsum.photos/id/36/600/400" },
+            { id: 8, title: "Mindful UI patterns", excerpt: "Calm interfaces for better focus and mental clarity.", category: "mindfulness", author: "Tom Harrison", date: "Mar 30, 2025", readTime: "6 min", image: "https://picsum.photos/id/69/600/400" },
         ];
 
-        const localization = {
-            en: { heroTitle: "Modern clarity,<br><span class='text-[#007AFF]'>minimal precision</span>", heroSub: "A curated space where design meets depth. Explore ideas across tech, lifestyle, and creativity.", startRead: "Start exploring", bookmark: "Save", browseLabel: "Filter by focus", featuredLabel: "Editor's picks", recentLabel: "Latest drops" },
-            es: { heroTitle: "Claridad moderna,<br><span class='text-[#007AFF]'>precisión mínima</span>", heroSub: "Un espacio curado donde el diseño encuentra profundidad. Explora tecnología, estilo de vida y creatividad.", startRead: "Explorar", bookmark: "Guardar", browseLabel: "Filtrar por enfoque", featuredLabel: "Selecciones del editor", recentLabel: "Novedades" },
-            fr: { heroTitle: "Clarté moderne,<br><span class='text-[#007AFF]'>précision minimale</span>", heroSub: "Un espace organisé où le design rencontre la profondeur. Idées tech, lifestyle et créativité.", startRead: "Explorer", bookmark: "Sauvegarder", browseLabel: "Filtrer par focus", featuredLabel: "Coups de cœur", recentLabel: "Derniers articles" },
-            ja: { heroTitle: "モダンな明晰さ、<br><span class='text-[#007AFF]'>ミニマルな精度</span>", heroSub: "デザインと深さが出会う空間。テクノロジー、ライフスタイル、創造性を探る。", startRead: "探索開始", bookmark: "保存", browseLabel: "トピックで絞り込み", featuredLabel: "注目記事", recentLabel: "最新記事" }
-        };
-
+        // State
+        let bookmarkedIds = new Set(JSON.parse(localStorage.getItem('nebula_bookmarks') || '[]'));
         let activeLanguage = "en";
         let activeCategory = "all";
+        let searchQuery = "";
+        let currentView = "home";
 
-        // Helper: render article card (modern minimal)
-        function renderArticleCard(article, isGrid = true) {
+        // Localization
+        const translations = {
+            en: { pageTitle: "Discover", pageSub: "minimalist precision · search & save", homeLabel: "Beranda", bookmarksLabel: "Bookmark", settingsLabel: "Settings", noResults: "✨ No articles found.", noBookmarks: "📭 No saved articles. Click the bookmark icon on any post." },
+            es: { pageTitle: "Descubrir", pageSub: "precisión minimalista · busca y guarda", homeLabel: "Inicio", bookmarksLabel: "Marcadores", settingsLabel: "Ajustes", noResults: "✨ No se encontraron artículos.", noBookmarks: "📭 No hay artículos guardados." },
+            fr: { pageTitle: "Découvrir", pageSub: "précision minimaliste · rechercher", homeLabel: "Accueil", bookmarksLabel: "Signets", settingsLabel: "Paramètres", noResults: "✨ Aucun article trouvé.", noBookmarks: "📭 Aucun favori." },
+            ja: { pageTitle: "発見", pageSub: "ミニマルな精度・検索と保存", homeLabel: "ホーム", bookmarksLabel: "ブックマーク", settingsLabel: "設定", noResults: "✨ 記事が見つかりません。", noBookmarks: "📭 保存された記事はありません。" }
+        };
+
+        function t(key) { return translations[activeLanguage]?.[key] || translations.en[key]; }
+
+        function updateBadges() { 
+            document.getElementById("sidebarBookmarkBadge").innerText = bookmarkedIds.size;
+        }
+        function saveBookmarks() { localStorage.setItem('nebula_bookmarks', JSON.stringify([...bookmarkedIds])); updateBadges(); }
+
+        function toggleBookmark(articleId) {
+            if(bookmarkedIds.has(articleId)) bookmarkedIds.delete(articleId);
+            else bookmarkedIds.add(articleId);
+            saveBookmarks();
+            renderCurrentView();
+        }
+
+        // render artikel dengan spacing bookmark yang presisi dan tidak dempet
+        function renderArticleCard(article, showBookmarkBtn = true) {
+            const isBookmarked = bookmarkedIds.has(article.id);
             const cat = categoriesData.find(c => c.id === article.category) || categoriesData[0];
             return `
-                <div class="glass-panel p-5 article-tile transition-all duration-300 flex flex-col h-full border border-white/5 rounded-2xl">
-                    <div class="img-hover-zoom rounded-xl mb-4 h-44 w-full overflow-hidden bg-black/40">
-                        <img src="${article.image}?w=600&h=400&fit=crop" alt="${article.title}" class="w-full h-full object-cover">
+                <div class="glass-panel p-4 article-card flex flex-col h-full border border-white/5 rounded-xl transition-all">
+                    <div class="img-zoom rounded-lg mb-3 h-40 w-full overflow-hidden bg-black/30">
+                        <img src="${article.image}?w=400&h=280&fit=crop" alt="${article.title}" class="w-full h-full object-cover" loading="lazy">
                     </div>
-                    <div class="flex justify-between items-start mb-3">
-                        <span class="chip-modern px-3 py-1 text-xs font-medium ${cat.color} ${cat.textColor}">${cat.name}</span>
-                        <span class="text-white/30 text-xs"><i class="far fa-clock mr-1"></i>${article.readTime}</span>
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="chip-modern px-2.5 py-0.5 text-xs font-medium ${cat.color} ${cat.textColor}">${cat.name}</span>
+                        <span class="text-white/30 text-xs"><i class="far fa-clock"></i> ${article.readTime}</span>
                     </div>
-                    <h3 class="text-xl font-semibold tracking-tight mb-2 leading-tight">${article.title}</h3>
-                    <p class="text-white/50 text-sm leading-relaxed mb-4 flex-grow">${article.excerpt}</p>
-                    <div class="flex items-center justify-between mt-2 border-t border-white/10 pt-3">
+                    <h3 class="text-lg font-semibold tracking-tight mb-1 leading-tight">${article.title}</h3>
+                    <p class="text-white/45 text-xs leading-relaxed mb-3 flex-grow">${article.excerpt.substring(0, 85)}…</p>
+                    <div class="flex items-center justify-between mt-2 border-t border-white/10 pt-2">
                         <div class="flex items-center gap-2">
-                            <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-[10px]"><i class="fas fa-user-astronaut"></i></div>
-                            <div><p class="text-xs font-medium">${article.author}</p><p class="text-[11px] text-white/35">${article.date}</p></div>
+                            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[9px]"><i class="fas fa-user-astronaut"></i></div>
+                            <div><p class="text-[11px] font-medium">${article.author}</p><p class="text-[9px] text-white/35">${article.date}</p></div>
                         </div>
-                        <button class="text-white/50 hover:text-[#007AFF] transition-all"><i class="fas fa-arrow-right"></i></button>
+                        <!-- action buttons dengan gap presisi -->
+                        <div class="action-buttons">
+                            ${showBookmarkBtn ? `
+                                <button class="bookmark-btn flex items-center justify-center transition-all ${isBookmarked ? 'bookmarked-star' : 'text-white/50 hover:text-yellow-400'}" data-id="${article.id}">
+                                    <i class="fas ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark'}"></i>
+                                </button>
+                            ` : ''}
+                            <button class="read-more-btn flex items-center justify-center text-white/50 hover:text-[#007AFF] transition-all" data-id="${article.id}">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
+        function getFilteredArticles() {
+            let filtered = [...articlesLibrary];
+            if (activeCategory !== "all") filtered = filtered.filter(a => a.category === activeCategory);
+            if (searchQuery.trim()) {
+                const q = searchQuery.toLowerCase();
+                filtered = filtered.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.author.toLowerCase().includes(q));
+            }
+            if (currentView === "bookmarks") filtered = filtered.filter(a => bookmarkedIds.has(a.id));
+            return filtered;
+        }
+
+        function renderCurrentView() {
+            const grid = document.getElementById("dynamicGrid");
+            const emptyDiv = document.getElementById("emptyState");
+            let articles = getFilteredArticles();
+            const titleEl = document.getElementById("pageTitle");
+            if(currentView === "bookmarks") titleEl.innerText = t("bookmarksLabel");
+            else titleEl.innerText = t("pageTitle");
+            
+            if (articles.length === 0) {
+                grid.innerHTML = "";
+                emptyDiv.classList.remove("hidden");
+                emptyDiv.innerHTML = currentView === "bookmarks" ? `<i class="fas fa-bookmark text-3xl mb-3 block"></i> ${t("noBookmarks")}` : `<i class="fas fa-search text-3xl mb-3 block"></i> ${t("noResults")}`;
+            } else {
+                emptyDiv.classList.add("hidden");
+                grid.innerHTML = articles.map(art => renderArticleCard(art, true)).join("");
+                // Attach event listeners dengan precision
+                document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => { 
+                        e.stopPropagation(); 
+                        toggleBookmark(parseInt(btn.dataset.id)); 
+                    });
+                });
+                document.querySelectorAll('.read-more-btn').forEach(btn => {
+                    btn.addEventListener('click', () => alert("📖 Full article experience (demo)."));
+                });
+            }
+            updateSidebarActive();
+        }
+
         function renderCategories() {
             const container = document.getElementById("categoryContainer");
-            container.innerHTML = categoriesData.map(cat => `
-                <button data-cat="${cat.id}" class="chip-modern px-5 py-2 text-sm font-medium transition-all ${activeCategory === cat.id ? 'active-category' : 'text-white/70'}">
-                    ${cat.name}
-                </button>
-            `).join("");
-            // attach listeners
-            document.querySelectorAll("[data-cat]").forEach(btn => {
-                btn.addEventListener("click", (e) => {
-                    activeCategory = btn.getAttribute("data-cat");
-                    renderCategories();    // re-render to reflect active class
-                    filterAndRenderArticles();
-                    const hintSpan = document.getElementById("activeFilterHint");
-                    if(hintSpan) hintSpan.innerText = `active: ${activeCategory === "all" ? "all topics" : activeCategory}`;
-                });
-            });
+            container.innerHTML = categoriesData.map(cat => `<button data-cat="${cat.id}" class="chip-modern px-4 py-1.5 text-xs font-medium transition-all ${activeCategory === cat.id ? 'active-category' : 'text-white/70'}">${cat.name}</button>`).join("");
+            document.querySelectorAll("[data-cat]").forEach(btn => btn.addEventListener("click", () => {
+                activeCategory = btn.getAttribute("data-cat");
+                if(currentView === "bookmarks") currentView = "home";
+                renderCurrentView();
+                renderCategories();
+            }));
         }
 
-        function filterAndRenderArticles() {
-            let filtered = [...articlesLibrary];
-            if(activeCategory !== "all") {
-                filtered = filtered.filter(a => a.category === activeCategory);
-            }
-            const featured = filtered.filter(a => a.featured === true);
-            const recent = filtered.filter(a => a.featured === false);
-            const featuredGrid = document.getElementById("featuredGrid");
-            const recentList = document.getElementById("recentList");
-            featuredGrid.innerHTML = featured.length ? featured.map(a => renderArticleCard(a)).join("") : `<div class="col-span-full text-center text-white/40 py-12 glass-panel p-8">No featured articles in this focus</div>`;
-            recentList.innerHTML = recent.length ? recent.map(a => renderArticleCard(a)).join("") : `<div class="col-span-full text-center text-white/40 py-12 glass-panel p-8">No recent articles match</div>`;
-        }
-
-        function updateUILanguage() {
-            const t = localization[activeLanguage] || localization.en;
-            document.getElementById("heroTitle").innerHTML = t.heroTitle;
-            document.getElementById("heroSub").innerHTML = t.heroSub;
-            document.getElementById("startReadBtn").innerHTML = `Start exploring <i class="fas fa-arrow-right ml-2 text-xs"></i>`;
-            if(document.getElementById("startReadBtn").firstChild) document.getElementById("startReadBtn").childNodes[0].nodeValue = t.startRead;
-            else document.getElementById("startReadBtn").innerHTML = t.startRead + ` <i class="fas fa-arrow-right ml-2 text-xs"></i>`;
-            document.getElementById("bookmarkLabel").innerHTML = t.bookmark;
-            document.getElementById("browseCatLabel").innerHTML = t.browseLabel;
-            document.getElementById("featuredLabel").innerHTML = t.featuredLabel;
-            document.getElementById("recentLabel").innerHTML = t.recentLabel;
-            const startBtn = document.getElementById("startReadBtn");
-            if(startBtn && t.startRead) startBtn.innerHTML = t.startRead + ` <i class="fas fa-arrow-right ml-2 text-xs"></i>`;
-        }
-
-        function renderFooterDetails() {
-            const footerList = document.getElementById("footerCatList");
-            if(footerList) {
-                footerList.innerHTML = categoriesData.filter(c => c.id !== "all").map(c => `<li><a href="#" class="hover:text-white transition text-white/50 text-sm">${c.name}</a></li>`).join("");
-            }
-        }
-
-        // Simulate bookmark alert & subscription
-        function bindInteractions() {
-            document.getElementById("startReadBtn")?.addEventListener("click", () => {
-                alert("✨ Explore the latest minimalist articles. Scroll down for insights.");
-            });
-            document.getElementById("bookmarkLabel")?.closest("button")?.addEventListener("click", () => {
-                alert("📌 Article saved to your minimal library (demo).");
-            });
-            document.getElementById("subBtn")?.addEventListener("click", () => {
-                const email = document.getElementById("subEmail")?.value;
-                if(email && email.includes("@")) alert(`📬 ${email} — you're on the list. No spam, just clarity.`);
-                else alert("Please enter a valid email address.");
-            });
-            // mobile toggle
-            const toggleBtn = document.getElementById("mobileToggle");
-            const drawer = document.getElementById("mobileDrawer");
-            if(toggleBtn && drawer) {
-                toggleBtn.addEventListener("click", () => {
-                    drawer.classList.toggle("hidden");
-                    toggleBtn.innerHTML = drawer.classList.contains("hidden") ? '<i class="fas fa-bars"></i>' : '<i class="fas fa-times"></i>';
+        function renderSidebarCategories() {
+            const container = document.getElementById("sidebarCategories");
+            if(container) {
+                container.innerHTML = categoriesData.filter(c => c.id !== "all").map(c => `
+                    <div class="sidebar-cat-item flex items-center gap-3 px-4 py-2 text-sm text-white/60 hover:text-white/90 hover:bg-white/5 rounded-lg cursor-pointer transition" data-cat="${c.id}">
+                        <i class="fas fa-hashtag text-xs"></i> ${c.name}
+                    </div>
+                `).join("");
+                document.querySelectorAll(".sidebar-cat-item").forEach(el => {
+                    el.addEventListener("click", () => {
+                        activeCategory = el.getAttribute("data-cat");
+                        if(currentView === "bookmarks") currentView = "home";
+                        renderCurrentView();
+                        renderCategories();
+                        if(window.innerWidth < 1024) closeMobileSidebar();
+                    });
                 });
             }
-            // nav smooth (demo)
-            document.querySelectorAll("[data-nav]").forEach(link => {
-                link.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    const target = link.getAttribute("data-nav");
-                    if(target === "home") window.scrollTo({ top: 0, behavior: "smooth" });
-                    else alert(`Navigation: ${target} — minimal demo section.`);
-                    if(!drawer?.classList.contains("hidden")) drawer.classList.add("hidden");
-                    if(toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+
+        function updateSidebarActive() {
+            document.querySelectorAll(".sidebar-item").forEach(item => item.classList.remove("active"));
+            if(currentView === "home") document.querySelector("[data-sidebar='home']")?.classList.add("active");
+            else if(currentView === "bookmarks") document.querySelector("[data-sidebar='bookmarks']")?.classList.add("active");
+        }
+
+        function closeMobileSidebar() {
+            document.getElementById("mainSidebar")?.classList.remove("translate-x-0");
+            document.getElementById("mainSidebar")?.classList.add("-translate-x-full");
+            document.getElementById("sidebarOverlay")?.classList.add("hidden");
+        }
+        function openMobileSidebar() {
+            document.getElementById("mainSidebar")?.classList.remove("-translate-x-full");
+            document.getElementById("mainSidebar")?.classList.add("translate-x-0");
+            document.getElementById("sidebarOverlay")?.classList.remove("hidden");
+        }
+
+        function bindEvents() {
+            document.querySelectorAll("[data-sidebar]").forEach(el => {
+                el.addEventListener("click", (e) => {
+                    const view = el.getAttribute("data-sidebar");
+                    if(view === "home") { currentView = "home"; searchQuery = ""; document.getElementById("globalSearch").value = ""; document.getElementById("mobileGlobalSearch") && (document.getElementById("mobileGlobalSearch").value = ""); document.getElementById("clearSearch")?.classList.add("hidden"); renderCurrentView(); renderCategories(); }
+                    else if(view === "bookmarks") { currentView = "bookmarks"; renderCurrentView(); renderCategories(); }
+                    else if(view === "settings") { document.getElementById("settingsModal").classList.remove("hidden"); }
+                    if(window.innerWidth < 1024) closeMobileSidebar();
                 });
             });
+            document.getElementById("mobileSidebarToggle")?.addEventListener("click", openMobileSidebar);
+            document.getElementById("sidebarOverlay")?.addEventListener("click", closeMobileSidebar);
+            
+            const searchInputs = [document.getElementById("globalSearch"), document.getElementById("mobileGlobalSearch")];
+            searchInputs.forEach(inp => inp?.addEventListener("input", (e) => {
+                searchQuery = e.target.value;
+                if(currentView === "bookmarks") currentView = "home";
+                renderCurrentView();
+                renderCategories();
+                const clearBtn = document.getElementById("clearSearch");
+                if(searchQuery) clearBtn?.classList.remove("hidden"); else clearBtn?.classList.add("hidden");
+            }));
+            document.getElementById("clearSearch")?.addEventListener("click", () => {
+                searchQuery = ""; document.getElementById("globalSearch").value = ""; if(document.getElementById("mobileGlobalSearch")) document.getElementById("mobileGlobalSearch").value = "";
+                document.getElementById("clearSearch")?.classList.add("hidden");
+                if(currentView === "bookmarks") currentView = "home";
+                renderCurrentView(); renderCategories();
+            });
+            
+            document.getElementById("closeSettings")?.addEventListener("click", () => document.getElementById("settingsModal").classList.add("hidden"));
+            document.getElementById("settingsModal")?.addEventListener("click", (e) => { if(e.target === document.getElementById("settingsModal")) document.getElementById("settingsModal").classList.add("hidden"); });
+            document.getElementById("resetBookmarksBtn")?.addEventListener("click", () => { bookmarkedIds.clear(); saveBookmarks(); renderCurrentView(); });
+            
+            const langSelect = document.getElementById("langSelect");
+            const settingsLang = document.getElementById("settingsLang");
+            function setLanguage(lang) { activeLanguage = lang; langSelect.value = lang; settingsLang.value = lang; document.getElementById("pageSub").innerText = t("pageSub"); renderCurrentView(); renderCategories(); updateSidebarActive(); }
+            langSelect?.addEventListener("change", (e) => setLanguage(e.target.value));
+            settingsLang?.addEventListener("change", (e) => setLanguage(e.target.value));
+            
+            document.getElementById("themeDark")?.addEventListener("click", () => alert("Dark mode is default."));
+            document.getElementById("themeLight")?.addEventListener("click", () => alert("Light mode coming soon."));
         }
 
         function init() {
             renderCategories();
-            filterAndRenderArticles();
-            renderFooterDetails();
-            bindInteractions();
-            // Language selector
-            const langSelect = document.getElementById("langSelect");
-            if(langSelect) {
-                langSelect.value = "en";
-                langSelect.addEventListener("change", (e) => {
-                    activeLanguage = e.target.value;
-                    updateUILanguage();
-                });
-            }
-            updateUILanguage();
-            const hintSpan = document.getElementById("activeFilterHint");
-            if(hintSpan) hintSpan.innerText = "click any chip";
+            renderSidebarCategories();
+            bindEvents();
+            renderCurrentView();
+            updateBadges();
+            if(localStorage.getItem('nebula_lang')) activeLanguage = localStorage.getItem('nebula_lang');
+            else activeLanguage = "en";
+            document.getElementById("langSelect").value = activeLanguage;
+            document.getElementById("settingsLang").value = activeLanguage;
+            document.getElementById("pageSub").innerText = translations[activeLanguage]?.pageSub || "minimalist precision · search & save";
         }
         init();
     </script>
+    <style>
+        .active-category { background: rgba(0, 122, 255, 0.3); border-color: #007AFF; color: white; }
+        .chip-modern { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(6px); border: 0.5px solid rgba(255, 255, 255, 0.1); border-radius: 40px; cursor: pointer; transition: all 0.2s; }
+        .chip-modern:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-1px); }
+        /* tambahan spacing yang lebih presisi untuk bookmark button */
+        .action-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .bookmark-btn, .read-more-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .bookmark-btn {
+            font-size: 1rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            background: rgba(255,255,255,0.02);
+        }
+        .bookmark-btn:hover {
+            background: rgba(255,255,255,0.12);
+            transform: scale(1.02);
+        }
+        .read-more-btn {
+            font-size: 0.9rem;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+        }
+    </style>
 </body>
 </html>
