@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { Post } from '@/types/post';
 import { getReadingTime } from '@/utils/readingTime';
+import { authorContent } from './authors';
 
 const blogDir = path.join(process.cwd(), 'content', 'blog');
 
@@ -72,7 +73,7 @@ export class PostManager {
         date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
         lang,
         category: data.category || pathParts[0] || 'tech',
-        author: data.author || '',
+        author: authorContent.getAuthorById(data.author)?.name || data.author || 'Zynorichi',
         description: data.description || '',
         content: content,
         image: data.image || '',

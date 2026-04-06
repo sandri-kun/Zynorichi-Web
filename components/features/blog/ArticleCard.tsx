@@ -81,7 +81,7 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
                <User className="w-4 h-4 text-muted-foreground/95" />
             </div>
             <div className="min-w-0">
-              <p className="text-[10px] font-extrabold uppercase tracking-tight truncate">Zynorichi</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-tight truncate">{post.author}</p>
               <p className="text-[9px] text-muted-foreground/90 font-bold">{formatDate(post.date, lang)}</p>
             </div>
           </div>
