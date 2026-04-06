@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 
 const intlMiddleware = createMiddleware(routing);
 
-export function proxy(req: NextRequest) {
+export default function proxy(req: NextRequest) {
   // 1. Setup Security Headers pada Respon Next-Intl
   // Kita harus me-run intlMiddleware dulu untuk i18n
   const res = intlMiddleware(req);
