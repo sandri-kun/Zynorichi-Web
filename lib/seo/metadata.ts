@@ -41,6 +41,10 @@ export function constructMetadata(options: MetadataOptions = {}): Metadata {
     languages[loc] = getAbsoluteUrl(`${prefix}${path}`, seoConfig.siteUrl);
   });
 
+  // Add x-default (pointing to the default locale)
+  const defaultPrefix = routing.localePrefix === 'as-needed' ? '' : `/${routing.defaultLocale}`;
+  languages['x-default'] = getAbsoluteUrl(`${defaultPrefix}${path}`, seoConfig.siteUrl);
+
   return {
     title: {
       default: title,

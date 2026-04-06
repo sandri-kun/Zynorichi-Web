@@ -28,7 +28,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // We only include self-referencing alternate here as slugs differ.
       alternates: {
         languages: {
-          [post.lang]: getFullUrl(`/blog/${post.category}/${post.slug}`, post.lang)
+          [post.lang]: getFullUrl(`/blog/${post.category}/${post.slug}`, post.lang),
+          'x-default': getFullUrl(`/blog/${post.category}/${post.slug}`, post.lang)
         }
       }
     };
@@ -39,7 +40,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticUrls = paths.flatMap(path => {
     return routing.locales.map(locale => {
       // Build alternates for static pages (which share the same base path)
-      const alternates: Record<string, string> = {};
+      const alternates: Record<string, string> = {
+        'x-default': getFullUrl(path, routing.defaultLocale)
+      };
       routing.locales.forEach(l => {
         alternates[l] = getFullUrl(path, l);
       });
