@@ -41,7 +41,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
   return (
     <header className={cn(
       "glass-nav transition-all duration-300 h-16 sm:h-20 flex items-center justify-between gap-4 px-4 sm:px-6 sticky top-0 z-50",
-      isScrolled ? "bg-background/80 backdrop-blur-2xl border-b border-border/40 shadow-lg shadow-black/5" : "bg-transparent border-transparent"
+      isScrolled ? "bg-background/80 backdrop-blur-2xl border-b border-border shadow-lg shadow-black/5" : "bg-transparent border-transparent"
     )}>
       {/* Left Section: Logo & Toggle */}
       <div className="flex items-center gap-2 sm:gap-4 shrink-0">
@@ -86,7 +86,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
 
       {/* Right Section: Actions */}
       <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-        <div className="hidden lg:flex items-center gap-2 border-r border-border/40 pr-3 mr-1 h-8">
+        <div className="hidden lg:flex items-center gap-2 border-r border-border/80 pr-3 mr-1 h-8">
           <ThemeSwitcher />
           <LanguageSwitcher />
         </div>

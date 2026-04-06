@@ -69,7 +69,7 @@
   --accent: oklch(0.95 0.01 240);
   --accent-foreground: oklch(0.2 0.05 260);
   --destructive: oklch(0.6 0.18 25);
-  --border: oklch(0.92 0.01 240 / 0.6);
+  --border: oklch(0.65 0.01 240);
   --input: oklch(0.92 0.01 240);
   --ring: oklch(0.55 0.22 260);
   --radius: 1.25rem;
@@ -78,7 +78,7 @@
   --glass-background: rgba(255, 255, 255, 0.65);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-panel-bg: rgba(255, 255, 255, 0.45);
-  --glass-panel-border: rgba(0, 0, 0, 0.15);
+  --glass-panel-border: rgba(0, 0, 0, 0.25);
 }
 
 [data-theme='rose'] {

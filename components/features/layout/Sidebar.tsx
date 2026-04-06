@@ -24,7 +24,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <aside className={cn(
-      "fixed lg:sticky top-0 lg:top-16 sm:lg:top-20 left-0 h-full lg:h-[calc(100vh-4rem)] sm:lg:h-[calc(100vh-5rem)] bg-background/80 lg:bg-background/50 backdrop-blur-3xl border-r border-border/40 z-[60] lg:z-40 drawer-transition overflow-y-auto overflow-x-hidden shadow-2xl lg:shadow-none",
+      "fixed lg:sticky top-0 lg:top-16 sm:lg:top-20 left-0 h-full lg:h-[calc(100vh-4rem)] sm:lg:h-[calc(100vh-5rem)] bg-background/80 lg:bg-background/50 backdrop-blur-3xl border-r border-border z-[60] lg:z-40 drawer-transition overflow-y-auto overflow-x-hidden shadow-2xl lg:shadow-none",
       isDrawerExpanded ? "w-[280px] sm:w-[300px] lg:w-[260px]" : "w-[0px] lg:w-[72px]",
       className
     )}>
@@ -95,7 +95,7 @@ export function Sidebar({ className }: SidebarProps) {
         </nav>
 
         {/* Discover / Categories */}
-        <div className={cn("mt-6 pt-6 border-t border-border/40", !isDrawerExpanded && "items-center")}>
+        <div className={cn("mt-6 pt-6 border-t border-border", !isDrawerExpanded && "items-center")}>
           {isDrawerExpanded && (
             <div className="px-3 mb-2 flex items-center justify-between">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/90">Discover</span>
@@ -126,7 +126,7 @@ export function Sidebar({ className }: SidebarProps) {
         </div>
 
         {/* Shortcuts / Footer */}
-        <div className="mt-auto pt-6 border-t border-border/40 space-y-1">
+        <div className="mt-auto pt-6 border-t border-border space-y-1">
           <button className={cn(
             "flex items-center gap-4 px-3 py-3 rounded-xl text-foreground hover:text-foreground hover:bg-foreground/5 transition-all w-full",
             !isDrawerExpanded && "justify-center px-0"
