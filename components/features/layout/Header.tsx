@@ -48,13 +48,13 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="hover:bg-primary/10 text-foreground/70 hover:text-primary rounded-xl transition-all"
+          className="rounded-full w-10 h-10 border border-border/40 bg-foreground/5 hover:bg-primary/10 text-foreground/70 hover:text-primary transition-all"
           onClick={toggleDrawer}
           title="Toggle drawer (D)"
         >
-          <Menu className="w-5 h-5" />
+          <Menu className="w-6 h-6" />
         </Button>
-        
+
         <Link href="/" className="flex items-center gap-2 group ml-1">
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
             <Rocket className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -68,7 +68,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
       {/* Center Section: Search */}
       <div className="flex-1 max-w-2xl mx-auto relative group hidden sm:block">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground/40 z-10 group-focus-within:text-primary transition-colors">
-          <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+          <Search className="w-5 h-5 sm:w-6 sm:h-6" />
         </div>
         <Input
           type="text"
@@ -93,7 +93,7 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
 
         {/* Mobile Search/Theme Toggle */}
         <Button variant="ghost" size="icon" className="sm:hidden rounded-xl">
-           <Search className="w-5 h-5 text-muted-foreground/60" />
+          <Search className="w-5 h-5 text-muted-foreground/60" />
         </Button>
 
         <div className="relative">
@@ -101,28 +101,28 @@ export function Header({ onSearch, onMenuClick, isMenuOpen }: HeaderProps) {
             variant="ghost" 
             size="icon" 
             className={cn(
-              "relative rounded-xl hover:bg-primary/5 hover:text-primary transition-all",
-              isNotifOpen && "bg-primary/10 text-primary"
+              "relative rounded-full w-10 h-10 border border-border/40 bg-foreground/5 hover:bg-primary/5 hover:text-primary transition-all",
+              isNotifOpen && "bg-primary/10 text-primary border-primary/40"
             )}
             onClick={() => setIsNotifOpen(!isNotifOpen)}
           >
-            <Bell className="w-5 h-5 text-muted-foreground/60 transition-colors" />
+            <Bell className="w-6 h-6 text-muted-foreground/60 transition-colors" />
             {notifications.length > 0 && (
-              <span className="absolute top-2.5 right-2.5 w-4 h-4 bg-primary text-[8px] font-black text-white flex items-center justify-center rounded-full border-2 border-background animate-in zoom-in duration-300">
+              <span className="absolute top-1.5 right-1.5 w-4 h-4 bg-primary text-[8px] font-black text-white flex items-center justify-center rounded-full border-2 border-background animate-in zoom-in duration-300">
                 {notifications.length > 9 ? '9+' : notifications.length}
               </span>
             )}
           </Button>
 
-          <NotificationPanel 
-            isOpen={isNotifOpen} 
-            onClose={() => setIsNotifOpen(false)} 
+          <NotificationPanel
+            isOpen={isNotifOpen}
+            onClose={() => setIsNotifOpen(false)}
           />
         </div>
 
         <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-gradient-to-br from-primary/80 to-primary p-[1px] group cursor-pointer hover:shadow-lg hover:shadow-primary/20 transition-all shadow-md">
           <div className="w-full h-full rounded-[15px] bg-background flex items-center justify-center overflow-hidden">
-             <User className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground/60" />
+            <User className="w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground/60" />
           </div>
         </div>
       </div>

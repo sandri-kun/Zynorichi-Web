@@ -60,13 +60,13 @@ export function ThemeSwitcher() {
       <Button
         variant="ghost"
         size="icon"
-        className="rounded-full w-9 h-9 hover:bg-primary/10"
+        className="rounded-full w-10 h-10 border border-border/40 bg-foreground/5 hover:bg-primary/10 transition-all"
         onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
       >
         {mode === 'dark' ? (
-          <Moon className="h-4 w-4 text-primary" />
+          <Moon className="h-5 w-5 text-primary" />
         ) : (
-          <Sun className="h-4 w-4 text-primary" />
+          <Sun className="h-5 w-5 text-primary" />
         )}
         <span className="sr-only">Toggle Mode</span>
       </Button>
