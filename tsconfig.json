@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./*"],
-      "content": ["./.velite"]
+      "content": ["./lib/content.ts"]
     }
   },
   "include": [
