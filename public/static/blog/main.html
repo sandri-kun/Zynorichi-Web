@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>NEBULA | Modern Minimalist Blog</title>
+    <meta name="description" content="A precision-crafted, minimalist blog with modern glass aesthetics, fluid interactions, and multi-language support.">
+    <!-- Tailwind + Fonts + Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at 10% 20%, #0A0A0C, #000000);
+            background-attachment: fixed;
+            color: #F5F5F7;
+            scroll-behavior: smooth;
+        }
+        /* ultra-precise glass system */
+        .glass-panel {
+            background: rgba(20, 20, 28, 0.48);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
+            border: 0.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 2rem;
+            box-shadow: 0 12px 35px -12px rgba(0, 0, 0, 0.3);
+        }
+        .glass-nav {
+            background: rgba(8, 8, 12, 0.65);
+            backdrop-filter: blur(20px) saturate(200%);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+        }
+        .chip-modern {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(8px);
+            border: 0.5px solid rgba(255, 255, 255, 0.12);
+            border-radius: 40px;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .chip-modern:hover {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+        .article-tile {
+            transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .article-tile:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 40px -15px rgba(0, 0, 0, 0.5);
+            background: rgba(28, 28, 34, 0.65);
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+        .img-hover-zoom {
+            overflow: hidden;
+            border-radius: 1.25rem;
+        }
+        .img-hover-zoom img {
+            transition: transform 0.5s ease-out;
+        }
+        .article-tile:hover .img-hover-zoom img {
+            transform: scale(1.04);
+        }
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3a3a44;
+            border-radius: 10px;
+        }
+        select, button, input {
+            outline: none;
+        }
+        .active-category {
+            background: rgba(0, 122, 255, 0.3);
+            border-color: #007AFF;
+            color: white;
+        }
+        .text-precision {
+            letter-spacing: -0.01em;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation: glass, minimal, sharp -->
+    <header class="glass-nav fixed top-0 left-0 w-full z-50 transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="#" class="text-2xl font-semibold tracking-tight bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent">NEBULA</a>
+            
+            <div class="hidden md:flex items-center space-x-7">
+                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="home">Home</a>
+                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="articles">Articles</a>
+                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="explore">Explore</a>
+                <a href="#" class="text-sm font-medium text-white/75 hover:text-white transition-all" data-nav="about">About</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="glass-panel px-4 py-1.5 rounded-full flex items-center gap-2">
+                    <i class="fas fa-globe text-xs text-white/60"></i>
+                    <select id="langSelect" class="bg-transparent text-white/90 text-sm font-medium cursor-pointer focus:outline-none">
+                        <option value="en" class="bg-black/90">EN</option>
+                        <option value="es" class="bg-black/90">ES</option>
+                        <option value="fr" class="bg-black/90">FR</option>
+                        <option value="ja" class="bg-black/90">JA</option>
+                    </select>
+                </div>
+                <button id="mobileToggle" class="md:hidden text-white text-xl"><i class="fas fa-bars"></i></button>
+            </div>
+        </div>
+        <!-- Mobile drawer -->
+        <div id="mobileDrawer" class="md:hidden hidden bg-black/80 backdrop-blur-xl border-t border-white/10 py-5 px-6 flex flex-col gap-4">
+            <a href="#" class="text-white/80 text-base" data-nav="home">Home</a>
+            <a href="#" class="text-white/80 text-base" data-nav="articles">Articles</a>
+            <a href="#" class="text-white/80 text-base" data-nav="explore">Explore</a>
+            <a href="#" class="text-white/80 text-base" data-nav="about">About</a>
+        </div>
+    </header>
+
+    <main class="pt-28 pb-20 max-w-7xl mx-auto px-6 lg:px-8">
+        <!-- Hero: minimal impact + glass precision -->
+        <section class="mb-20">
+            <div class="glass-panel p-8 lg:p-12 rounded-3xl overflow-hidden relative">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -z-0"></div>
+                <div class="relative z-2">
+                    <h1 id="heroTitle" class="text-4xl lg:text-6xl font-bold tracking-tight leading-tight">Modern clarity,<br><span class="text-[#007AFF]">minimal precision</span></h1>
+                    <p id="heroSub" class="text-white/55 text-lg max-w-2xl mt-5 leading-relaxed">A curated space where design meets depth. Explore ideas across tech, lifestyle, and creativity.</p>
+                    <div class="flex flex-wrap gap-5 mt-8">
+                        <button id="startReadBtn" class="bg-[#007AFF] hover:bg-[#005FC5] text-white px-7 py-3 rounded-full text-sm font-medium transition-all shadow-lg shadow-blue-500/20">Start exploring <i class="fas fa-arrow-right ml-2 text-xs"></i></button>
+                        <button class="glass-panel px-7 py-3 rounded-full text-sm font-medium text-white/90 hover:bg-white/10 transition-all"><i class="far fa-bookmark mr-2"></i> <span id="bookmarkLabel">Save</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category filters: modern chips, high precision -->
+        <section class="mb-14">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                <h2 id="browseCatLabel" class="text-xl font-semibold tracking-tight">Filter by focus</h2>
+                <span id="activeFilterHint" class="text-xs text-white/40">click any chip</span>
+            </div>
+            <div id="categoryContainer" class="flex flex-wrap gap-3"></div>
+        </section>
+
+        <!-- Featured articles: 3-column minimal grid -->
+        <section class="mb-20">
+            <div class="flex justify-between items-center mb-8">
+                <h2 id="featuredLabel" class="text-2xl font-semibold tracking-tight">Editor's picks</h2>
+                <div class="flex gap-2">
+                    <button class="w-8 h-8 rounded-full glass-panel flex items-center justify-center text-white/70 hover:text-white"><i class="fas fa-grid-2 text-sm"></i></button>
+                </div>
+            </div>
+            <div id="featuredGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        </section>
+
+        <!-- Recent articles: horizontal flow modern & clean -->
+        <section>
+            <div class="flex justify-between items-center mb-8">
+                <h2 id="recentLabel" class="text-2xl font-semibold tracking-tight">Latest drops</h2>
+                <span class="text-xs text-white/40 hidden md:block">minimalist reading flow</span>
+            </div>
+            <div id="recentList" class="grid grid-cols-1 lg:grid-cols-2 gap-7"></div>
+        </section>
+    </main>
+
+    <!-- Footer: refined micro glass -->
+    <footer class="glass-nav mt-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">NEBULA</h3>
+                    <p class="text-white/45 text-sm leading-relaxed">Precision-driven minimalism. Designed for deep reading and modern aesthetics.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-white/40 hover:text-white/80 text-lg"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white/40 hover:text-white/80 text-lg"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-white/40 hover:text-white/80 text-lg"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-4 text-white/80">Categories</h4>
+                    <ul id="footerCatList" class="space-y-2 text-sm text-white/45"></ul>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-4 text-white/80">Resources</h4>
+                    <ul class="space-y-2 text-sm text-white/45">
+                        <li><a href="#" class="hover:text-white transition">Style Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-medium mb-4 text-white/80">Subscribe</h4>
+                    <p class="text-white/45 text-sm mb-3">Receive modern insights.</p>
+                    <div class="flex">
+                        <input type="email" id="subEmail" placeholder="your@email.com" class="bg-black/40 border border-white/10 rounded-l-xl px-4 py-2.5 text-sm w-full text-white focus:border-blue-500/50">
+                        <button id="subBtn" class="bg-white/10 hover:bg-white/20 px-5 rounded-r-xl text-white transition-all"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-12 pt-8 text-center text-white/30 text-xs">© 2025 NEBULA — minimalist blog with high precision glass core.</div>
+        </div>
+    </footer>
+
+    <script>
+        // ----- DATA (modern, minimal, precise) -----
+        const categoriesData = [
+            { id: "all", name: "All", color: "bg-white/10", textColor: "text-white/90" },
+            { id: "tech", name: "Technology", color: "bg-blue-500/20", textColor: "text-blue-300" },
+            { id: "design", name: "Design", color: "bg-purple-500/20", textColor: "text-purple-300" },
+            { id: "lifestyle", name: "Lifestyle", color: "bg-emerald-500/20", textColor: "text-emerald-300" },
+            { id: "mindfulness", name: "Mindfulness", color: "bg-amber-500/20", textColor: "text-amber-300" }
+        ];
+
+        const articlesLibrary = [
+            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", image: "https://picsum.photos/id/20/600/400", featured: true },
+            { id: 2, title: "Minimalist architecture for code", excerpt: "Writing clean, scalable frontends with precision-first mindset.", category: "tech", author: "Marcus Lei", date: "Mar 28, 2025", readTime: "6 min", image: "https://picsum.photos/id/26/600/400", featured: true },
+            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", image: "https://picsum.photos/id/75/600/400", featured: true },
+            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", image: "https://picsum.photos/id/29/600/400", featured: false },
+            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time apps.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", image: "https://picsum.photos/id/0/600/400", featured: false },
+            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", image: "https://picsum.photos/id/42/600/400", featured: false }
+        ];
+
+        const localization = {
+            en: { heroTitle: "Modern clarity,<br><span class='text-[#007AFF]'>minimal precision</span>", heroSub: "A curated space where design meets depth. Explore ideas across tech, lifestyle, and creativity.", startRead: "Start exploring", bookmark: "Save", browseLabel: "Filter by focus", featuredLabel: "Editor's picks", recentLabel: "Latest drops" },
+            es: { heroTitle: "Claridad moderna,<br><span class='text-[#007AFF]'>precisión mínima</span>", heroSub: "Un espacio curado donde el diseño encuentra profundidad. Explora tecnología, estilo de vida y creatividad.", startRead: "Explorar", bookmark: "Guardar", browseLabel: "Filtrar por enfoque", featuredLabel: "Selecciones del editor", recentLabel: "Novedades" },
+            fr: { heroTitle: "Clarté moderne,<br><span class='text-[#007AFF]'>précision minimale</span>", heroSub: "Un espace organisé où le design rencontre la profondeur. Idées tech, lifestyle et créativité.", startRead: "Explorer", bookmark: "Sauvegarder", browseLabel: "Filtrer par focus", featuredLabel: "Coups de cœur", recentLabel: "Derniers articles" },
+            ja: { heroTitle: "モダンな明晰さ、<br><span class='text-[#007AFF]'>ミニマルな精度</span>", heroSub: "デザインと深さが出会う空間。テクノロジー、ライフスタイル、創造性を探る。", startRead: "探索開始", bookmark: "保存", browseLabel: "トピックで絞り込み", featuredLabel: "注目記事", recentLabel: "最新記事" }
+        };
+
+        let activeLanguage = "en";
+        let activeCategory = "all";
+
+        // Helper: render article card (modern minimal)
+        function renderArticleCard(article, isGrid = true) {
+            const cat = categoriesData.find(c => c.id === article.category) || categoriesData[0];
+            return `
+                <div class="glass-panel p-5 article-tile transition-all duration-300 flex flex-col h-full border border-white/5 rounded-2xl">
+                    <div class="img-hover-zoom rounded-xl mb-4 h-44 w-full overflow-hidden bg-black/40">
+                        <img src="${article.image}?w=600&h=400&fit=crop" alt="${article.title}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="chip-modern px-3 py-1 text-xs font-medium ${cat.color} ${cat.textColor}">${cat.name}</span>
+                        <span class="text-white/30 text-xs"><i class="far fa-clock mr-1"></i>${article.readTime}</span>
+                    </div>
+                    <h3 class="text-xl font-semibold tracking-tight mb-2 leading-tight">${article.title}</h3>
+                    <p class="text-white/50 text-sm leading-relaxed mb-4 flex-grow">${article.excerpt}</p>
+                    <div class="flex items-center justify-between mt-2 border-t border-white/10 pt-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-[10px]"><i class="fas fa-user-astronaut"></i></div>
+                            <div><p class="text-xs font-medium">${article.author}</p><p class="text-[11px] text-white/35">${article.date}</p></div>
+                        </div>
+                        <button class="text-white/50 hover:text-[#007AFF] transition-all"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCategories() {
+            const container = document.getElementById("categoryContainer");
+            container.innerHTML = categoriesData.map(cat => `
+                <button data-cat="${cat.id}" class="chip-modern px-5 py-2 text-sm font-medium transition-all ${activeCategory === cat.id ? 'active-category' : 'text-white/70'}">
+                    ${cat.name}
+                </button>
+            `).join("");
+            // attach listeners
+            document.querySelectorAll("[data-cat]").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    activeCategory = btn.getAttribute("data-cat");
+                    renderCategories();    // re-render to reflect active class
+                    filterAndRenderArticles();
+                    const hintSpan = document.getElementById("activeFilterHint");
+                    if(hintSpan) hintSpan.innerText = `active: ${activeCategory === "all" ? "all topics" : activeCategory}`;
+                });
+            });
+        }
+
+        function filterAndRenderArticles() {
+            let filtered = [...articlesLibrary];
+            if(activeCategory !== "all") {
+                filtered = filtered.filter(a => a.category === activeCategory);
+            }
+            const featured = filtered.filter(a => a.featured === true);
+            const recent = filtered.filter(a => a.featured === false);
+            const featuredGrid = document.getElementById("featuredGrid");
+            const recentList = document.getElementById("recentList");
+            featuredGrid.innerHTML = featured.length ? featured.map(a => renderArticleCard(a)).join("") : `<div class="col-span-full text-center text-white/40 py-12 glass-panel p-8">No featured articles in this focus</div>`;
+            recentList.innerHTML = recent.length ? recent.map(a => renderArticleCard(a)).join("") : `<div class="col-span-full text-center text-white/40 py-12 glass-panel p-8">No recent articles match</div>`;
+        }
+
+        function updateUILanguage() {
+            const t = localization[activeLanguage] || localization.en;
+            document.getElementById("heroTitle").innerHTML = t.heroTitle;
+            document.getElementById("heroSub").innerHTML = t.heroSub;
+            document.getElementById("startReadBtn").innerHTML = `Start exploring <i class="fas fa-arrow-right ml-2 text-xs"></i>`;
+            if(document.getElementById("startReadBtn").firstChild) document.getElementById("startReadBtn").childNodes[0].nodeValue = t.startRead;
+            else document.getElementById("startReadBtn").innerHTML = t.startRead + ` <i class="fas fa-arrow-right ml-2 text-xs"></i>`;
+            document.getElementById("bookmarkLabel").innerHTML = t.bookmark;
+            document.getElementById("browseCatLabel").innerHTML = t.browseLabel;
+            document.getElementById("featuredLabel").innerHTML = t.featuredLabel;
+            document.getElementById("recentLabel").innerHTML = t.recentLabel;
+            const startBtn = document.getElementById("startReadBtn");
+            if(startBtn && t.startRead) startBtn.innerHTML = t.startRead + ` <i class="fas fa-arrow-right ml-2 text-xs"></i>`;
+        }
+
+        function renderFooterDetails() {
+            const footerList = document.getElementById("footerCatList");
+            if(footerList) {
+                footerList.innerHTML = categoriesData.filter(c => c.id !== "all").map(c => `<li><a href="#" class="hover:text-white transition text-white/50 text-sm">${c.name}</a></li>`).join("");
+            }
+        }
+
+        // Simulate bookmark alert & subscription
+        function bindInteractions() {
+            document.getElementById("startReadBtn")?.addEventListener("click", () => {
+                alert("✨ Explore the latest minimalist articles. Scroll down for insights.");
+            });
+            document.getElementById("bookmarkLabel")?.closest("button")?.addEventListener("click", () => {
+                alert("📌 Article saved to your minimal library (demo).");
+            });
+            document.getElementById("subBtn")?.addEventListener("click", () => {
+                const email = document.getElementById("subEmail")?.value;
+                if(email && email.includes("@")) alert(`📬 ${email} — you're on the list. No spam, just clarity.`);
+                else alert("Please enter a valid email address.");
+            });
+            // mobile toggle
+            const toggleBtn = document.getElementById("mobileToggle");
+            const drawer = document.getElementById("mobileDrawer");
+            if(toggleBtn && drawer) {
+                toggleBtn.addEventListener("click", () => {
+                    drawer.classList.toggle("hidden");
+                    toggleBtn.innerHTML = drawer.classList.contains("hidden") ? '<i class="fas fa-bars"></i>' : '<i class="fas fa-times"></i>';
+                });
+            }
+            // nav smooth (demo)
+            document.querySelectorAll("[data-nav]").forEach(link => {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    const target = link.getAttribute("data-nav");
+                    if(target === "home") window.scrollTo({ top: 0, behavior: "smooth" });
+                    else alert(`Navigation: ${target} — minimal demo section.`);
+                    if(!drawer?.classList.contains("hidden")) drawer.classList.add("hidden");
+                    if(toggleBtn) toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                });
+            });
+        }
+
+        function init() {
+            renderCategories();
+            filterAndRenderArticles();
+            renderFooterDetails();
+            bindInteractions();
+            // Language selector
+            const langSelect = document.getElementById("langSelect");
+            if(langSelect) {
+                langSelect.value = "en";
+                langSelect.addEventListener("change", (e) => {
+                    activeLanguage = e.target.value;
+                    updateUILanguage();
+                });
+            }
+            updateUILanguage();
+            const hintSpan = document.getElementById("activeFilterHint");
+            if(hintSpan) hintSpan.innerText = "click any chip";
+        }
+        init();
+    </script>
+</body>
+</html>
