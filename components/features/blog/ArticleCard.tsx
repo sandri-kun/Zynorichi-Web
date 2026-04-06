@@ -14,7 +14,17 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
   return (
     <article className="group h-full">
       <Link href={`/blog/${post.category}/${post.slug}`} className="block h-full">
-        <Card className="glass-card h-full flex flex-col p-0 overflow-hidden border-none shadow-none bg-transparent">
+        <Card className="glass-card h-full flex flex-col p-0 overflow-hidden border-none shadow-none bg-transparent group-hover:shadow-2xl transition-all duration-500">
+          {post.image && (
+            <div className="relative aspect-video overflow-hidden border-b border-border/40">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+          )}
           <CardHeader className="p-6 pb-2">
             <div className="flex items-center justify-between mb-4">
               <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-colors uppercase text-[10px] tracking-widest font-bold">

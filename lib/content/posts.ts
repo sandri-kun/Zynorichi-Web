@@ -75,6 +75,7 @@ export class PostManager {
         author: data.author || '',
         description: data.description || '',
         content: content,
+        image: data.image || '',
         readingTime,
         published: isPublished
       });
