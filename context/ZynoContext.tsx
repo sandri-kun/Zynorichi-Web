@@ -31,7 +31,7 @@ export function ZynoProvider({ children }: { children: React.ReactNode }) {
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [activeCategory, setCategory] = useState('all');
   const [isOnlyBookmarks, setIsOnlyBookmarks] = useState(false);
-  const [isDrawerExpanded, setIsDrawerExpanded] = useState(true);
+  const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   // Load state on mount

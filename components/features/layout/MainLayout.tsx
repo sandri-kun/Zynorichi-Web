@@ -46,7 +46,7 @@ function MainLayoutContent({ children }: MainLayoutProps) {
         {/* Mobile Sidebar Overlay */}
         <div 
           className={cn(
-            "fixed inset-0 bg-black/60 backdrop-blur-md z-30 lg:hidden transition-all duration-500",
+            "fixed inset-0 bg-black/60 backdrop-blur-md z-50 lg:hidden transition-all duration-500",
             isDrawerExpanded ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           )}
           onClick={toggleDrawer}

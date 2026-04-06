@@ -253,3 +253,35 @@
     @apply tracking-tight font-medium;
   }
 }
+
+/* Tambahkan ini di bagian paling bawah globals.css Anda */
+
+/* Fix khusus untuk Glass Popup agar blur terlihat jelas di Light & Dark */
+.glass-popup {
+  /* Gunakan alpha channel langsung pada variable background, jangan color-mix jika ingin blur maksimal */
+  background: oklch(from var(--background) l c h / 0.65) !important; 
+  
+  /* Pastikan backdrop filter kuat */
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  
+  /* Border halus */
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Khusus Dark Mode: Background harus lebih gelap agar kontras */
+.dark .glass-popup {
+  background: oklch(from var(--background) l c h / 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Helper untuk scrollbar yang hilang tapi tetap bisa scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

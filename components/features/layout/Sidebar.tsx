@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Home, Compass, Bookmark, LayoutGrid, Clock, Hash, Settings, Keyboard, Sparkles } from 'lucide-react';
+import { Home, Compass, Bookmark, LayoutGrid, Clock, Hash, Settings, Keyboard, Sparkles, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Link, usePathname } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
@@ -12,7 +12,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ className }: SidebarProps) {
-  const { activeCategory, setCategory, isOnlyBookmarks, setIsOnlyBookmarks, isDrawerExpanded, bookmarks } = useZyno();
+  const { activeCategory, setCategory, isOnlyBookmarks, setIsOnlyBookmarks, isDrawerExpanded, toggleDrawer, bookmarks } = useZyno();
   const t = useTranslations('Navigation');
   const pathname = usePathname();
 
@@ -25,22 +25,40 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <aside className={cn(
-      "fixed lg:sticky top-16 sm:top-20 left-0 h-[calc(100vh-4rem)] sm:h-[calc(100vh-5rem)] bg-background/50 backdrop-blur-3xl border-r border-border/10 z-40 drawer-transition overflow-y-auto overflow-x-hidden",
-      isDrawerExpanded ? "w-[260px]" : "w-[0px] lg:w-[72px]",
+      "fixed lg:sticky top-0 lg:top-16 sm:lg:top-20 left-0 h-full lg:h-[calc(100vh-4rem)] sm:lg:h-[calc(100vh-5rem)] bg-background/80 lg:bg-background/50 backdrop-blur-3xl border-r border-border/10 z-[60] lg:z-40 drawer-transition overflow-y-auto overflow-x-hidden shadow-2xl lg:shadow-none",
+      isDrawerExpanded ? "w-[280px] sm:w-[300px] lg:w-[260px]" : "w-[0px] lg:w-[72px]",
       className
     )}>
       <div className="flex flex-col py-4 px-3 h-full">
+        {/* Mobile Header with Close Button */}
+        <div className="flex lg:hidden items-center justify-between px-3 mb-6">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/20">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <span className="font-black tracking-tighter text-lg">ZYNORICHI</span>
+          </div>
+          <button 
+            onClick={toggleDrawer}
+            className="p-2 rounded-xl bg-foreground/5 text-foreground/60 hover:text-foreground transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
         {/* Main Navigation */}
         <nav className="space-y-1">
           {mainNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              onClick={() => setIsOnlyBookmarks(false)}
+              onClick={() => {
+                setIsOnlyBookmarks(false);
+                if (window.innerWidth < 1024) toggleDrawer();
+              }}
               className={cn(
                 "flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 group hover:bg-foreground/5",
                 pathname === item.href && !isOnlyBookmarks ? "bg-primary/10 text-primary font-bold" : "text-foreground/60 hover:text-foreground",
-                !isDrawerExpanded && "justify-center px-0"
+                !isDrawerExpanded && "lg:justify-center lg:px-0"
               )}
               title={!isDrawerExpanded ? item.label : ""}
             >
@@ -50,11 +68,14 @@ export function Sidebar({ className }: SidebarProps) {
           ))}
           
           <button
-            onClick={() => setIsOnlyBookmarks(!isOnlyBookmarks)}
+            onClick={() => {
+              setIsOnlyBookmarks(!isOnlyBookmarks);
+              if (window.innerWidth < 1024 && !isOnlyBookmarks) toggleDrawer();
+            }}
             className={cn(
               "flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-300 group hover:bg-foreground/5 w-full text-left",
               isOnlyBookmarks ? "bg-primary/10 text-primary font-bold" : "text-foreground/60 hover:text-foreground",
-              !isDrawerExpanded && "justify-center px-0"
+              !isDrawerExpanded && "lg:justify-center lg:px-0"
             )}
             title={!isDrawerExpanded ? "Bookmarks" : ""}
           >
@@ -89,11 +110,12 @@ export function Sidebar({ className }: SidebarProps) {
                 onClick={() => {
                   setCategory(cat);
                   setIsOnlyBookmarks(false);
+                  if (window.innerWidth < 1024) toggleDrawer();
                 }}
                 className={cn(
                   "flex items-center gap-4 px-3 py-2.5 rounded-xl text-sm transition-all duration-300 group w-full text-left",
                   activeCategory === cat && !isOnlyBookmarks ? "bg-primary/5 text-primary font-bold" : "text-foreground/50 hover:text-foreground hover:bg-foreground/5",
-                  !isDrawerExpanded && "justify-center px-0"
+                  !isDrawerExpanded && "lg:justify-center lg:px-0"
                 )}
                 title={!isDrawerExpanded ? cat.toUpperCase() : ""}
               >

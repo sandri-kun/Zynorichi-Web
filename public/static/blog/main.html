@@ -1,3 +1,12 @@
+Masalah utamanya terletak pada definisi CSS untuk **Light Theme**.
+
+Pada bagian `body.dark .glass-panel`, Anda menyertakan properti `backdrop-filter: blur(16px);`. Namun, pada bagian `body.light .glass-panel`, properti tersebut **hilang**, sehingga panel menjadi transparan tetapi tidak nge-blur.
+
+Berikut adalah perbaikan kode lengkapnya. Saya telah menambahkan `backdrop-filter` dan `-webkit-backdrop-filter` (untuk kompatibilitas browser) ke dalam class light theme.
+
+Silakan copy-paste seluruh kode di bawah ini:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,11 +36,13 @@
         body.dark .glass-panel {
             background: rgba(18, 18, 24, 0.55);
             backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 0.5px solid rgba(255, 255, 255, 0.08);
         }
         body.dark .glass-nav {
             background: rgba(6, 6, 10, 0.85);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
         }
         body.dark .search-input {
@@ -44,17 +55,23 @@
             border-color: rgba(255, 255, 255, 0.06);
         }
 
-        /* ===== LIGHT THEME ===== */
+        /* ===== LIGHT THEME (FIXED) ===== */
         body.light {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             color: #0f172a;
         }
         body.light .glass-panel {
             background: rgba(255, 255, 255, 0.75);
+            /* PERBAIKAN DI SINI: Menambahkan backdrop-filter */
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 0.5px solid rgba(0, 0, 0, 0.06);
         }
         body.light .glass-nav {
             background: rgba(255, 255, 255, 0.85);
+            /* PERBAIKAN DI SINI: Menambahkan backdrop-filter pada navbar juga */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
         }
         body.light .search-input {
@@ -89,6 +106,7 @@
         .bookmarked-star { color: #FFD966; text-shadow: 0 0 4px rgba(255,217,102,0.5); }
         .search-input {
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-radius: 9999px;
             padding: 0.6rem 1rem 0.6rem 2.5rem;
             font-size: 0.875rem;
@@ -101,6 +119,7 @@
         /* ===== CATEGORY CHIPS ===== */
         .chip-modern {
             backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             border-radius: 40px;
             cursor: pointer;
             transition: all 0.2s;
@@ -227,7 +246,7 @@
     <!-- 📊 Reading Progress Indicator -->
     <div id="readingProgress" class="progress-bar"></div>
 
-    <!-- 🔝 Top Navbar with Drawer Toggle - FIXED POSITIONING -->
+    <!-- 🔝 Top Navbar with Drawer Toggle -->
 <header class="glass-nav fixed top-0 left-0 w-full z-50">
     <div class="max-w-7xl mx-auto px-4 lg:px-6 py-2.5 flex items-center justify-between gap-3">
         <!-- Left Section: Logo -->
@@ -274,7 +293,7 @@
         </div>
     </div>
 
-    <!-- Desktop Drawer Toggle - FIXED: Positioned at absolute left edge -->
+    <!-- Desktop Drawer Toggle -->
     <button id="drawerToggleBtn" class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 text-current opacity-80 hover:opacity-100 text-lg w-9 h-9 rounded-lg items-center justify-center transition z-50" title="Toggle drawer (D)">
         <i id="drawerToggleIcon" class="fas fa-bars"></i>
     </button>
@@ -887,3 +906,4 @@
     </script>
 </body>
 </html>
+```
