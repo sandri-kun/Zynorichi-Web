@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NEBULA | Sidebar + Bookmark + Precision UI</title>
-    <meta name="description" content="Minimalist blog with YouTube-style sidebar: Home, Bookmarks, Settings. Glass aesthetics, precise bookmark spacing.">
+    <title>Zynorichi | Modern Sidebar + Night/Day + Custom Palette</title>
+    <meta name="description" content="Zynorichi: precision minimalist blog with sidebar, bookmarks, notifications, day/night mode, and custom color palette.">
     <!-- TailwindCSS + Inter + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,35 +13,96 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at 15% 30%, #0A0A0C, #000000);
-            background-attachment: fixed;
-            color: #F5F5F7;
-            scroll-behavior: smooth;
+            transition: background 0.3s ease, color 0.2s ease;
         }
-        .glass-panel {
+        /* Light theme variables */
+        body.light {
+            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f8 100%);
+            color: #1a1f2e;
+        }
+        body.light .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border: 0.5px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.1);
+        }
+        body.light .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
+        }
+        body.light .sidebar-item {
+            color: #2c3e50;
+        }
+        body.light .sidebar-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        body.light .sidebar-item.active {
+            background: rgba(0, 122, 255, 0.15);
+            color: #007AFF;
+        }
+        body.light .article-card {
+            background: rgba(255, 255, 255, 0.75);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        body.light .article-card:hover {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+        }
+        body.light .text-white\/70, body.light .text-white\/80, body.light .text-white\/90 {
+            color: #1e293b !important;
+        }
+        body.light .text-white\/40, body.light .text-white\/50, body.light .text-white\/30 {
+            color: #5b6e8c !important;
+        }
+        body.light .search-input {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.12);
+            color: #1e293b;
+        }
+        body.light .chip-modern {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.08);
+            color: #2c3e50;
+        }
+        body.light .active-category {
+            background: rgba(0, 122, 255, 0.2);
+            border-color: #007AFF;
+            color: #007AFF;
+        }
+        /* Dark theme (default) */
+        body.dark {
+            background: radial-gradient(circle at 15% 30%, #0A0A0C, #000000);
+            color: #F5F5F7;
+        }
+        body.dark .glass-panel {
             background: rgba(18, 18, 24, 0.44);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
             border: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+        body.dark .glass-nav {
+            background: rgba(6, 6, 10, 0.7);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        body.dark .article-card {
+            background: rgba(18, 18, 24, 0.44);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        body.dark .article-card:hover {
+            background: rgba(28, 28, 34, 0.7);
+        }
+        /* Core UI */
+        .glass-panel {
             border-radius: 1.5rem;
-            box-shadow: 0 10px 28px -12px rgba(0, 0, 0, 0.4);
+            transition: background 0.2s, box-shadow 0.2s;
         }
         .glass-nav {
-            background: rgba(6, 6, 10, 0.7);
-            backdrop-filter: blur(20px) saturate(200%);
-            border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            transition: background 0.2s;
         }
         .sidebar-item {
             transition: all 0.2s ease;
             cursor: pointer;
             border-radius: 0.75rem;
-        }
-        .sidebar-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .sidebar-item.active {
-            background: rgba(0, 122, 255, 0.2);
-            color: #007AFF;
         }
         .article-card {
             transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
@@ -49,9 +110,6 @@
         }
         .article-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 24px 44px -18px rgba(0, 0, 0, 0.55);
-            background: rgba(28, 28, 34, 0.7);
-            border-color: rgba(255, 255, 255, 0.18);
         }
         .img-zoom {
             overflow: hidden;
@@ -63,120 +121,141 @@
         .article-card:hover .img-zoom img {
             transform: scale(1.04);
         }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #0c0c10; }
         ::-webkit-scrollbar-thumb { background: #3a3a48; border-radius: 12px; }
-        .bookmarked-star {
-            color: #FFD966;
-            text-shadow: 0 0 4px rgba(255,217,102,0.5);
-        }
+        body.light ::-webkit-scrollbar-track { background: #e2e8f0; }
+        body.light ::-webkit-scrollbar-thumb { background: #94a3b8; }
+        
+        .bookmarked-star { color: #FFD966; text-shadow: 0 0 4px rgba(255,217,102,0.5); }
         .search-input {
-            background: rgba(15, 15, 20, 0.7);
             backdrop-filter: blur(12px);
-            border: 0.5px solid rgba(255,255,255,0.15);
             transition: all 0.2s;
         }
-        .search-input:focus {
-            border-color: #007AFF;
-            background: rgba(10, 10, 15, 0.9);
-        }
+        .search-input:focus { border-color: #007AFF; }
         .settings-modal {
-            background: rgba(12, 12, 18, 0.98);
             backdrop-filter: blur(24px);
             border: 0.5px solid rgba(255,255,255,0.15);
         }
-        /* precision spacing for bookmark & read button */
-        .action-buttons {
-            display: flex;
-            align-items: center;
-            gap: 0.875rem;
-        }
+        .action-buttons { display: flex; align-items: center; gap: 0.75rem; }
         .bookmark-btn, .read-more-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             cursor: pointer;
-        }
-        .bookmark-btn {
-            font-size: 1.1rem;
             width: 2rem;
             height: 2rem;
             border-radius: 9999px;
-            background: rgba(255,255,255,0.03);
+        }
+        .bookmark-btn { background: rgba(255,255,255,0.02); font-size: 1rem; }
+        .bookmark-btn:hover { background: rgba(255,255,255,0.12); transform: scale(1.02); }
+        .read-more-btn { font-size: 0.9rem; background: rgba(255,255,255,0.02); }
+        .read-more-btn:hover { background: rgba(0,122,255,0.2); color: #007AFF; transform: translateX(2px); }
+        .notification-toast { animation: slideInRight 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .chip-modern {
+            backdrop-filter: blur(6px);
+            border-radius: 40px;
+            cursor: pointer;
             transition: all 0.2s;
         }
-        .bookmark-btn:hover {
-            background: rgba(255,255,255,0.12);
-            transform: scale(1.02);
+        .chip-modern:hover { transform: translateY(-1px); }
+        .active-category {
+            background: rgba(0, 122, 255, 0.3);
+            border-color: #007AFF;
+            color: white;
         }
-        .read-more-btn {
-            font-size: 1rem;
-            width: 2rem;
-            height: 2rem;
+        body.light .active-category { background: rgba(0, 122, 255, 0.2); color: #007AFF; }
+        /* Modern language select */
+        .modern-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23888' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.2rem;
+            padding-right: 2.2rem;
+        }
+        .color-palette-btn {
+            width: 32px;
+            height: 32px;
             border-radius: 9999px;
-            background: rgba(255,255,255,0.03);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
         }
-        .read-more-btn:hover {
-            background: rgba(0,122,255,0.2);
-            color: #007AFF;
-            transform: translateX(2px);
+        .color-palette-btn.active-palette {
+            border-color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 8px rgba(255,255,255,0.3);
         }
-        input, select, button { outline: none; }
+        body.light .color-palette-btn.active-palette {
+            border-color: #1e293b;
+        }
     </style>
 </head>
-<body>
+<body class="dark">
 
-    <!-- Top Navbar (minimal, without hero banner) -->
+    <!-- Top Navbar - precision spacing -->
     <header class="glass-nav fixed top-0 left-0 w-full z-50">
-        <div class="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-3">
+        <div class="max-w-7xl mx-auto px-5 lg:px-8 py-3 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3 shrink-0">
                 <button id="mobileSidebarToggle" class="lg:hidden text-white/80 hover:text-white text-xl"><i class="fas fa-bars"></i></button>
-                <a href="#" class="text-2xl font-semibold tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">NEBULA</a>
+                <a href="#" class="text-2xl font-bold tracking-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">ZYNORICHI</a>
             </div>
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-md mx-4 hidden md:block">
+            <!-- Search Bar Desktop - flex-1 with margin -->
+            <div class="hidden md:block flex-1 max-w-md">
                 <div class="relative">
                     <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
-                    <input type="text" id="globalSearch" placeholder="Search articles..." class="search-input w-full py-2 pl-10 pr-4 rounded-full text-sm text-white/90 focus:outline-none transition-all">
+                    <input type="text" id="globalSearch" placeholder="Search articles..." class="search-input w-full py-2.5 pl-10 pr-4 rounded-full text-sm focus:outline-none transition-all">
                     <button id="clearSearch" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/80 hidden"><i class="fas fa-times-circle"></i></button>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <div class="glass-panel px-3 py-1.5 rounded-full flex items-center gap-2">
-                    <i class="fas fa-globe text-xs text-white/50"></i>
-                    <select id="langSelect" class="bg-transparent text-white/85 text-xs sm:text-sm font-medium cursor-pointer">
+            <!-- Right side: modern language select + theme toggle + notif -->
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <!-- Modern Language Select -->
+                <div class="relative">
+                    <select id="langSelect" class="modern-select glass-panel px-3 py-1.5 pr-8 rounded-full text-xs sm:text-sm font-medium bg-transparent text-white/85 cursor-pointer border-none focus:ring-0">
                         <option value="en">EN</option><option value="es">ES</option><option value="fr">FR</option><option value="ja">JA</option>
                     </select>
                 </div>
+                <!-- Day/Night Toggle Button -->
+                <button id="themeToggleBtn" class="glass-panel w-9 h-9 rounded-full flex items-center justify-center text-white/80 hover:text-white transition-all">
+                    <i id="themeIcon" class="fas fa-moon"></i>
+                </button>
+                <!-- Notification Bell -->
+                <button id="notificationBell" class="relative text-white/80 hover:text-white transition-all text-xl">
+                    <i class="fas fa-bell"></i>
+                    <span id="notifBadge" class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
+                </button>
             </div>
         </div>
         <!-- Mobile search bar -->
-        <div class="px-4 pb-3 md:hidden">
+        <div class="px-5 pb-3 md:hidden">
             <div class="relative">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-white/40 text-sm"></i>
-                <input type="text" id="mobileGlobalSearch" placeholder="Search articles..." class="search-input w-full py-2 pl-10 pr-4 rounded-full text-sm text-white/90">
+                <input type="text" id="mobileGlobalSearch" placeholder="Search articles..." class="search-input w-full py-2.5 pl-10 pr-4 rounded-full text-sm">
             </div>
         </div>
     </header>
 
-    <!-- Layout: Sidebar + Main Content (YouTube-like) -->
+    <!-- Layout -->
     <div class="flex pt-20 lg:pt-24">
-        <!-- Sidebar (desktop + mobile drawer) -->
-        <aside id="mainSidebar" class="fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-black/60 backdrop-blur-2xl border-r border-white/10 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-out flex flex-col">
+        <!-- Sidebar -->
+        <aside id="mainSidebar" class="fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] w-64 bg-black/60 backdrop-blur-2xl border-r border-white/10 z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col">
             <div class="flex-1 overflow-y-auto py-6 px-4 space-y-1">
                 <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="home">
-                    <i class="fas fa-home text-xl w-6"></i>
-                    <span class="font-medium">Beranda</span>
+                    <i class="fas fa-home text-xl w-6"></i><span class="font-medium">Beranda</span>
                 </div>
                 <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="bookmarks">
-                    <i class="fas fa-bookmark text-xl w-6"></i>
-                    <span class="font-medium">Bookmark</span>
+                    <i class="fas fa-bookmark text-xl w-6"></i><span class="font-medium">Bookmark</span>
                     <span id="sidebarBookmarkBadge" class="ml-auto bg-[#007AFF] text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[20px] text-center">0</span>
                 </div>
                 <div class="sidebar-item flex items-center gap-4 px-4 py-3 rounded-xl text-white/80 hover:bg-white/10 transition" data-sidebar="settings">
-                    <i class="fas fa-cog text-xl w-6"></i>
-                    <span class="font-medium">Settings</span>
+                    <i class="fas fa-cog text-xl w-6"></i><span class="font-medium">Settings</span>
                 </div>
                 <div class="pt-6 mt-6 border-t border-white/10">
                     <div class="px-4 py-2 text-xs text-white/30">Discover</div>
@@ -185,30 +264,22 @@
             </div>
         </aside>
 
-        <!-- Overlay for mobile sidebar -->
         <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden lg:hidden"></div>
 
-        <!-- Main content area -->
-        <main class="flex-1 max-w-7xl mx-auto px-5 lg:px-8 pb-20 transition-all">
-            <div class="mb-8 mt-2">
-                <h1 id="pageTitle" class="text-3xl font-bold tracking-tight">Discover</h1>
-                <p id="pageSub" class="text-white/40 text-sm mt-1">minimalist precision · search & save</p>
+        <main class="flex-1 max-w-7xl mx-auto px-5 lg:px-8 pb-20">
+            <div class="mb-6 mt-2">
+                <h1 id="pageTitle" class="text-2xl sm:text-3xl font-bold tracking-tight">Discover</h1>
+                <p id="pageSub" class="text-white/40 text-xs sm:text-sm mt-1">precision · search & save</p>
             </div>
-
-            <!-- Filter chips (compact) -->
-            <div class="mb-8">
-                <div id="categoryContainer" class="flex flex-wrap gap-2"></div>
-            </div>
-
-            <!-- Dynamic article grid -->
-            <div id="dynamicGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            <div id="emptyState" class="hidden text-center text-white/40 py-20 glass-panel p-12 rounded-2xl mt-6">✨ No articles found. Try different filters or search.</div>
+            <div class="mb-8"><div id="categoryContainer" class="flex flex-wrap gap-2"></div></div>
+            <div id="dynamicGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
+            <div id="emptyState" class="hidden text-center text-white/40 py-20 glass-panel p-12 rounded-2xl mt-6"></div>
         </main>
     </div>
 
-    <!-- Settings Modal -->
+    <!-- Settings Modal with Custom Palette -->
     <div id="settingsModal" class="fixed inset-0 flex items-center justify-center z-50 hidden bg-black/70 backdrop-blur-md transition-all">
-        <div class="settings-modal rounded-2xl w-96 max-w-[90%] p-6 shadow-2xl border border-white/20">
+        <div class="settings-modal rounded-2xl w-96 max-w-[90%] p-6 shadow-2xl border border-white/20" style="background: rgba(12,12,18,0.98);">
             <div class="flex justify-between items-center mb-5">
                 <h3 class="text-xl font-semibold flex gap-2"><i class="fas fa-cog text-[#007AFF]"></i>Preferences</h3>
                 <button id="closeSettings" class="text-white/60 hover:text-white"><i class="fas fa-times"></i></button>
@@ -221,10 +292,20 @@
                     </select>
                 </div>
                 <div>
-                    <label class="text-sm font-medium text-white/70 block mb-2">Theme</label>
+                    <label class="text-sm font-medium text-white/70 block mb-2">Theme Mode</label>
                     <div class="flex gap-3">
-                        <button id="themeDark" class="flex-1 py-2 rounded-xl bg-white/10 border border-white/20 text-sm">Dark (Default)</button>
-                        <button id="themeLight" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-sm">Light (soon)</button>
+                        <button id="themeDarkBtn" class="flex-1 py-2 rounded-xl bg-white/10 border border-white/20 text-sm">Dark</button>
+                        <button id="themeLightBtn" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-sm">Light</button>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-white/70 block mb-2">Custom Palette</label>
+                    <div class="flex gap-3 flex-wrap">
+                        <div class="color-palette-btn" data-palette="default" style="background: #007AFF;"></div>
+                        <div class="color-palette-btn" data-palette="purple" style="background: #A855F7;"></div>
+                        <div class="color-palette-btn" data-palette="emerald" style="background: #10B981;"></div>
+                        <div class="color-palette-btn" data-palette="rose" style="background: #F43F5E;"></div>
+                        <div class="color-palette-btn" data-palette="amber" style="background: #F59E0B;"></div>
                     </div>
                 </div>
                 <button id="resetBookmarksBtn" class="w-full mt-4 bg-red-500/20 hover:bg-red-500/30 text-red-300 py-2 rounded-xl text-sm transition">Reset All Bookmarks</button>
@@ -232,270 +313,144 @@
         </div>
     </div>
 
+    <!-- Notification Panel -->
+    <div id="notificationPanel" class="fixed top-20 right-4 w-80 max-w-[calc(100%-2rem)] bg-black/80 backdrop-blur-2xl rounded-2xl border border-white/15 shadow-2xl z-50 hidden">
+        <div class="p-4 border-b border-white/10"><h3 class="font-semibold flex gap-2"><i class="fas fa-bell text-[#007AFF]"></i> Notifications</h3></div>
+        <div id="notificationList" class="max-h-96 overflow-y-auto"><div class="p-4 text-center text-white/40 text-sm">No new notifications</div></div>
+        <button id="clearNotifications" class="w-full p-3 text-center text-xs text-white/40 hover:text-white/80 border-t border-white/10">Clear all</button>
+    </div>
+
     <script>
         // ---------- DATA ----------
         const categoriesData = [
-            { id: "all", name: "All", color: "bg-white/10", textColor: "text-white/90" },
-            { id: "tech", name: "Technology", color: "bg-blue-500/20", textColor: "text-blue-300" },
-            { id: "design", name: "Design", color: "bg-purple-500/20", textColor: "text-purple-300" },
-            { id: "lifestyle", name: "Lifestyle", color: "bg-emerald-500/20", textColor: "text-emerald-300" },
-            { id: "mindfulness", name: "Mindfulness", color: "bg-amber-500/20", textColor: "text-amber-300" }
+            { id: "all", name: "All" }, { id: "tech", name: "Technology" }, { id: "design", name: "Design" },
+            { id: "lifestyle", name: "Lifestyle" }, { id: "mindfulness", name: "Mindfulness" }
         ];
-
         let articlesLibrary = [
-            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems with ultra-light depth.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", image: "https://picsum.photos/id/20/600/400" },
+            { id: 1, title: "The glassmorphism renaissance", excerpt: "How translucent interfaces define modern digital ecosystems.", category: "design", author: "Elena Voss", date: "Apr 2, 2025", readTime: "4 min", image: "https://picsum.photos/id/20/600/400" },
             { id: 2, title: "Minimalist architecture for code", excerpt: "Writing clean, scalable frontends with precision-first mindset.", category: "tech", author: "Marcus Lei", date: "Mar 28, 2025", readTime: "6 min", image: "https://picsum.photos/id/26/600/400" },
-            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world — mindful tech habits.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", image: "https://picsum.photos/id/75/600/400" },
-            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI and design tokens.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", image: "https://picsum.photos/id/29/600/400" },
-            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time edge-native applications.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", image: "https://picsum.photos/id/0/600/400" },
-            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals and spatial harmony.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", image: "https://picsum.photos/id/42/600/400" },
-            { id: 7, title: "AI & creative workflows", excerpt: "Generative tools redefining design and productivity.", category: "tech", author: "Zara Khan", date: "Apr 1, 2025", readTime: "5 min", image: "https://picsum.photos/id/36/600/400" },
-            { id: 8, title: "Mindful UI patterns", excerpt: "Calm interfaces for better focus and mental clarity.", category: "mindfulness", author: "Tom Harrison", date: "Mar 30, 2025", readTime: "6 min", image: "https://picsum.photos/id/69/600/400" },
+            { id: 3, title: "Digital wellness 2.0", excerpt: "Intentional consumption in a hyperconnected world.", category: "mindfulness", author: "Sophia Kwan", date: "Mar 25, 2025", readTime: "5 min", image: "https://picsum.photos/id/75/600/400" },
+            { id: 4, title: "Design systems in 2025", excerpt: "From scalability to emotional resonance — future of UI.", category: "design", author: "Liam Chen", date: "Mar 20, 2025", readTime: "7 min", image: "https://picsum.photos/id/29/600/400" },
+            { id: 5, title: "Edge computing & minimal latency", excerpt: "Redefining speed and performance in real-time apps.", category: "tech", author: "Nina Zhang", date: "Mar 18, 2025", readTime: "5 min", image: "https://picsum.photos/id/0/600/400" },
+            { id: 6, title: "Slow living aesthetic", excerpt: "Embracing minimalism beyond visuals into daily rituals.", category: "lifestyle", author: "Arjun Mehta", date: "Mar 15, 2025", readTime: "4 min", image: "https://picsum.photos/id/42/600/400" },
+            { id: 7, title: "AI & creative workflows", excerpt: "Generative tools redefining design.", category: "tech", author: "Zara Khan", date: "Apr 1, 2025", readTime: "5 min", image: "https://picsum.photos/id/36/600/400" },
+            { id: 8, title: "Mindful UI patterns", excerpt: "Calm interfaces for better focus.", category: "mindfulness", author: "Tom Harrison", date: "Mar 30, 2025", readTime: "6 min", image: "https://picsum.photos/id/69/600/400" },
         ];
 
-        // State
-        let bookmarkedIds = new Set(JSON.parse(localStorage.getItem('nebula_bookmarks') || '[]'));
-        let activeLanguage = "en";
-        let activeCategory = "all";
-        let searchQuery = "";
-        let currentView = "home";
+        let bookmarkedIds = new Set(JSON.parse(localStorage.getItem('zynorichi_bookmarks') || '[]'));
+        let notifications = JSON.parse(localStorage.getItem('zynorichi_notifications') || '[]');
+        let activeLanguage = "en", activeCategory = "all", searchQuery = "", currentView = "home";
+        let currentTheme = localStorage.getItem('zynorichi_theme') || 'dark';
+        let currentPalette = localStorage.getItem('zynorichi_palette') || 'default';
+
+        // Apply palette (accent color)
+        function applyPalette(palette) {
+            const accentMap = { default: '#007AFF', purple: '#A855F7', emerald: '#10B981', rose: '#F43F5E', amber: '#F59E0B' };
+            const color = accentMap[palette] || '#007AFF';
+            document.documentElement.style.setProperty('--accent-color', color);
+            const style = document.createElement('style');
+            style.id = 'dynamic-accent';
+            const existing = document.getElementById('dynamic-accent');
+            if(existing) existing.remove();
+            style.id = 'dynamic-accent';
+            style.textContent = `
+                .active-category { background: ${color}30 !important; border-color: ${color} !important; color: ${color} !important; }
+                .read-more-btn:hover { background: ${color}20 !important; color: ${color} !important; }
+                #sidebarBookmarkBadge, .sidebar-item.active i, .sidebar-item.active span { color: ${color}; }
+                .sidebar-item.active { background: ${color}15; }
+                .bookmark-btn:hover { color: #FFD966; }
+            `;
+            document.head.appendChild(style);
+            localStorage.setItem('zynorichi_palette', palette);
+            document.querySelectorAll('.color-palette-btn').forEach(btn => {
+                if(btn.dataset.palette === palette) btn.classList.add('active-palette');
+                else btn.classList.remove('active-palette');
+            });
+        }
+
+        // Theme toggling
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.body.classList.remove('dark', 'light');
+            document.body.classList.add(theme);
+            localStorage.setItem('zynorichi_theme', theme);
+            const icon = document.getElementById('themeIcon');
+            if(theme === 'dark') icon.className = 'fas fa-moon';
+            else icon.className = 'fas fa-sun';
+        }
+        function toggleTheme() { setTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
 
         // Localization
         const translations = {
-            en: { pageTitle: "Discover", pageSub: "minimalist precision · search & save", homeLabel: "Beranda", bookmarksLabel: "Bookmark", settingsLabel: "Settings", noResults: "✨ No articles found.", noBookmarks: "📭 No saved articles. Click the bookmark icon on any post." },
-            es: { pageTitle: "Descubrir", pageSub: "precisión minimalista · busca y guarda", homeLabel: "Inicio", bookmarksLabel: "Marcadores", settingsLabel: "Ajustes", noResults: "✨ No se encontraron artículos.", noBookmarks: "📭 No hay artículos guardados." },
-            fr: { pageTitle: "Découvrir", pageSub: "précision minimaliste · rechercher", homeLabel: "Accueil", bookmarksLabel: "Signets", settingsLabel: "Paramètres", noResults: "✨ Aucun article trouvé.", noBookmarks: "📭 Aucun favori." },
-            ja: { pageTitle: "発見", pageSub: "ミニマルな精度・検索と保存", homeLabel: "ホーム", bookmarksLabel: "ブックマーク", settingsLabel: "設定", noResults: "✨ 記事が見つかりません。", noBookmarks: "📭 保存された記事はありません。" }
+            en: { pageTitle: "Discover", pageSub: "precision · search & save", bookmarksLabel: "Bookmark", noResults: "✨ No articles found.", noBookmarks: "📭 No saved articles." },
+            es: { pageTitle: "Descubrir", pageSub: "precisión · busca y guarda", bookmarksLabel: "Marcadores", noResults: "✨ No se encontraron artículos.", noBookmarks: "📭 No hay artículos guardados." },
+            fr: { pageTitle: "Découvrir", pageSub: "précision · rechercher", bookmarksLabel: "Signets", noResults: "✨ Aucun article trouvé.", noBookmarks: "📭 Aucun favori." },
+            ja: { pageTitle: "発見", pageSub: "精密・検索と保存", bookmarksLabel: "ブックマーク", noResults: "✨ 記事が見つかりません。", noBookmarks: "📭 保存された記事はありません。" }
         };
-
         function t(key) { return translations[activeLanguage]?.[key] || translations.en[key]; }
 
-        function updateBadges() { 
-            document.getElementById("sidebarBookmarkBadge").innerText = bookmarkedIds.size;
+        function addNotification(msg) {
+            const notif = { id: Date.now(), message: msg, timestamp: new Date().toLocaleTimeString() };
+            notifications.unshift(notif);
+            if(notifications.length > 15) notifications.pop();
+            localStorage.setItem('zynorichi_notifications', JSON.stringify(notifications));
+            updateNotificationUI();
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-5 right-5 glass-panel px-5 py-3 rounded-xl text-sm z-50 notification-toast flex items-center gap-3`;
+            toast.innerHTML = `<i class="fas fa-bell" style="color:var(--accent-color,#007AFF)"></i><span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2800);
         }
-        function saveBookmarks() { localStorage.setItem('nebula_bookmarks', JSON.stringify([...bookmarkedIds])); updateBadges(); }
-
-        function toggleBookmark(articleId) {
-            if(bookmarkedIds.has(articleId)) bookmarkedIds.delete(articleId);
-            else bookmarkedIds.add(articleId);
-            saveBookmarks();
-            renderCurrentView();
+        function updateNotificationUI() {
+            const panel = document.getElementById("notificationList");
+            const badge = document.getElementById("notifBadge");
+            if(notifications.length === 0) { panel.innerHTML = '<div class="p-4 text-center text-white/40 text-sm">No new notifications</div>'; badge?.classList.add("hidden"); }
+            else { panel.innerHTML = notifications.map(n => `<div class="p-3 border-b border-white/10"><div class="text-sm">${n.message}</div><div class="text-xs text-white/30 mt-1">${n.timestamp}</div></div>`).join(''); badge?.classList.remove("hidden"); badge.innerText = notifications.length > 9 ? '9+' : notifications.length; }
         }
+        function clearAllNotifications() { notifications = []; localStorage.setItem('zynorichi_notifications', '[]'); updateNotificationUI(); addNotification("Cleared all notifications"); }
 
-        // render artikel dengan spacing bookmark yang presisi dan tidak dempet
-        function renderArticleCard(article, showBookmarkBtn = true) {
+        function saveBookmarks() { localStorage.setItem('zynorichi_bookmarks', JSON.stringify([...bookmarkedIds])); document.getElementById("sidebarBookmarkBadge").innerText = bookmarkedIds.size; }
+        function toggleBookmark(id) { const art = articlesLibrary.find(a=>a.id===id); if(bookmarkedIds.has(id)) { bookmarkedIds.delete(id); addNotification(`Removed "${art?.title}"`); } else { bookmarkedIds.add(id); addNotification(`📌 Saved "${art?.title}"`); } saveBookmarks(); renderCurrentView(); }
+
+        function renderArticleCard(article) {
             const isBookmarked = bookmarkedIds.has(article.id);
-            const cat = categoriesData.find(c => c.id === article.category) || categoriesData[0];
-            return `
-                <div class="glass-panel p-4 article-card flex flex-col h-full border border-white/5 rounded-xl transition-all">
-                    <div class="img-zoom rounded-lg mb-3 h-40 w-full overflow-hidden bg-black/30">
-                        <img src="${article.image}?w=400&h=280&fit=crop" alt="${article.title}" class="w-full h-full object-cover" loading="lazy">
-                    </div>
-                    <div class="flex justify-between items-start mb-2">
-                        <span class="chip-modern px-2.5 py-0.5 text-xs font-medium ${cat.color} ${cat.textColor}">${cat.name}</span>
-                        <span class="text-white/30 text-xs"><i class="far fa-clock"></i> ${article.readTime}</span>
-                    </div>
-                    <h3 class="text-lg font-semibold tracking-tight mb-1 leading-tight">${article.title}</h3>
-                    <p class="text-white/45 text-xs leading-relaxed mb-3 flex-grow">${article.excerpt.substring(0, 85)}…</p>
-                    <div class="flex items-center justify-between mt-2 border-t border-white/10 pt-2">
-                        <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[9px]"><i class="fas fa-user-astronaut"></i></div>
-                            <div><p class="text-[11px] font-medium">${article.author}</p><p class="text-[9px] text-white/35">${article.date}</p></div>
-                        </div>
-                        <!-- action buttons dengan gap presisi -->
-                        <div class="action-buttons">
-                            ${showBookmarkBtn ? `
-                                <button class="bookmark-btn flex items-center justify-center transition-all ${isBookmarked ? 'bookmarked-star' : 'text-white/50 hover:text-yellow-400'}" data-id="${article.id}">
-                                    <i class="fas ${isBookmarked ? 'fa-bookmark' : 'fa-bookmark'}"></i>
-                                </button>
-                            ` : ''}
-                            <button class="read-more-btn flex items-center justify-center text-white/50 hover:text-[#007AFF] transition-all" data-id="${article.id}">
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
-                        </div>
-                    </div>
+            const cat = categoriesData.find(c=>c.id===article.category)||categoriesData[0];
+            return `<div class="glass-panel p-4 article-card flex flex-col h-full rounded-xl">
+                <div class="img-zoom rounded-lg mb-3 h-40 overflow-hidden"><img src="${article.image}?w=400&h=280&fit=crop" class="w-full h-full object-cover" loading="lazy"></div>
+                <div class="flex justify-between items-start mb-2"><span class="chip-modern px-2.5 py-0.5 text-xs font-medium">${cat.name}</span><span class="text-white/30 text-xs"><i class="far fa-clock"></i> ${article.readTime}</span></div>
+                <h3 class="text-base sm:text-lg font-semibold mb-1">${article.title}</h3>
+                <p class="text-white/45 text-xs mb-3 flex-grow">${article.excerpt.substring(0,85)}…</p>
+                <div class="flex items-center justify-between mt-2 border-t border-white/10 pt-2">
+                    <div class="flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center"><i class="fas fa-user-astronaut text-[9px]"></i></div><div><p class="text-[11px] font-medium">${article.author}</p><p class="text-[9px] text-white/35">${article.date}</p></div></div>
+                    <div class="action-buttons"><button class="bookmark-btn flex items-center justify-center ${isBookmarked ? 'bookmarked-star' : 'text-white/50'}" data-id="${article.id}"><i class="fas fa-bookmark"></i></button><button class="read-more-btn flex items-center justify-center text-white/50" data-id="${article.id}"><i class="fas fa-arrow-right"></i></button></div>
                 </div>
-            `;
+            </div>`;
         }
 
-        function getFilteredArticles() {
-            let filtered = [...articlesLibrary];
-            if (activeCategory !== "all") filtered = filtered.filter(a => a.category === activeCategory);
-            if (searchQuery.trim()) {
-                const q = searchQuery.toLowerCase();
-                filtered = filtered.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.author.toLowerCase().includes(q));
-            }
-            if (currentView === "bookmarks") filtered = filtered.filter(a => bookmarkedIds.has(a.id));
-            return filtered;
+        function getFiltered() { let f = [...articlesLibrary]; if(activeCategory!=="all") f=f.filter(a=>a.category===activeCategory); if(searchQuery.trim()){const q=searchQuery.toLowerCase(); f=f.filter(a=>a.title.toLowerCase().includes(q)||a.excerpt.toLowerCase().includes(q)||a.author.toLowerCase().includes(q));} if(currentView==="bookmarks") f=f.filter(a=>bookmarkedIds.has(a.id)); return f; }
+        function renderCurrentView() { const grid=document.getElementById("dynamicGrid"), empty=document.getElementById("emptyState"); let arts=getFiltered(); document.getElementById("pageTitle").innerText = currentView==="bookmarks"? t("bookmarksLabel"): t("pageTitle"); if(arts.length===0){ grid.innerHTML=""; empty.classList.remove("hidden"); empty.innerHTML=currentView==="bookmarks"?`<i class="fas fa-bookmark text-3xl mb-3 block"></i> ${t("noBookmarks")}`:`<i class="fas fa-search text-3xl mb-3 block"></i> ${t("noResults")}`; } else { empty.classList.add("hidden"); grid.innerHTML=arts.map(renderArticleCard).join(""); document.querySelectorAll('.bookmark-btn').forEach(btn=>btn.addEventListener('click',(e)=>{e.stopPropagation(); toggleBookmark(parseInt(btn.dataset.id));})); document.querySelectorAll('.read-more-btn').forEach(btn=>btn.addEventListener('click',()=>addNotification("📖 Reading demo mode"))); } updateSidebarActive(); }
+        function renderCategories() { const container=document.getElementById("categoryContainer"); container.innerHTML=categoriesData.map(cat=>`<button data-cat="${cat.id}" class="chip-modern px-4 py-1.5 text-xs font-medium transition-all ${activeCategory===cat.id?'active-category':'text-white/70'}">${cat.name}</button>`).join(""); document.querySelectorAll("[data-cat]").forEach(btn=>btn.addEventListener("click",()=>{ activeCategory=btn.getAttribute("data-cat"); if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); })); }
+        function renderSidebarCategories(){ const cont=document.getElementById("sidebarCategories"); if(cont){ cont.innerHTML=categoriesData.filter(c=>c.id!=="all").map(c=>`<div class="sidebar-cat-item flex items-center gap-3 px-4 py-2 text-sm text-white/60 hover:bg-white/5 rounded-lg cursor-pointer" data-cat="${c.id}"><i class="fas fa-hashtag text-xs"></i> ${c.name}</div>`).join(""); document.querySelectorAll(".sidebar-cat-item").forEach(el=>el.addEventListener("click",()=>{ activeCategory=el.dataset.cat; if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); if(window.innerWidth<1024) closeMobileSidebar(); })); } }
+        function updateSidebarActive(){ document.querySelectorAll(".sidebar-item").forEach(i=>i.classList.remove("active")); if(currentView==="home") document.querySelector("[data-sidebar='home']")?.classList.add("active"); else if(currentView==="bookmarks") document.querySelector("[data-sidebar='bookmarks']")?.classList.add("active"); }
+        function closeMobileSidebar(){ document.getElementById("mainSidebar")?.classList.add("-translate-x-full"); document.getElementById("sidebarOverlay")?.classList.add("hidden"); }
+        function openMobileSidebar(){ document.getElementById("mainSidebar")?.classList.remove("-translate-x-full"); document.getElementById("sidebarOverlay")?.classList.remove("hidden"); }
+        
+        function bindEvents(){
+            document.querySelectorAll("[data-sidebar]").forEach(el=>el.addEventListener("click",()=>{ const view=el.getAttribute("data-sidebar"); if(view==="home"){ currentView="home"; searchQuery=""; document.getElementById("globalSearch").value=""; document.getElementById("mobileGlobalSearch")&&(document.getElementById("mobileGlobalSearch").value=""); document.getElementById("clearSearch")?.classList.add("hidden"); renderCurrentView(); renderCategories(); } else if(view==="bookmarks"){ currentView="bookmarks"; renderCurrentView(); renderCategories(); } else if(view==="settings") document.getElementById("settingsModal").classList.remove("hidden"); if(window.innerWidth<1024) closeMobileSidebar(); }));
+            document.getElementById("mobileSidebarToggle")?.addEventListener("click",openMobileSidebar); document.getElementById("sidebarOverlay")?.addEventListener("click",closeMobileSidebar);
+            const searchs=[document.getElementById("globalSearch"),document.getElementById("mobileGlobalSearch")]; searchs.forEach(inp=>inp?.addEventListener("input",(e)=>{ searchQuery=e.target.value; if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); const clear=document.getElementById("clearSearch"); if(searchQuery) clear?.classList.remove("hidden"); else clear?.classList.add("hidden"); }));
+            document.getElementById("clearSearch")?.addEventListener("click",()=>{ searchQuery=""; document.getElementById("globalSearch").value=""; if(document.getElementById("mobileGlobalSearch")) document.getElementById("mobileGlobalSearch").value=""; document.getElementById("clearSearch")?.classList.add("hidden"); if(currentView==="bookmarks") currentView="home"; renderCurrentView(); renderCategories(); });
+            document.getElementById("closeSettings")?.addEventListener("click",()=>document.getElementById("settingsModal").classList.add("hidden")); document.getElementById("settingsModal")?.addEventListener("click",(e)=>{if(e.target===document.getElementById("settingsModal")) document.getElementById("settingsModal").classList.add("hidden");});
+            document.getElementById("resetBookmarksBtn")?.addEventListener("click",()=>{bookmarkedIds.clear(); saveBookmarks(); renderCurrentView(); addNotification("All bookmarks reset");});
+            const langSel=document.getElementById("langSelect"), setLangSel=document.getElementById("settingsLang"); function setLang(l){ activeLanguage=l; langSel.value=l; setLangSel.value=l; document.getElementById("pageSub").innerText=t("pageSub"); renderCurrentView(); renderCategories(); addNotification(`Language: ${l.toUpperCase()}`); }
+            langSel?.addEventListener("change",e=>setLang(e.target.value)); setLangSel?.addEventListener("change",e=>setLang(e.target.value));
+            document.getElementById("themeToggleBtn")?.addEventListener("click",toggleTheme); document.getElementById("themeDarkBtn")?.addEventListener("click",()=>setTheme("dark")); document.getElementById("themeLightBtn")?.addEventListener("click",()=>setTheme("light"));
+            document.querySelectorAll(".color-palette-btn").forEach(btn=>btn.addEventListener("click",()=>applyPalette(btn.dataset.palette)));
+            const bell=document.getElementById("notificationBell"), panel=document.getElementById("notificationPanel"); bell?.addEventListener("click",(e)=>{e.stopPropagation(); panel.classList.toggle("hidden");}); document.addEventListener("click",(e)=>{if(!panel?.contains(e.target)&&!bell?.contains(e.target)) panel?.classList.add("hidden");});
+            document.getElementById("clearNotifications")?.addEventListener("click",clearAllNotifications);
         }
-
-        function renderCurrentView() {
-            const grid = document.getElementById("dynamicGrid");
-            const emptyDiv = document.getElementById("emptyState");
-            let articles = getFilteredArticles();
-            const titleEl = document.getElementById("pageTitle");
-            if(currentView === "bookmarks") titleEl.innerText = t("bookmarksLabel");
-            else titleEl.innerText = t("pageTitle");
-            
-            if (articles.length === 0) {
-                grid.innerHTML = "";
-                emptyDiv.classList.remove("hidden");
-                emptyDiv.innerHTML = currentView === "bookmarks" ? `<i class="fas fa-bookmark text-3xl mb-3 block"></i> ${t("noBookmarks")}` : `<i class="fas fa-search text-3xl mb-3 block"></i> ${t("noResults")}`;
-            } else {
-                emptyDiv.classList.add("hidden");
-                grid.innerHTML = articles.map(art => renderArticleCard(art, true)).join("");
-                // Attach event listeners dengan precision
-                document.querySelectorAll('.bookmark-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => { 
-                        e.stopPropagation(); 
-                        toggleBookmark(parseInt(btn.dataset.id)); 
-                    });
-                });
-                document.querySelectorAll('.read-more-btn').forEach(btn => {
-                    btn.addEventListener('click', () => alert("📖 Full article experience (demo)."));
-                });
-            }
-            updateSidebarActive();
-        }
-
-        function renderCategories() {
-            const container = document.getElementById("categoryContainer");
-            container.innerHTML = categoriesData.map(cat => `<button data-cat="${cat.id}" class="chip-modern px-4 py-1.5 text-xs font-medium transition-all ${activeCategory === cat.id ? 'active-category' : 'text-white/70'}">${cat.name}</button>`).join("");
-            document.querySelectorAll("[data-cat]").forEach(btn => btn.addEventListener("click", () => {
-                activeCategory = btn.getAttribute("data-cat");
-                if(currentView === "bookmarks") currentView = "home";
-                renderCurrentView();
-                renderCategories();
-            }));
-        }
-
-        function renderSidebarCategories() {
-            const container = document.getElementById("sidebarCategories");
-            if(container) {
-                container.innerHTML = categoriesData.filter(c => c.id !== "all").map(c => `
-                    <div class="sidebar-cat-item flex items-center gap-3 px-4 py-2 text-sm text-white/60 hover:text-white/90 hover:bg-white/5 rounded-lg cursor-pointer transition" data-cat="${c.id}">
-                        <i class="fas fa-hashtag text-xs"></i> ${c.name}
-                    </div>
-                `).join("");
-                document.querySelectorAll(".sidebar-cat-item").forEach(el => {
-                    el.addEventListener("click", () => {
-                        activeCategory = el.getAttribute("data-cat");
-                        if(currentView === "bookmarks") currentView = "home";
-                        renderCurrentView();
-                        renderCategories();
-                        if(window.innerWidth < 1024) closeMobileSidebar();
-                    });
-                });
-            }
-        }
-
-        function updateSidebarActive() {
-            document.querySelectorAll(".sidebar-item").forEach(item => item.classList.remove("active"));
-            if(currentView === "home") document.querySelector("[data-sidebar='home']")?.classList.add("active");
-            else if(currentView === "bookmarks") document.querySelector("[data-sidebar='bookmarks']")?.classList.add("active");
-        }
-
-        function closeMobileSidebar() {
-            document.getElementById("mainSidebar")?.classList.remove("translate-x-0");
-            document.getElementById("mainSidebar")?.classList.add("-translate-x-full");
-            document.getElementById("sidebarOverlay")?.classList.add("hidden");
-        }
-        function openMobileSidebar() {
-            document.getElementById("mainSidebar")?.classList.remove("-translate-x-full");
-            document.getElementById("mainSidebar")?.classList.add("translate-x-0");
-            document.getElementById("sidebarOverlay")?.classList.remove("hidden");
-        }
-
-        function bindEvents() {
-            document.querySelectorAll("[data-sidebar]").forEach(el => {
-                el.addEventListener("click", (e) => {
-                    const view = el.getAttribute("data-sidebar");
-                    if(view === "home") { currentView = "home"; searchQuery = ""; document.getElementById("globalSearch").value = ""; document.getElementById("mobileGlobalSearch") && (document.getElementById("mobileGlobalSearch").value = ""); document.getElementById("clearSearch")?.classList.add("hidden"); renderCurrentView(); renderCategories(); }
-                    else if(view === "bookmarks") { currentView = "bookmarks"; renderCurrentView(); renderCategories(); }
-                    else if(view === "settings") { document.getElementById("settingsModal").classList.remove("hidden"); }
-                    if(window.innerWidth < 1024) closeMobileSidebar();
-                });
-            });
-            document.getElementById("mobileSidebarToggle")?.addEventListener("click", openMobileSidebar);
-            document.getElementById("sidebarOverlay")?.addEventListener("click", closeMobileSidebar);
-            
-            const searchInputs = [document.getElementById("globalSearch"), document.getElementById("mobileGlobalSearch")];
-            searchInputs.forEach(inp => inp?.addEventListener("input", (e) => {
-                searchQuery = e.target.value;
-                if(currentView === "bookmarks") currentView = "home";
-                renderCurrentView();
-                renderCategories();
-                const clearBtn = document.getElementById("clearSearch");
-                if(searchQuery) clearBtn?.classList.remove("hidden"); else clearBtn?.classList.add("hidden");
-            }));
-            document.getElementById("clearSearch")?.addEventListener("click", () => {
-                searchQuery = ""; document.getElementById("globalSearch").value = ""; if(document.getElementById("mobileGlobalSearch")) document.getElementById("mobileGlobalSearch").value = "";
-                document.getElementById("clearSearch")?.classList.add("hidden");
-                if(currentView === "bookmarks") currentView = "home";
-                renderCurrentView(); renderCategories();
-            });
-            
-            document.getElementById("closeSettings")?.addEventListener("click", () => document.getElementById("settingsModal").classList.add("hidden"));
-            document.getElementById("settingsModal")?.addEventListener("click", (e) => { if(e.target === document.getElementById("settingsModal")) document.getElementById("settingsModal").classList.add("hidden"); });
-            document.getElementById("resetBookmarksBtn")?.addEventListener("click", () => { bookmarkedIds.clear(); saveBookmarks(); renderCurrentView(); });
-            
-            const langSelect = document.getElementById("langSelect");
-            const settingsLang = document.getElementById("settingsLang");
-            function setLanguage(lang) { activeLanguage = lang; langSelect.value = lang; settingsLang.value = lang; document.getElementById("pageSub").innerText = t("pageSub"); renderCurrentView(); renderCategories(); updateSidebarActive(); }
-            langSelect?.addEventListener("change", (e) => setLanguage(e.target.value));
-            settingsLang?.addEventListener("change", (e) => setLanguage(e.target.value));
-            
-            document.getElementById("themeDark")?.addEventListener("click", () => alert("Dark mode is default."));
-            document.getElementById("themeLight")?.addEventListener("click", () => alert("Light mode coming soon."));
-        }
-
-        function init() {
-            renderCategories();
-            renderSidebarCategories();
-            bindEvents();
-            renderCurrentView();
-            updateBadges();
-            if(localStorage.getItem('nebula_lang')) activeLanguage = localStorage.getItem('nebula_lang');
-            else activeLanguage = "en";
-            document.getElementById("langSelect").value = activeLanguage;
-            document.getElementById("settingsLang").value = activeLanguage;
-            document.getElementById("pageSub").innerText = translations[activeLanguage]?.pageSub || "minimalist precision · search & save";
-        }
+        function init(){ setTheme(currentTheme); applyPalette(currentPalette); renderCategories(); renderSidebarCategories(); bindEvents(); renderCurrentView(); saveBookmarks(); updateNotificationUI(); addNotification("Welcome to Zynorichi ✨"); if(localStorage.getItem('zynorichi_lang')) activeLanguage=localStorage.getItem('zynorichi_lang'); document.getElementById("langSelect").value=activeLanguage; document.getElementById("settingsLang").value=activeLanguage; document.getElementById("pageSub").innerText=t("pageSub"); }
         init();
     </script>
-    <style>
-        .active-category { background: rgba(0, 122, 255, 0.3); border-color: #007AFF; color: white; }
-        .chip-modern { background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(6px); border: 0.5px solid rgba(255, 255, 255, 0.1); border-radius: 40px; cursor: pointer; transition: all 0.2s; }
-        .chip-modern:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-1px); }
-        /* tambahan spacing yang lebih presisi untuk bookmark button */
-        .action-buttons {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .bookmark-btn, .read-more-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .bookmark-btn {
-            font-size: 1rem;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 9999px;
-            background: rgba(255,255,255,0.02);
-        }
-        .bookmark-btn:hover {
-            background: rgba(255,255,255,0.12);
-            transform: scale(1.02);
-        }
-        .read-more-btn {
-            font-size: 0.9rem;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 9999px;
-        }
-    </style>
 </body>
 </html>
