@@ -19,7 +19,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
     <>
       {/* Backdrop for mobile to close when clicking outside */}
       <div 
-        className="fixed inset-0 z-[60] sm:hidden bg-black/20 backdrop-blur-[2px]" 
+        className="fixed inset-0 z-40 sm:hidden bg-black/20 backdrop-blur-[2px]" 
         onClick={onClose} 
       />
       
@@ -38,8 +38,8 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
       >
         <div className="flex flex-col h-full w-full rounded-lg overflow-hidden">
           
-          {/* Header: Hapus bg-transparent agar blur menyatu natural */}
-          <div className="p-3.5 border-b border-white/10 flex items-center justify-between">
+          {/* Header: Separator line with better visibility */}
+          <div className="p-3.5 border-b border-foreground/15 flex items-center justify-between">
             <h3 className="font-semibold text-sm flex items-center gap-2">
               <Bell className="w-4 h-4 text-primary" />
               Notifications
@@ -67,7 +67,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
                 <p className="text-xs font-medium">No new notifications</p>
               </div>
             ) : (
-              <div className="divide-y divide-white/5 dark:divide-white/5 divide-black/5">
+              <div className="divide-y divide-foreground/10">
                 {notifications.map((n) => (
                   <div key={n.id} className="p-3.5 hover:bg-black/[0.02] dark:hover:bg-white/[0.03] transition-colors group cursor-default">
                     <p className="text-xs leading-relaxed mb-1 text-foreground/90">{n.message}</p>
@@ -82,7 +82,7 @@ export function NotificationPanel({ isOpen, onClose }: NotificationPanelProps) {
 
           {/* Footer Indicator */}
           {notifications.length > 0 && (
-            <div className="p-2 bg-black/[0.02] dark:bg-white/[0.02] border-t border-black/5 dark:border-white/5 text-center">
+            <div className="p-2 bg-black/[0.02] dark:bg-white/[0.02] border-t border-foreground/10 text-center">
               <p className="text-[9px] text-muted-foreground/50 font-bold uppercase tracking-[0.15em]">
                 Recent Activity
               </p>

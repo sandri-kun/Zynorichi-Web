@@ -75,9 +75,9 @@ export function ArticleCard({ post, lang }: ArticleCardProps) {
         </p>
 
         {/* Footer: Author & Actions (Separator Line Matching Reference) */}
-        <div className="flex items-center justify-between mt-auto border-t border-border/10 pt-4">
+        <div className="flex items-center justify-between mt-auto border-t border-border/40 pt-4">
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center shrink-0 border border-border/10">
+            <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center shrink-0 border border-border/30">
                <User className="w-4 h-4 text-muted-foreground/40" />
             </div>
             <div className="min-w-0">

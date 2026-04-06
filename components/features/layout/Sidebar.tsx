@@ -25,7 +25,7 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <aside className={cn(
-      "fixed lg:sticky top-0 lg:top-16 sm:lg:top-20 left-0 h-full lg:h-[calc(100vh-4rem)] sm:lg:h-[calc(100vh-5rem)] bg-background/80 lg:bg-background/50 backdrop-blur-3xl border-r border-border/10 z-[60] lg:z-40 drawer-transition overflow-y-auto overflow-x-hidden shadow-2xl lg:shadow-none",
+      "fixed lg:sticky top-0 lg:top-16 sm:lg:top-20 left-0 h-full lg:h-[calc(100vh-4rem)] sm:lg:h-[calc(100vh-5rem)] bg-background/80 lg:bg-background/50 backdrop-blur-3xl border-r border-border/40 z-[60] lg:z-40 drawer-transition overflow-y-auto overflow-x-hidden shadow-2xl lg:shadow-none",
       isDrawerExpanded ? "w-[280px] sm:w-[300px] lg:w-[260px]" : "w-[0px] lg:w-[72px]",
       className
     )}>
@@ -96,7 +96,7 @@ export function Sidebar({ className }: SidebarProps) {
         </nav>
 
         {/* Discover / Categories */}
-        <div className={cn("mt-6 pt-6 border-t border-border/10", !isDrawerExpanded && "items-center")}>
+        <div className={cn("mt-6 pt-6 border-t border-border/40", !isDrawerExpanded && "items-center")}>
           {isDrawerExpanded && (
             <div className="px-3 mb-2 flex items-center justify-between">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">Discover</span>
@@ -127,7 +127,7 @@ export function Sidebar({ className }: SidebarProps) {
         </div>
 
         {/* Shortcuts / Footer */}
-        <div className="mt-auto pt-6 border-t border-border/10 space-y-1">
+        <div className="mt-auto pt-6 border-t border-border/40 space-y-1">
           <button className={cn(
             "flex items-center gap-4 px-3 py-3 rounded-xl text-foreground/50 hover:text-foreground hover:bg-foreground/5 transition-all w-full",
             !isDrawerExpanded && "justify-center px-0"
@@ -138,7 +138,7 @@ export function Sidebar({ className }: SidebarProps) {
 
           {isDrawerExpanded && (
             <div className="px-3 py-4 mt-2">
-              <div className="flex items-center justify-between p-3 rounded-2xl bg-foreground/5 border border-border/10">
+              <div className="flex items-center justify-between p-3 rounded-2xl bg-foreground/5 border border-border/30">
                 <span className="text-[10px] text-muted-foreground/60 font-bold flex items-center gap-2">
                   <Keyboard className="w-3 h-3" /> Shortcuts
                 </span>
